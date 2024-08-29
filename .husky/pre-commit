@@ -1,2 +1,1 @@
-lint-staged
-echo "🚀 Committing... "
+lint-staged && npm run test:run
