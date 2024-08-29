@@ -6,5 +6,5 @@
  */
 
 export default function ArtworkSkeleton() {
-  return <div className="flex h-[100%] w-[100%] animate-pulse justify-center rounded-md bg-black/40"></div>;
+  return <div data-testid="artwork-skeleton" className="h-full w-full animate-pulse rounded-md bg-neutral-800/50" />;
 }

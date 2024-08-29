@@ -12,7 +12,11 @@ function LoadingBar() {
   return (
     <div className="fixed bottom-10 left-0 right-0 z-10 mx-auto flex w-1/2 animate-pulse items-center justify-center rounded-md bg-black/40 p-4 text-lg font-bold">
       {/* SVG element that acts as a spinning loader icon */}
-      <svg className="-ml-1 mr-3 h-5 w-5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+      <svg
+        data-testid="loading-bar-spinner"
+        className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+        fill="none"
+        viewBox="0 0 24 24">
         {/* Outer circle of the spinner, set to be partially transparent */}
         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
         {/* Inner path that creates the spinning effect, with a solid color */}
