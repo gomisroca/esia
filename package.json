@@ -27,8 +27,10 @@
   "lint-staged": {
     "*": "prettier --write"
   },
-  "commitizen": {
-    "path": "./node_modules/cz-conventional-changelog"
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
