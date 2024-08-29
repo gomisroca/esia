@@ -1,3 +1,10 @@
+/**
+ * Renders the user status component.
+ *
+ * @example
+ * <UserStatus />
+ */
+
 import { getServerAuthSession } from '@/server/auth';
 import Dropdown from '../ui/Dropdown';
 import SignOutButton from './SignOutButton';
@@ -5,6 +12,7 @@ import SignInButton from './SignInButton';
 import { FaDiscord, FaGoogle, FaKey, FaUser } from 'react-icons/fa6';
 import { type Provider } from 'types';
 
+// Providers to display in the dropdown
 const providers: Provider[] = [
   {
     name: 'google',
@@ -17,10 +25,12 @@ const providers: Provider[] = [
 ];
 
 async function UserStatus() {
+  // Get the server-side session
   const session = await getServerAuthSession();
 
   return (
     <div className="flex flex-row items-center justify-center gap-2">
+      {/* Profile and Settings dropdown if the user is logged in */}
       {session && (
         <Dropdown name={<FaUser />} className="right-0">
           <li className="px-4 py-2 hover:bg-neutral-200 hover:dark:bg-neutral-800">Profile</li>
@@ -28,6 +38,7 @@ async function UserStatus() {
           <SignOutButton />
         </Dropdown>
       )}
+      {/* Sign in dropdown if the user is not logged in */}
       {!session && (
         <Dropdown name={<FaKey />} className="right-0">
           {providers.map((provider) => (

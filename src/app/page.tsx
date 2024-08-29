@@ -1,3 +1,7 @@
+/**
+ * Root page component.
+ */
+
 import { HydrateClient } from '@/trpc/server';
 import { ArtworkStyleList } from './_components/ArtworkStyleList';
 import Navbar from './_components/Navbar';

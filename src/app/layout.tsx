@@ -1,3 +1,12 @@
+/**
+ * Root layout component that wraps the entire application.
+ *
+ * @example
+ * <RootLayout>
+ *   <Component />
+ * </RootLayout>
+ */
+
 import '@/styles/globals.css';
 
 import { Arimo } from 'next/font/google';

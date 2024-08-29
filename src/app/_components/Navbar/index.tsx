@@ -1,4 +1,10 @@
-import React from 'react';
+/**
+ * Renders the navbar component.
+ *
+ * @example
+ * <Navbar />
+ */
+
 import ModeButton from './ModeButton';
 import UserStatus from './UserStatus';
 import BackToTopButton from './BackToTopButton';
