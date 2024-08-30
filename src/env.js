@@ -41,18 +41,18 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    DATABASE_URL: process.env.DATABASE_URL ?? '',
-    NODE_ENV: process.env.NODE_ENV ?? '',
-    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET ?? '',
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL ?? '',
-    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID ?? '',
-    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET ?? '',
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ?? '',
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET ?? '',
-    SUPABASE_PROJECT_URL: process.env.SUPABASE_PROJECT_URL ?? '',
-    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY ?? '',
-    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY ?? '',
-    IMAGE_PROXY_HOSTNAME: process.env.IMAGE_PROXY_HOSTNAME ?? '',
+    DATABASE_URL: process.env.DATABASE_URL,
+    NODE_ENV: process.env.NODE_ENV,
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    NEXTAUTH_URL: process.env.NEXTAUTH_URL,
+    DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
+    DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
+    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
+    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
+    SUPABASE_PROJECT_URL: process.env.SUPABASE_PROJECT_URL,
+    SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
+    SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
+    IMAGE_PROXY_HOSTNAME: process.env.IMAGE_PROXY_HOSTNAME,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
