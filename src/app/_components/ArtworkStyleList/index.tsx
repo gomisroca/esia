@@ -73,7 +73,7 @@ export function ArtworkStyleList() {
     <div className="min-h-screen w-full">
       <StyleList handleStyleChange={handleStyleChange} />
       {style && allArtworks ? (
-        <div className="mx-auto flex flex-wrap items-center justify-center gap-2" data-testid="artwork-style-list">
+        <div className="mx-auto flex flex-wrap items-center justify-center gap-2" role="list">
           {allArtworks.map((artwork) => (
             <ArtworkCard key={artwork.id} artwork={artwork} />
           ))}
