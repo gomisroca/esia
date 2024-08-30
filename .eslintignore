@@ -9,6 +9,7 @@ dist/
 coverage/
 node_modules/
 src/components/ui/
+src/env.js
 README.md
 .eslintrc.cjs
 .github/

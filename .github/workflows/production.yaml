@@ -9,8 +9,9 @@ on:
 jobs:
   quality-check:
     uses: ./.github/workflows/quality-check.yaml
-    
+
   deploy-production:
+    needs: [quality-check]
     if: ${{ !contains(toJson(github.event.commits.*.message),'#skip') }}
     runs-on: ubuntu-latest
     steps:
