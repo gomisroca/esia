@@ -17,7 +17,7 @@ import { TRPCReactProvider } from '@/trpc/react';
 
 export const metadata: Metadata = {
   title: 'ESIA Gallery',
-  description: 'Modern Art Gallery est. 2023',
+  description: 'Explore contemporary masterpieces and curated exhibitions.',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
 const arimo = Arimo({ subsets: ['latin'] });
