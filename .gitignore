@@ -50,3 +50,4 @@ yarn-error.log*
 /playwright/.cache/
 
 NOTES.md
+.vercel
