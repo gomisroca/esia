@@ -2,14 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test('renders style list dropdown', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('svg[role="filter-button"]')).toBeVisible();
+  await expect(page.getByRole('button').nth(3)).toBeVisible();
 });
 
 test('renders style list options', async ({ page }) => {
   await page.goto('/');
 
   // Click on the style list to trigger the dropdown
-  const styleList = page.locator('svg[role="filter-button"]');
+  const styleList = page.getByRole('button').nth(3);
   await styleList.click();
 
   // Wait for the dropdown and specific options to be available
@@ -21,7 +21,7 @@ test('renders style list options', async ({ page }) => {
 test('calls handleStyleChange callback when style is selected', async ({ page }) => {
   await page.goto('/');
   // Click on the style list to trigger the dropdown
-  const styleList = page.locator('svg[role="filter-button"]');
+  const styleList = page.getByRole('button').nth(3);
   await styleList.click();
 
   // Select the style
@@ -37,7 +37,7 @@ test('calls handleStyleChange callback when style is selected', async ({ page })
 test('clears selected style when clear button is clicked', async ({ page }) => {
   await page.goto('/');
   // Click on the style list to trigger the dropdown
-  const styleList = page.locator('svg[role="filter-button"]');
+  const styleList = page.getByRole('button').nth(3);
   await styleList.click();
 
   // Select the style
@@ -46,7 +46,7 @@ test('clears selected style when clear button is clicked', async ({ page }) => {
   await styleButton.click();
 
   // Click on the 'filter off' button to clear the style
-  const styleOff = page.locator('svg[role="filter-off"]');
+  const styleOff = page.getByRole('button').nth(4);
   await styleOff.click();
 
   // Check if the style is disabled

@@ -6,12 +6,12 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await page.goto('/');
 
   // Expect initial artwork list
-  const artworkList = page.locator('div[role="list"]');
+  const artworkList = page.getByRole('list');
   await expect(artworkList).toContainText('The Bath');
   await expect(artworkList).toContainText('On a Balcony');
 
   // Click on the style list to trigger the dropdown
-  const styleList = page.locator('svg[role="filter-button"]');
+  const styleList = page.getByRole('button').nth(3);
   await styleList.click();
 
   // Select the style
@@ -20,10 +20,6 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await styleButton.click();
 
   // Expect new artwork list
-  const newArtwork = page
-    .locator('div[role="list"]')
-    .locator('div')
-    .filter({ hasText: 'The Butterfly, from Histoire' })
-    .nth(1);
+  const newArtwork = page.getByRole('list').locator('div').filter({ hasText: 'The Butterfly, from Histoire' }).nth(1);
   await expect(newArtwork).toBeVisible({ timeout: 10000 });
 });
