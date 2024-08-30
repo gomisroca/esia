@@ -4,7 +4,6 @@ import { test, expect } from '@playwright/test';
 
 test('artwork list changes when style is selected', async ({ page }) => {
   await page.goto('/');
-  await page.waitForLoadState('networkidle');
 
   // Expect initial artwork list
   const artworkList = page.getByRole('list');
