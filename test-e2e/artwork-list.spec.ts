@@ -13,8 +13,8 @@ test('renders artwork cards', async ({ page }) => {
 
   const artworkList = page.locator('div[role="list"]');
 
-  await expect(artworkList).toContainText('The Bath');
-  await expect(artworkList).toContainText('On a Balcony');
+  await expect(artworkList.locator('div').filter({ hasText: 'The BathMary Cassatt1890–' }).nth(2)).toBeVisible();
+  await expect(artworkList.locator('div').filter({ hasText: 'On a BalconyMary Cassatt1878–' }).nth(2)).toBeVisible();
 });
 
 test('should load more artworks when scrolling to the bottom', async ({ page }) => {

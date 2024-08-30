@@ -15,9 +15,8 @@ test('renders style list options', async ({ page }) => {
   await styleList.click();
 
   // Wait for the dropdown and specific options to be available
-  const styleDropdown = page.getByText('CubismModernism21st');
-  await expect(styleDropdown).toContainText('Cubism');
-  await expect(styleDropdown).toContainText('Modernism');
+  await expect(page.getByRole('button', { name: 'Cubism' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Modernism' })).toBeVisible();
 });
 
 test('calls handleStyleChange callback when style is selected', async ({ page }) => {
@@ -28,8 +27,7 @@ test('calls handleStyleChange callback when style is selected', async ({ page })
   await styleList.click();
 
   // Select the style
-  const styleDropdown = page.getByText('CubismModernism21st');
-  const styleButton = styleDropdown.getByText('Cubism');
+  const styleButton = page.getByRole('button', { name: 'Cubism' });
   await styleButton.click();
 
   // Check if the style is disabled
@@ -45,8 +43,7 @@ test('clears selected style when clear button is clicked', async ({ page }) => {
   await styleList.click();
 
   // Select the style
-  const styleDropdown = page.getByText('CubismModernism21st');
-  const styleButton = styleDropdown.getByText('Cubism');
+  const styleButton = page.getByRole('button', { name: 'Cubism' });
   await styleButton.click();
 
   // Click on the 'filter off' button to clear the style
