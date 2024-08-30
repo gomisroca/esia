@@ -2,13 +2,12 @@ import { test, expect } from '@playwright/test';
 
 test('renders style list dropdown', async ({ page }) => {
   await page.goto('/');
-  await page.waitForLoadState('networkidle');
+
   await expect(page.getByRole('button').nth(3)).toBeVisible();
 });
 
 test('renders style list options', async ({ page }) => {
   await page.goto('/');
-  await page.waitForLoadState('networkidle');
 
   // Click on the style list to trigger the dropdown
   const styleList = page.getByRole('button').nth(3);
@@ -21,7 +20,7 @@ test('renders style list options', async ({ page }) => {
 
 test('calls handleStyleChange callback when style is selected', async ({ page }) => {
   await page.goto('/');
-  await page.waitForLoadState('networkidle');
+
   // Click on the style list to trigger the dropdown
   const styleList = page.getByRole('button').nth(3);
   await styleList.click();
@@ -37,7 +36,7 @@ test('calls handleStyleChange callback when style is selected', async ({ page })
 
 test('clears selected style when clear button is clicked', async ({ page }) => {
   await page.goto('/');
-  await page.waitForLoadState('networkidle');
+
   // Click on the style list to trigger the dropdown
   const styleList = page.getByRole('button').nth(3);
   await styleList.click();
