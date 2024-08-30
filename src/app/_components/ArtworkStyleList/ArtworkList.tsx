@@ -58,7 +58,7 @@ export function ArtworkList({ listIsLoading }: { listIsLoading: (e: boolean) => 
   return (
     <div className="w-full" data-testid="artwork-list">
       {allArtworks.length > 0 && (
-        <div className="mx-auto flex flex-wrap items-center justify-center gap-2">
+        <div className="mx-auto flex flex-wrap items-center justify-center gap-2" role="list">
           {allArtworks.map((artwork) => (
             <ArtworkCard key={artwork.id} artwork={artwork} />
           ))}

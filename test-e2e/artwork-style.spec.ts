@@ -6,12 +6,12 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await page.goto('/');
 
   // Expect initial artwork list
-  const artworkList = page.getByTestId('artwork-list');
+  const artworkList = page.locator('div[role="list"]');
   await expect(artworkList).toContainText('The Bath');
   await expect(artworkList).toContainText('On a Balcony');
 
   // Click on the style list to trigger the dropdown
-  const styleList = page.getByTestId('style-list');
+  const styleList = page.locator('svg[role="filter-button"]');
   await styleList.click();
 
   // Select the style
@@ -21,7 +21,7 @@ test('artwork list changes when style is selected', async ({ page }) => {
 
   // Expect new artwork list
   const newArtwork = page
-    .getByTestId('artwork-style-list')
+    .locator('div[role="list"]')
     .locator('div')
     .filter({ hasText: 'The Butterfly, from Histoire' })
     .nth(1);
