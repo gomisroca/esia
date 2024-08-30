@@ -21,7 +21,9 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
   const [loaded, setLoaded] = useState(false);
 
   return (
-    <div className="group relative h-[45rem] w-[30rem] cursor-pointer overflow-hidden rounded-md">
+    <div
+      className="group relative h-[45rem] w-[30rem] cursor-pointer overflow-hidden rounded-md"
+      data-testid="artwork-card">
       {/* Skeleton while image is loading */}
       {!loaded && <ArtworkSkeleton />}
 

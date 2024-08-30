@@ -56,7 +56,7 @@ export function ArtworkList({ listIsLoading }: { listIsLoading: (e: boolean) => 
   }, [artworks]);
 
   return (
-    <div className="w-full">
+    <div className="w-full" data-testid="artwork-list">
       {allArtworks.length > 0 && (
         <div className="mx-auto flex flex-wrap items-center justify-center gap-2">
           {allArtworks.map((artwork) => (

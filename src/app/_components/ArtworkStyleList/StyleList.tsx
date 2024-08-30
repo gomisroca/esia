@@ -30,7 +30,7 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
     <div className="sticky top-6 z-10 mx-auto mb-2 flex w-fit flex-row items-center justify-center gap-2">
       {/* Dropdown component for the style list */}
       <Dropdown
-        name={<LuFilter className="stroke-[3px] text-neutral-800 dark:text-neutral-200" />}
+        name={<LuFilter data-testid="style-list" className="stroke-[3px] text-neutral-800 dark:text-neutral-200" />}
         btnClassName="bg-neutral-200/30 drop-shadow-md  dark:bg-neutral-800/30"
         className="left-[50%] w-[24rem] translate-x-[-50%] transform border xl:w-[52rem]">
         {styles
@@ -58,7 +58,7 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
             handleStyleChange('');
             scrollToTop('instant');
           }}>
-          <LuFilterX className="text-neutral-800 dark:text-neutral-200" />
+          <LuFilterX data-testid="style-off" className="text-neutral-800 dark:text-neutral-200" />
         </Button>
       )}
     </div>
