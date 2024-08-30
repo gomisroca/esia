@@ -7,7 +7,6 @@ export const env = createEnv({
    * isn't built with invalid env vars.
    */
   server: {
-    DATABASE_URL_DEV: z.string().url(),
     DATABASE_URL: z.string().url(),
     NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     NEXTAUTH_SECRET: process.env.NODE_ENV === 'production' ? z.string() : z.string().optional(),
@@ -22,9 +21,7 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: z.string(),
     GOOGLE_CLIENT_ID: z.string(),
     GOOGLE_CLIENT_SECRET: z.string(),
-    SUPABASE_PROJECT_URL: z.string().url(),
     SUPABASE_SERVICE_KEY: z.string(),
-    SUPABASE_JWT: z.string(),
     SUPABASE_ANON_KEY: z.string(),
     IMAGE_PROXY_HOSTNAME: z.string(),
   },
@@ -43,7 +40,6 @@ export const env = createEnv({
    * middlewares) or client-side so we need to destruct manually.
    */
   runtimeEnv: {
-    DATABASE_URL_DEV: process.env.DATABASE_URL_DEV,
     DATABASE_URL: process.env.DATABASE_URL,
     NODE_ENV: process.env.NODE_ENV,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
@@ -52,9 +48,7 @@ export const env = createEnv({
     DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    SUPABASE_PROJECT_URL: process.env.SUPABASE_PROJECT_URL,
     SUPABASE_SERVICE_KEY: process.env.SUPABASE_SERVICE_KEY,
-    SUPABASE_JWT: process.env.SUPABASE_JWT,
     SUPABASE_ANON_KEY: process.env.SUPABASE_ANON_KEY,
     IMAGE_PROXY_HOSTNAME: process.env.IMAGE_PROXY_HOSTNAME,
   },
