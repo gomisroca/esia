@@ -1,11 +1,25 @@
 name: Quality Check
-
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  DIRECT_UR: ${{ secrets.DIRECT_URL }}
+  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+  DISCORD_CLIENT_ID: ${{ secrets.DISCORD_CLIENT_ID }}
+  DISCORD_CLIENT_SECRET: ${{ secrets.DISCORD_CLIENT_SECRET }}
+  GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+  GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+  SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+  SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+  SUPABASE_PROJECT_URL: ${{ secrets.SUPABASE_PROJECT_URL }}
+  IMAGE_PROXY_HOSTNAME: ${{ secrets.IMAGE_PROXY_HOSTNAME }}
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 on:
   workflow_call:
   pull_request:    
     branches: [main]    
     types: [opened, synchronize]
-    
+
 jobs:
   build:
     runs-on: ubuntu-latest
