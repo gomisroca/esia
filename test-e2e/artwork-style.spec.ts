@@ -21,9 +21,9 @@ test('artwork list changes when style is selected', async ({ page }) => {
 
   // Expect new artwork list
   const newArtwork = page
-    .getByTestId('artwork-list')
+    .getByTestId('artwork-style-list')
     .locator('div')
-    .filter({ hasText: 'Woman in Profile, Turned' })
-    .nth(2);
+    .filter({ hasText: 'The Butterfly, from Histoire' })
+    .nth(1);
   await expect(newArtwork).toBeVisible({ timeout: 10000 });
 });
