@@ -44,6 +44,7 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
                 scrollToTop('instant');
               }}
               disabled={selectedStyle === style.name}
+              name={style.name!}
               className="border border-neutral-200/30 bg-neutral-200/90 drop-shadow-md dark:border-neutral-800/30 dark:bg-neutral-800/90">
               {style.name![0]!.toUpperCase() + style.name!.slice(1)}
             </Button>

@@ -27,7 +27,7 @@ test('calls handleStyleChange callback when style is selected', async ({ page })
   await styleList.click();
 
   // Select the style
-  const styleButton = page.getByRole('button', { name: 'Cubism' });
+  const styleButton = page.getByRole('button', { name: 'cubism' });
   await styleButton.click();
 
   // Check if the style is disabled
@@ -43,7 +43,7 @@ test('clears selected style when clear button is clicked', async ({ page }) => {
   await styleList.click();
 
   // Select the style
-  const styleButton = page.getByRole('button', { name: 'Cubism' });
+  const styleButton = page.getByRole('button', { name: 'cubism' });
   await styleButton.click();
 
   // Click on the 'filter off' button to clear the style
