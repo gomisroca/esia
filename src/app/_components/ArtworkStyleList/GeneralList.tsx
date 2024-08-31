@@ -18,7 +18,7 @@ import { ArtworkCard } from './ArtworkCard';
 // Page size for the artwork list
 const PAGE_SIZE = 10;
 
-export function ArtworkList({ listIsLoading }: { listIsLoading: (e: boolean) => void }) {
+export function GeneralList({ listIsLoading }: { listIsLoading: (e: boolean) => void }) {
   // Current page number
   const [page, setPage] = useState(0);
   // InView hook
@@ -56,16 +56,16 @@ export function ArtworkList({ listIsLoading }: { listIsLoading: (e: boolean) => 
   }, [artworks]);
 
   return (
-    <div className="w-full" data-testid="artwork-list">
+    <>
       {allArtworks.length > 0 && (
-        <div className="mx-auto flex flex-wrap items-center justify-center gap-2" role="list">
+        <>
           {allArtworks.map((artwork) => (
             <ArtworkCard key={artwork.id} artwork={artwork} />
           ))}
-        </div>
+        </>
       )}
       {/* Empty div to trigger the inView effect */}
       <div ref={ref} className="h-20"></div>
-    </div>
+    </>
   );
 }
