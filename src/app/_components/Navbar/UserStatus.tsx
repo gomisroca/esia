@@ -32,7 +32,10 @@ async function UserStatus() {
     <div className="flex flex-row items-center justify-center gap-2">
       {/* Profile and Settings dropdown if the user is logged in */}
       {session && (
-        <Dropdown name={<FaUser />} className="right-0">
+        <Dropdown
+          name={<FaUser />}
+          className="right-0"
+          btnClassName="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none">
           <li className="px-4 py-2 hover:bg-neutral-200 hover:dark:bg-neutral-800">Profile</li>
           <li className="px-4 py-2 hover:bg-neutral-200 hover:dark:bg-neutral-800">Settings</li>
           <SignOutButton />
@@ -40,7 +43,10 @@ async function UserStatus() {
       )}
       {/* Sign in dropdown if the user is not logged in */}
       {!session && (
-        <Dropdown name={<FaKey />} className="right-0">
+        <Dropdown
+          name={<FaKey />}
+          className="right-0"
+          btnClassName="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none">
           {providers.map((provider) => (
             <SignInButton key={provider.name} provider={provider} />
           ))}

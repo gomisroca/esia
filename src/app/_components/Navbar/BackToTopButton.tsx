@@ -16,7 +16,7 @@ function BackToTopButton() {
   return (
     <Button
       onClick={() => scrollToTop('smooth')}
-      className={`rounded-md px-2 text-2xl font-bold text-neutral-800 backdrop-blur-sm dark:text-neutral-200 ${limelight.className} pointer-events-auto`}>
+      className={`rounded-md px-2 text-2xl font-bold text-neutral-800 backdrop-blur-sm dark:text-neutral-200 ${limelight.className} pointer-events-auto bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none`}>
       ESIA
     </Button>
   );

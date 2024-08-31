@@ -15,7 +15,9 @@ import { type Provider } from 'types';
 
 function SignInButton({ provider }: { provider: Provider }) {
   return (
-    <Button onClick={() => signIn(provider.name)}>
+    <Button
+      onClick={() => signIn(provider.name)}
+      className="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none">
       {provider.icon}
       <span>{provider.name[0]!.toUpperCase() + provider.name.slice(1)}</span>
     </Button>
