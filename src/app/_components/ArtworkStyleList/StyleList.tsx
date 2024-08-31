@@ -27,7 +27,7 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
   }
 
   return (
-    <div className="sticky top-6 z-10 mx-auto mb-2 flex w-fit flex-row items-center justify-center gap-2">
+    <div className="sticky top-4 z-10 mx-auto mb-2 flex w-fit flex-row items-center justify-center gap-2">
       {/* Dropdown component for the style list */}
       <Dropdown
         name={<LuFilter role="filter-button" className="stroke-[3px] text-neutral-800 dark:text-neutral-200" />}
