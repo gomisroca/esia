@@ -32,7 +32,7 @@ export function StyleBasedList({ style, listIsLoading }: { style: string; listIs
     data: artworks,
     isLoading,
     isFetching,
-  } = api.artwork.getAllInStyle.useQuery({
+  } = api.artworks.getByStyle.useQuery({
     style,
     skip: page * PAGE_SIZE,
     take: PAGE_SIZE,
