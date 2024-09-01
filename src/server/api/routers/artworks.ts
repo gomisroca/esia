@@ -6,7 +6,7 @@ const defaultPagination = {
   take: 10,
 };
 
-export const artworkRouter = createTRPCRouter({
+export const artworksRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(
       z.object({
@@ -40,7 +40,7 @@ export const artworkRouter = createTRPCRouter({
         count: styleGroup._count.style,
       }));
   }),
-  getAllInStyle: publicProcedure
+  getByStyle: publicProcedure
     .input(
       z.object({
         style: z.string(),
@@ -56,6 +56,22 @@ export const artworkRouter = createTRPCRouter({
         take,
         where: {
           style: input.style,
+        },
+        include: {
+          artist: true,
+        },
+      });
+    }),
+  getByArtist: publicProcedure
+    .input(
+      z.object({
+        artistId: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.artwork.findMany({
+        where: {
+          artistId: input.artistId,
         },
         include: {
           artist: true,

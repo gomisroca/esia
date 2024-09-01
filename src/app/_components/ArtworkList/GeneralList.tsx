@@ -31,7 +31,7 @@ export function GeneralList({ listIsLoading }: { listIsLoading: (e: boolean) => 
     data: artworks,
     isLoading,
     isFetching,
-  } = api.artwork.getAll.useQuery({
+  } = api.artworks.getAll.useQuery({
     skip: page * PAGE_SIZE,
     take: PAGE_SIZE,
   });

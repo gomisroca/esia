@@ -20,7 +20,7 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
   // State variable to store the selected style
   const [selectedStyle, setSelectedStyle] = useState('');
   // Fetch styles from the server
-  const { data: styles, isLoading, isFetching } = api.artwork.getStyles.useQuery();
+  const { data: styles, isLoading, isFetching } = api.artworks.getStyles.useQuery();
   // Check if styles are available
   if (isLoading || isFetching || !styles) {
     return null;
