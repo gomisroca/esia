@@ -13,9 +13,10 @@ import LoadingBar from '../ui/LoadingBar';
 import { GeneralList } from './GeneralList';
 import { StyleBasedList } from './StyleBasedList';
 
-export function ArtworkStyleList() {
+export function ArtworkList() {
   // State variable to indicate whether the general list of artworks is loading
   const [listLoading, setListLoading] = useState(false);
+
   // State variable to store the selected style
   const [style, setStyle] = useState('');
 
@@ -28,7 +29,7 @@ export function ArtworkStyleList() {
     <>
       <StyleList handleStyleChange={handleStyleChange} />
 
-      <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
+      <div className="mx-auto flex min-h-[60rem] w-full flex-wrap items-center justify-center gap-2" role="list">
         {style ? (
           <StyleBasedList style={style} listIsLoading={(e) => setListLoading(e)} />
         ) : (

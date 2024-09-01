@@ -14,7 +14,7 @@ import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { api } from '@/trpc/react';
 import { type ArtworkWithArtist } from 'types';
-import { ArtworkCard } from './ArtworkCard';
+import { ArtworkCard } from '../ui/ArtworkCard';
 
 // Page size for the artwork list
 const PAGE_SIZE = 10;
