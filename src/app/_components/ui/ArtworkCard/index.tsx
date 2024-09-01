@@ -11,6 +11,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import ArtworkSkeleton from './skeleton';
 import { type ArtworkWithArtist } from 'types';
+import Link from 'next/link';
 
 interface ArtworkCardProps {
   artwork: ArtworkWithArtist;
@@ -48,7 +49,9 @@ export function ArtworkCard({ artwork }: ArtworkCardProps) {
         className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
         <div className="min-h-2/3 m-4 w-full rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
           <h3 className="mb-2 text-2xl font-semibold">{artwork.name}</h3>
-          <h4 className="mb-2 text-lg font-semibold">{artwork.artist.name}</h4>
+          <Link href={`/artist/${artwork.artist.id}`}>
+            <p>{artwork.artist.name}</p>
+          </Link>
           <p>{artwork.date}</p>
           <p>{artwork.origin}</p>
           <p>{artwork.medium}</p>

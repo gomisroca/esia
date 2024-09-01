@@ -3,17 +3,17 @@
 /**
  * Renders a list of artworks with infinite scrolling.
  *
- * @param {function} listIsLoading - Callback function to indicate whether the list is loading.
+ * @param {function} isLoading - Callback function to indicate whether the list is loading.
  *
  * @example
- * <ArtworkList listIsLoading={(isLoading) => console.log(`List is loading: ${isLoading}`)} />
+ * <GeneralList listIsLoading={(isLoading) => console.log(`List is loading: ${isLoading}`)} />
  */
 
 import { useState, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { api } from '@/trpc/react';
 import { type ArtworkWithArtist } from 'types';
-import { ArtworkCard } from './ArtworkCard';
+import { ArtworkCard } from '../ui/ArtworkCard';
 
 // Page size for the artwork list
 const PAGE_SIZE = 10;
