@@ -11,8 +11,8 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await expect(artworkList).toContainText('On a Balcony');
 
   // Click on the style list to trigger the dropdown
-  const styleList = page.getByRole('button').nth(3);
-  await styleList.click();
+  const filterButton = page.locator('button[name="filterButton"]');
+  await filterButton.click();
 
   // Select the style
   const styleDropdown = page.getByText('CubismModernism21st');
