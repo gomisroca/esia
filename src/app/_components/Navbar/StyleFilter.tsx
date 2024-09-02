@@ -3,10 +3,8 @@
 /**
  * Renders a style list dropdown component.
  *
- * @param {function} handleStyleChange - A callback function for the parent component to handle style changes.
- *
  * @example
- * <StyleList handleStyleChange={(style) => console.log(`Style changed to: ${style}`)} />
+ * <StyleList />
  */
 
 import { useState } from 'react';
@@ -15,8 +13,10 @@ import { LuFilter, LuFilterX } from 'react-icons/lu';
 import Button from '../ui/Button';
 import Dropdown from '../ui/Dropdown';
 import scrollToTop from '@/utils/scrollToTop';
+import { useRouter } from 'next/navigation';
 
-export function StyleList({ handleStyleChange }: { handleStyleChange: (style: string) => void }) {
+export default function StyleFilter() {
+  const router = useRouter();
   // State variable to store the selected style
   const [selectedStyle, setSelectedStyle] = useState('');
   // Fetch styles from the server
@@ -25,14 +25,35 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
   if (isLoading || isFetching || !styles) {
     return null;
   }
+  // Callback function to handle style changes
+  const handleStyleChange = (newStyle: string) => {
+    setSelectedStyle(newStyle);
+    if (!newStyle) {
+      router.push('/');
+      return;
+    }
+    router.push(`/style/${newStyle}`);
+  };
 
   return (
-    <div className="sticky top-4 z-10 mx-auto mb-2 flex w-fit flex-row items-center justify-center gap-2">
+    <div className="sticky z-10 mx-auto flex w-fit flex-row items-center justify-center gap-4">
+      {/* Button to clear the selected style */}
+      {selectedStyle && (
+        <Button
+          className="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none"
+          onClick={() => {
+            setSelectedStyle('');
+            handleStyleChange('');
+            scrollToTop('instant');
+          }}>
+          <LuFilterX role="filter-off" className="text-neutral-800 dark:text-neutral-200" />
+        </Button>
+      )}
       {/* Dropdown component for the style list */}
       <Dropdown
         name={<LuFilter role="filter-button" className="stroke-[3px] text-neutral-800 dark:text-neutral-200" />}
-        btnClassName="bg-neutral-200/30 drop-shadow-md  dark:bg-neutral-800/30"
-        className="left-[50%] w-[24rem] translate-x-[-50%] transform border xl:w-[52rem]">
+        btnClassName="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none"
+        className="w-[90vw] border xl:absolute xl:right-0 xl:w-[52rem]">
         {styles
           .sort((a, b) => (a.count > b.count ? -1 : 1))
           .map((style) => (
@@ -50,18 +71,6 @@ export function StyleList({ handleStyleChange }: { handleStyleChange: (style: st
             </Button>
           ))}
       </Dropdown>
-      {/* Button to clear the selected style */}
-      {selectedStyle && (
-        <Button
-          className="border bg-neutral-200/30 drop-shadow-md dark:border-neutral-800/30 dark:bg-neutral-800/30"
-          onClick={() => {
-            setSelectedStyle('');
-            handleStyleChange('');
-            scrollToTop('instant');
-          }}>
-          <LuFilterX role="filter-off" className="text-neutral-800 dark:text-neutral-200" />
-        </Button>
-      )}
     </div>
   );
 }

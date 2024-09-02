@@ -1,7 +1,7 @@
 // ArtworkCard.test.tsx
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { ArtworkCard } from '../app/_components/ui/ArtworkCard';
+import ArtworkCard from '../app/_components/ui/ArtworkCard';
 import { type ArtworkWithArtist } from 'types';
 
 const mockArtwork: ArtworkWithArtist = {

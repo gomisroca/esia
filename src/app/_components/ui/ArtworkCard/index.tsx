@@ -10,7 +10,7 @@
  */
 
 import Image from 'next/image';
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import ArtworkSkeleton from './skeleton';
 import { type ArtworkWithArtist } from 'types';
 import Link from 'next/link';
@@ -20,7 +20,7 @@ interface ArtworkCardProps {
   artistView?: boolean;
 }
 
-export function ArtworkCard({ artwork, artistView = false }: ArtworkCardProps) {
+function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
   // State variable to track whether the image is loaded
   const [loaded, setLoaded] = useState(false);
 
@@ -66,3 +66,10 @@ export function ArtworkCard({ artwork, artistView = false }: ArtworkCardProps) {
     </div>
   );
 }
+
+const ArtworkCard = memo((props: Readonly<{ artwork: ArtworkWithArtist; artistView?: boolean }>) => {
+  return <ArtworkCardContent {...props} />;
+});
+ArtworkCard.displayName = 'ArtworkCard';
+
+export default ArtworkCard;
