@@ -5,6 +5,7 @@
  *
  * @param {string | React.ReactNode} name - The name displayed in the dropdown button.
  * @param {string} [className] - Optional class names for the dropdown menu.
+ * @param {string} [btnName] - Optional name for the dropdown button.
  * @param {string} [btnClassName] - Optional class names for the dropdown button.
  * @param {React.ReactNode} children - The content of the dropdown menu.
  *
@@ -22,11 +23,12 @@ import Button from './Button';
 interface DropdownProps {
   name: string | React.ReactNode;
   className?: string;
+  btnName?: string;
   btnClassName?: string;
   children: React.ReactNode;
 }
 
-function Dropdown({ name, children, className, btnClassName }: DropdownProps) {
+function Dropdown({ name, children, className, btnName, btnClassName }: DropdownProps) {
   // State variable to track whether the dropdown is open or closed
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,7 +58,7 @@ function Dropdown({ name, children, className, btnClassName }: DropdownProps) {
   return (
     <div className="relative inline-block">
       {/* Renders the button with the provided name and onClick event handler */}
-      <Button className={`${btnClassName ? btnClassName : ''}`} onClick={() => setIsOpen(!isOpen)}>
+      <Button name={btnName} className={`${btnClassName ? btnClassName : ''}`} onClick={() => setIsOpen(!isOpen)}>
         {name}
       </Button>
       {/* Renders the dropdown menu if isOpen is true */}

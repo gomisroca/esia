@@ -40,6 +40,7 @@ export default function StyleFilter() {
       {/* Button to clear the selected style */}
       {selectedStyle && (
         <Button
+          name="filterOffButton"
           className="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none"
           onClick={() => {
             setSelectedStyle('');
@@ -50,8 +51,10 @@ export default function StyleFilter() {
         </Button>
       )}
       {/* Dropdown component for the style list */}
+      {/* This needs to be adjusted in some way to fit properly on mobile, check also other sizes, but desktop seems fine */}
       <Dropdown
         name={<LuFilter role="filter-button" className="stroke-[3px] text-neutral-800 dark:text-neutral-200" />}
+        btnName="filterButton"
         btnClassName="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none"
         className="w-[90vw] border xl:absolute xl:right-0 xl:w-[52rem]">
         {styles
