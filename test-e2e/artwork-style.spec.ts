@@ -1,5 +1,3 @@
-// Must mix elements of the other two tests, basically test if an artwork of the selected style is displayed
-// And then test if the style clears when the clear button is clicked
 import { test, expect } from '@playwright/test';
 
 test('artwork list changes when style is selected', async ({ page }) => {

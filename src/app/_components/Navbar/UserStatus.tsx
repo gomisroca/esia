@@ -6,11 +6,11 @@
  */
 
 import { getServerAuthSession } from '@/server/auth';
-import { signIn, signOut } from 'next-auth/react';
 import { FaDiscord, FaGoogle, FaKey, FaUser } from 'react-icons/fa6';
 import { type Provider } from 'types';
 import Dropdown from '../ui/Dropdown';
-import Button from '../ui/Button';
+import SignInButton from './SignInButton';
+import SignOutButton from './SignOutButton';
 
 // Providers to display in the dropdown
 const providers: Provider[] = [
@@ -23,28 +23,6 @@ const providers: Provider[] = [
     icon: <FaDiscord className="mr-2 h-5 w-5" />,
   },
 ];
-
-// Sign in and sign out buttons
-export function SignOutButton() {
-  return (
-    <Button
-      onClick={() => signOut()}
-      className="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none">
-      <span>Sign Out</span>
-    </Button>
-  );
-}
-
-export function SignInButton({ provider }: { provider: Provider }) {
-  return (
-    <Button
-      onClick={() => signIn(provider.name)}
-      className="bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none">
-      {provider.icon}
-      <span>{provider.name[0]!.toUpperCase() + provider.name.slice(1)}</span>
-    </Button>
-  );
-}
 
 // Sign in dropdown
 function SignInDropdown({ providers }: { providers: Provider[] }) {
