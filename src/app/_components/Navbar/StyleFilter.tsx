@@ -128,7 +128,8 @@ function StyleFilter() {
       router.push('/');
       return;
     }
-    router.push(`/style/${newStyle}`);
+    const encodedStyle = newStyle.toLocaleLowerCase().replace(/\s+/g, '+');
+    router.push(`/style/${encodedStyle}`);
   };
 
   // Handle clear filter button click
