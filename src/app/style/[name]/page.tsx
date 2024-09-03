@@ -7,23 +7,26 @@
  * <StyleBasedList style="Impressionism" />
  */
 
+import ErrorPage from '@/app/_components/ErrorPage';
 import ArtworkList from '@/app/_components/ui/ArtworkList';
 import LoadingBar from '@/app/_components/ui/LoadingBar';
-import { api, HydrateClient } from '@/trpc/server';
+import { api } from '@/trpc/server';
 import { Suspense } from 'react';
 
 export default async function StyleBasedList({ params }: Readonly<{ params: { name: string } }>) {
-  const encodedStyleName = params.name;
-  const decodedStyleName = decodeURIComponent(encodedStyleName);
-  const styleName = decodedStyleName.replace(/\+/g, ' ');
+  try {
+    const encodedStyleName = params.name;
+    const decodedStyleName = decodeURIComponent(encodedStyleName);
+    const styleName = decodedStyleName.replace(/\+/g, ' ');
 
-  const artworks = await api.artworks.getByStyle({ style: styleName });
+    const artworks = await api.artworks.getByStyle({ style: styleName });
 
-  return (
-    <HydrateClient>
+    return (
       <Suspense fallback={<LoadingBar />}>
         <ArtworkList artworks={artworks} />
       </Suspense>
-    </HydrateClient>
-  );
+    );
+  } catch (_error: unknown) {
+    return <ErrorPage message="Failed to load artworks" />;
+  }
 }

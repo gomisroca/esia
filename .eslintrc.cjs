@@ -27,6 +27,9 @@ const config = {
       'warn',
       {
         argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+        destructuredArrayIgnorePattern: '^_',
+        caughtErrorsIgnorePattern: '^_',
       },
     ],
     '@typescript-eslint/require-await': 'off',
@@ -45,7 +48,6 @@ const config = {
     eqeqeq: 'error',
     'no-console': 'warn',
     'no-undef': 'off',
-    'no-unused-vars': 'off',
   },
 };
 module.exports = config;

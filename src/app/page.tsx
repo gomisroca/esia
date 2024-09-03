@@ -7,16 +7,19 @@
 
 import LoadingBar from './_components/ui/LoadingBar';
 import { Suspense } from 'react';
-import { api, HydrateClient } from '@/trpc/server';
+import { api } from '@/trpc/server';
 import ArtworkList from './_components/ui/ArtworkList';
+import ErrorPage from './_components/ErrorPage';
 
 export default async function LandingPage() {
-  const artworks = await api.artworks.getAll();
-  return (
-    <HydrateClient>
+  try {
+    const artworks = await api.artworks.getAll();
+    return (
       <Suspense fallback={<LoadingBar />}>
         <ArtworkList artworks={artworks} />
       </Suspense>
-    </HydrateClient>
-  );
+    );
+  } catch (_error: unknown) {
+    return <ErrorPage message="Failed to load artworks" />;
+  }
 }
