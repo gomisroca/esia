@@ -3,10 +3,7 @@
 /**
  * Dropdown component that displays a menu when clicked.
  *
- * @param {string | React.ReactNode} name - The name displayed in the dropdown button.
  * @param {string} [className] - Optional class names for the dropdown menu.
- * @param {string} [btnName] - Optional name for the dropdown button.
- * @param {string} [btnClassName] - Optional class names for the dropdown button.
  * @param {React.ReactNode} children - The content of the dropdown menu.
  *
  * @example
@@ -21,14 +18,16 @@ import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
 
 interface DropdownProps {
-  name: string | React.ReactNode;
+  button: {
+    text: string | React.ReactNode;
+    className?: string;
+    name?: string;
+  };
   className?: string;
-  btnName?: string;
-  btnClassName?: string;
   children: React.ReactNode;
 }
 
-function Dropdown({ name, children, className, btnName, btnClassName }: DropdownProps) {
+function Dropdown({ button, children, className }: DropdownProps) {
   // State variable to track whether the dropdown is open or closed
   const [isOpen, setIsOpen] = useState(false);
 
@@ -58,8 +57,11 @@ function Dropdown({ name, children, className, btnName, btnClassName }: Dropdown
   return (
     <div className="relative inline-block">
       {/* Renders the button with the provided name and onClick event handler */}
-      <Button name={btnName} className={`${btnClassName ? btnClassName : ''}`} onClick={() => setIsOpen(!isOpen)}>
-        {name}
+      <Button
+        name={button.name}
+        className={`${button.className ? button.className : ''}`}
+        onClick={() => setIsOpen(!isOpen)}>
+        {button.text}
       </Button>
       {/* Renders the dropdown menu if isOpen is true */}
       {isOpen && (

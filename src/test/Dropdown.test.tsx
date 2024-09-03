@@ -6,13 +6,13 @@ import Dropdown from '../app/_components/ui/Dropdown';
 
 describe('Dropdown component', () => {
   it('renders the dropdown button with the correct name', () => {
-    render(<Dropdown name="Select an option">Options</Dropdown>);
+    render(<Dropdown button={{ text: 'Select an option' }}>Options</Dropdown>);
     expect(screen.getByText('Select an option')).toBeInTheDocument();
   });
 
   it('toggles the dropdown menu when the button is clicked', () => {
     render(
-      <Dropdown name="Select an option">
+      <Dropdown button={{ text: 'Select an option' }}>
         <li>Option 1</li>
         <li>Option 2</li>
       </Dropdown>
@@ -35,7 +35,7 @@ describe('Dropdown component', () => {
   it('closes the dropdown menu when clicking outside', () => {
     render(
       <div>
-        <Dropdown name="Select an option">
+        <Dropdown button={{ text: 'Select an option' }}>
           <li>Option 1</li>
           <li>Option 2</li>
         </Dropdown>
@@ -59,7 +59,7 @@ describe('Dropdown component', () => {
 
   it('closes the dropdown menu when a child item is clicked', () => {
     render(
-      <Dropdown name="Select an option">
+      <Dropdown button={{ text: 'Select an option' }}>
         <li>Option 1</li>
         <li>Option 2</li>
       </Dropdown>
@@ -80,7 +80,7 @@ describe('Dropdown component', () => {
 
   it('applies className correctly to the dropdown menu', () => {
     render(
-      <Dropdown name="Select an option" className="custom-class">
+      <Dropdown button={{ text: 'Select an option' }} className="custom-class">
         <li>Option 1</li>
         <li>Option 2</li>
       </Dropdown>
@@ -98,7 +98,7 @@ describe('Dropdown component', () => {
 
   it('applies btnClassName correctly to the dropdown button', () => {
     render(
-      <Dropdown name="Select an option" btnClassName="btn-custom-class">
+      <Dropdown button={{ text: 'Select an option', className: 'btn-custom-class' }}>
         <li>Option 1</li>
         <li>Option 2</li>
       </Dropdown>

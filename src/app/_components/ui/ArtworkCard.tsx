@@ -11,13 +11,16 @@
 
 import Image from 'next/image';
 import React, { memo, useState } from 'react';
-import ArtworkSkeleton from './skeleton';
 import { type ArtworkWithArtist } from 'types';
 import Link from 'next/link';
 
 interface ArtworkCardProps {
   artwork: ArtworkWithArtist;
   artistView?: boolean;
+}
+
+function ArtworkSkeleton() {
+  return <div data-testid="artwork-skeleton" className="h-full w-full animate-pulse rounded-md bg-neutral-800/50" />;
 }
 
 function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {

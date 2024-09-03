@@ -16,7 +16,7 @@ export default function ArtworkList({
   artistView,
 }: Readonly<{ artworks: ArtworkWithArtist[]; artistView?: boolean }>) {
   return (
-    <div className="mx-auto flex min-h-[60rem] w-full flex-wrap items-center justify-center gap-2" role="list">
+    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
       {artworks.map((artwork) => (
         <ArtworkCard key={artwork.id} artwork={artwork} artistView={artistView} />
       ))}
