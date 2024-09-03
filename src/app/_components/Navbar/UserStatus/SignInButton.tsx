@@ -10,7 +10,7 @@
  */
 
 import { signIn } from 'next-auth/react';
-import Button from '../ui/Button';
+import Button from '../../ui/Button';
 import { type Provider } from 'types';
 
 function SignInButton({ provider }: { provider: Provider }) {

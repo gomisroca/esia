@@ -8,7 +8,7 @@
 import { getServerAuthSession } from '@/server/auth';
 import { FaDiscord, FaGoogle, FaKey, FaUser } from 'react-icons/fa6';
 import { type Provider } from 'types';
-import Dropdown from '../ui/Dropdown';
+import Dropdown from '../../ui/Dropdown';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
 
