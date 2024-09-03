@@ -1,30 +1,14 @@
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 
-const defaultPagination = {
-  skip: 0,
-  take: 10,
-};
-
 export const artworksRouter = createTRPCRouter({
-  getAll: publicProcedure
-    .input(
-      z.object({
-        skip: z.number().optional(),
-        take: z.number().optional(),
-      })
-    )
-    .query(({ ctx, input }) => {
-      const { skip, take } = { ...defaultPagination, ...input };
-
-      return ctx.db.artwork.findMany({
-        skip,
-        take,
-        include: {
-          artist: true,
-        },
-      });
-    }),
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.db.artwork.findMany({
+      include: {
+        artist: true,
+      },
+    });
+  }),
   getStyles: publicProcedure.query(async ({ ctx }) => {
     const styles = await ctx.db.artwork.groupBy({
       by: ['style'],
@@ -44,16 +28,10 @@ export const artworksRouter = createTRPCRouter({
     .input(
       z.object({
         style: z.string(),
-        skip: z.number().optional(),
-        take: z.number().optional(),
       })
     )
     .query(({ ctx, input }) => {
-      const { skip, take } = { ...defaultPagination, ...input };
-
       return ctx.db.artwork.findMany({
-        skip,
-        take,
         where: {
           style: input.style,
         },
