@@ -33,7 +33,10 @@ export const artworksRouter = createTRPCRouter({
     .query(({ ctx, input }) => {
       return ctx.db.artwork.findMany({
         where: {
-          style: input.style,
+          style: {
+            equals: input.style,
+            mode: 'insensitive',
+          },
         },
         include: {
           artist: true,
@@ -50,6 +53,37 @@ export const artworksRouter = createTRPCRouter({
       return ctx.db.artwork.findMany({
         where: {
           artistId: input.artistId,
+        },
+        include: {
+          artist: true,
+        },
+      });
+    }),
+  search: publicProcedure
+    .input(
+      z.object({
+        term: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      return ctx.db.artwork.findMany({
+        where: {
+          OR: [
+            {
+              name: {
+                contains: input.term,
+                mode: 'insensitive',
+              },
+            },
+            {
+              artist: {
+                name: {
+                  contains: input.term,
+                  mode: 'insensitive',
+                },
+              },
+            },
+          ],
         },
         include: {
           artist: true,
