@@ -13,6 +13,7 @@ import Image from 'next/image';
 import React, { memo, useState } from 'react';
 import { type ArtworkWithArtist } from 'types';
 import Link from 'next/link';
+import Button from './Button';
 
 interface ArtworkCardProps {
   artwork: ArtworkWithArtist;
@@ -56,8 +57,8 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
         <div className="min-h-2/3 m-4 w-full rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
           <h3 className="mb-2 text-2xl font-semibold">{artwork.name}</h3>
           {!artistView && (
-            <Link href={`/artist/${artwork.artist.id}`}>
-              <p>{artwork.artist.name}</p>
+            <Link href={`/artist/${artwork.artist.id}`} className="m-auto flex w-fit">
+              <Button className="shadow-md">{artwork.artist.name}</Button>
             </Link>
           )}
           <p>{artwork.date}</p>
