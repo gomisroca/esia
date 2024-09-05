@@ -1,42 +1,38 @@
 import { z } from 'zod';
-import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import { createTRPCRouter, protectedProcedure } from '@/server/api/trpc';
 
 export const usersRouter = createTRPCRouter({
-  getInformation: publicProcedure
-    .input(
-      z.object({
-        userId: z.string(),
-      })
-    )
-    .query(({ ctx, input }) => {
-      return ctx.db.user.findUnique({
-        where: {
-          id: input.userId,
-        },
-        include: {
-          favoriteArtworks: {
-            include: {
-              artwork: {
-                include: {
-                  artist: true,
-                },
-              },
-            },
+  getInformation: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.user.findUnique({
+      where: {
+        id: ctx.session.user.id,
+      },
+    });
+  }),
+  getFavoriteArtworks: protectedProcedure.query(({ ctx }) => {
+    return ctx.db.userArtwork.findMany({
+      where: {
+        userId: ctx.session.user.id,
+      },
+      include: {
+        artwork: {
+          include: {
+            artist: true,
           },
         },
-      });
-    }),
-  addFavoriteArtwork: publicProcedure
+      },
+    });
+  }),
+  addFavoriteArtwork: protectedProcedure
     .input(
       z.object({
-        userId: z.string(),
         artworkId: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.user.update({
         where: {
-          id: input.userId,
+          id: ctx.session.user.id,
         },
         data: {
           favoriteArtworks: {
@@ -45,17 +41,16 @@ export const usersRouter = createTRPCRouter({
         },
       });
     }),
-  removeFavoriteArtwork: publicProcedure
+  removeFavoriteArtwork: protectedProcedure
     .input(
       z.object({
-        userId: z.string(),
         artworkId: z.string(),
       })
     )
     .mutation(({ ctx, input }) => {
       return ctx.db.user.update({
         where: {
-          id: input.userId,
+          id: ctx.session.user.id,
         },
         data: {
           favoriteArtworks: {
