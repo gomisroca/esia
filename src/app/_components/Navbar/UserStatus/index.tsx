@@ -11,6 +11,8 @@ import { type Provider } from 'types';
 import Dropdown from '../../ui/Dropdown';
 import SignInButton from './SignInButton';
 import SignOutButton from './SignOutButton';
+import Link from 'next/link';
+import Button from '../../ui/Button';
 
 // Providers to display in the dropdown
 const providers: Provider[] = [
@@ -53,8 +55,12 @@ function SessionDropdown() {
           'bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none rounded-r-none md:rounded-md',
       }}
       className="right-0">
-      <li className="px-4 py-2 hover:bg-neutral-200 hover:dark:bg-neutral-800">Profile</li>
-      <li className="px-4 py-2 hover:bg-neutral-200 hover:dark:bg-neutral-800">Settings</li>
+      <Link href={`/user/favorites`}>
+        <Button>Favorites</Button>
+      </Link>
+      <Link href={`/user/settings`}>
+        <Button>Settings</Button>
+      </Link>
       <SignOutButton />
     </Dropdown>
   );
