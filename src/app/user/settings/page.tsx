@@ -3,6 +3,7 @@ import { getServerAuthSession } from '@/server/auth';
 import { api } from '@/trpc/server';
 import Image from 'next/image';
 import React from 'react';
+import SettingsForm from './SettingsForm';
 
 async function UserSettings() {
   try {
@@ -13,7 +14,7 @@ async function UserSettings() {
     const userInfo = await api.users.getInformation();
     if (!userInfo) return <ErrorPage message="No user found" />;
     return (
-      <div>
+      <div className="flex flex-col text-neutral-800 dark:text-neutral-200">
         <div className="flex flex-row justify-center gap-2">
           {userInfo.image && (
             <Image
@@ -25,10 +26,11 @@ async function UserSettings() {
             />
           )}
           <div className="flex flex-col">
-            <h1 className="text-xl font-bold">{userInfo.name}</h1>
+            <h1 className="text-3xl font-bold">{userInfo.name}</h1>
             <h4>{userInfo.email}</h4>
           </div>
         </div>
+        <SettingsForm name={userInfo.name ?? ''} email={userInfo.email ?? ''} />
       </div>
     );
   } catch (_error: unknown) {
