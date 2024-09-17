@@ -13,6 +13,8 @@ import { type Artist } from '@prisma/client';
 import LoadingBar from '@/app/_components/ui/LoadingBar';
 import ArtworkList from '@/app/_components/ui/ArtworkList';
 import ErrorPage from '@/app/_components/ErrorPage';
+import Image from 'next/image';
+import { type ArtworkWithArtist } from 'types';
 
 /**
  * Renders the artist information.
@@ -22,7 +24,7 @@ import ErrorPage from '@/app/_components/ErrorPage';
  * @example
  * <ArtistInfo artist={artist} />
  */
-function ArtistInfo({ artist }: Readonly<{ artist: Artist }>) {
+function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: ArtworkWithArtist[] }>) {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-2">
@@ -33,8 +35,17 @@ function ArtistInfo({ artist }: Readonly<{ artist: Artist }>) {
           </p>
         )}
       </div>
+      {artworks.length > 3 && (
+        <Image
+          src={artworks[Math.floor(Math.random() * artworks.length)]!.image!}
+          alt={artworks[Math.floor(Math.random() * artworks.length)]!.name}
+          width={300}
+          height={300}
+          className="rounded-md shadow-md"
+        />
+      )}
       {artist.description && (
-        <p className="rounded-md bg-neutral-800/10 p-5 text-neutral-800 dark:bg-neutral-200/10 dark:text-neutral-200 md:m-5">
+        <p className="rounded-md bg-neutral-800/10 p-5 text-neutral-800 dark:bg-neutral-200/10 dark:text-neutral-200">
           {artist.description.replace(/<[^>]+>/g, '\n')}
         </p>
       )}
@@ -51,7 +62,7 @@ export default async function Artist({ params }: Readonly<{ params: { id: string
       <Suspense fallback={<LoadingBar />}>
         {artist && (
           <>
-            <ArtistInfo artist={artist} />
+            <ArtistInfo artist={artist} artworks={artworks} />
             <ArtworkList artworks={artworks} artistView={true} />
           </>
         )}
