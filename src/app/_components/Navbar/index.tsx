@@ -8,7 +8,6 @@
 import ModeButton from './ModeButton';
 import BackToTopButton from './BackToTopButton';
 import StyleFilter from './StyleFilter';
-import UserStatus from './UserStatus';
 import SearchBar from './SearchBar';
 
 async function Navbar() {
@@ -17,7 +16,6 @@ async function Navbar() {
       <BackToTopButton />
       <div className="pointer-events-auto absolute right-0 top-2 flex flex-col items-center justify-center gap-4 md:right-4 md:top-4">
         <ModeButton />
-        <UserStatus />
         <SearchBar />
         <StyleFilter />
       </div>

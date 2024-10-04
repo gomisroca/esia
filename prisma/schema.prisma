@@ -40,22 +40,14 @@ model Session {
 }
 
 model User {
-    id               String        @id @default(cuid())
-    name             String?
-    email            String?       @unique
-    emailVerified    DateTime?
-    image            String?
-    accounts         Account[]
-    sessions         Session[]
-    favoriteArtworks UserArtwork[]
-}
-
-model UserArtwork {
-    id        String  @id @default(cuid())
-    user      User    @relation(fields: [userId], references: [id], map: "UserArtwork_userId_fkey")
-    artwork   Artwork @relation(fields: [artworkId], references: [id], map: "UserArtwork_artworkId_fkey")
-    userId    String
-    artworkId String
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+    admin         Boolean   @default(false)
 }
 
 model VerificationToken {
@@ -76,16 +68,15 @@ model Artist {
 }
 
 model Artwork {
-    id       String        @id @default(cuid())
-    name     String        @unique
+    id       String  @id @default(cuid())
+    name     String  @unique
     artistId String
-    artist   Artist        @relation(fields: [artistId], references: [id])
+    artist   Artist  @relation(fields: [artistId], references: [id])
     medium   String?
     date     String?
     origin   String?
     image    String?
     style    String?
-    users    UserArtwork[]
 }
 
 model Exhibition {

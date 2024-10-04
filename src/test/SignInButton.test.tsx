@@ -2,8 +2,8 @@
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
-import SignInButton from '../app/_components/Navbar/UserStatus/SignInButton';
 import { signIn } from 'next-auth/react';
+import SignInButton from '../app/sign-in/SignInButton';
 
 vi.mock('next-auth/react', () => ({
   signIn: vi.fn(),
@@ -11,13 +11,13 @@ vi.mock('next-auth/react', () => ({
 
 describe('SignInButton component', () => {
   const mockProvider = {
-    name: 'discord',
+    name: 'google',
     icon: <svg data-testid="provider-icon" />,
   };
 
   it('renders the provider name correctly', () => {
     render(<SignInButton provider={mockProvider} />);
-    expect(screen.getByText('Discord')).toBeInTheDocument();
+    expect(screen.getByText('Google')).toBeInTheDocument();
   });
 
   it('renders the provider icon', () => {
@@ -31,6 +31,6 @@ describe('SignInButton component', () => {
 
     fireEvent.click(button);
 
-    expect(signIn).toHaveBeenCalledWith('discord');
+    expect(signIn).toHaveBeenCalledWith('google');
   });
 });
