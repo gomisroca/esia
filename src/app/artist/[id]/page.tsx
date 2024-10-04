@@ -15,6 +15,7 @@ import ArtworkList from '@/app/_components/ui/ArtworkList';
 import ErrorPage from '@/app/_components/ErrorPage';
 import Image from 'next/image';
 import { type ArtworkWithArtist } from 'types';
+import Title from '@/app/_components/ui/Title';
 
 /**
  * Renders the artist information.
@@ -28,7 +29,7 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-2">
-        <h1 className="text-center text-3xl font-bold text-neutral-800 dark:text-neutral-200">{artist.name}</h1>
+        <Title>{artist.name}</Title>
         {artist.birth && (
           <p className="text-center text-lg font-bold text-neutral-800 dark:text-neutral-200">
             {artist.birth} - {artist.death && artist.death}

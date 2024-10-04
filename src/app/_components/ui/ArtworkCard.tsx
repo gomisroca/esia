@@ -33,6 +33,7 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
   const handleFlip = () => {
     setIsFlipped(!isFlipped);
   };
+
   return (
     <div
       className="group relative h-[45rem] w-[30rem] cursor-pointer overflow-hidden rounded-md"
@@ -58,7 +59,9 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
           <h3 className="mb-2 text-2xl font-semibold">{artwork.name}</h3>
           {!artistView && (
             <Link href={`/artist/${artwork.artist.id}`} className="m-auto flex w-fit">
-              <Button className="shadow-md">{artwork.artist.name}</Button>
+              <Button className="border border-neutral-800/20 bg-transparent backdrop-blur-none dark:border-neutral-200/20 dark:bg-transparent">
+                {artwork.artist.name}
+              </Button>
             </Link>
           )}
           <p>{artwork.date}</p>

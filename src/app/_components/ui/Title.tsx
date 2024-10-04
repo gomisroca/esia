@@ -1,0 +1,23 @@
+/**
+ * A title component.
+ *
+ * @param {string} [className] - Optional class names for the title.
+ * @param {React.ReactNode} children - The content of the title.
+ *
+ * @example
+ * import Title from './Title';
+ * const MyTitle = () => <Title>Hello, world!</Title>;
+ */
+
+interface TitleProps {
+  className?: string;
+  children: React.ReactNode;
+}
+
+function Title({ className, children }: TitleProps) {
+  return (
+    <h1 className={`text-center text-3xl font-bold text-neutral-800 dark:text-neutral-200 ${className}`}>{children}</h1>
+  );
+}
+
+export default Title;
