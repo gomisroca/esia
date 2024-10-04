@@ -23,7 +23,7 @@ export const env = createEnv({
     SUPABASE_SERVICE_KEY: z.string(),
     SUPABASE_ANON_KEY: z.string(),
     IMAGE_PROXY_HOSTNAME: z.string(),
-    ADMIN_ACCOUNTS: z.array(z.string()),
+    ADMIN_ACCOUNTS: z.string(),
   },
 
   /**
