@@ -4,6 +4,7 @@ import { type Provider } from 'types';
 import { FaGoogle } from 'react-icons/fa6';
 import { getServerAuthSession } from '@/server/auth';
 import SignOutButton from './SignOutButton';
+import Title from '../_components/ui/Title';
 
 const providers: Provider[] = [
   {
@@ -17,8 +18,8 @@ async function SignIn() {
 
   if (!session) {
     return (
-      <div>
-        <h1>Sign In</h1>
+      <div className="flex flex-col items-center justify-center gap-4">
+        <Title>Sign In</Title>
         {providers.map((provider) => (
           <SignInButton key={provider.name} provider={provider} />
         ))}
@@ -26,8 +27,8 @@ async function SignIn() {
     );
   } else {
     return (
-      <div>
-        <h1>Signed in as {session.user.email}</h1>
+      <div className="flex flex-col items-center justify-center gap-4">
+        <Title>Signed in as {session.user.email}</Title>
         <SignOutButton />
       </div>
     );

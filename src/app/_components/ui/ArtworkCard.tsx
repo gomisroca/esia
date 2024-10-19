@@ -14,6 +14,7 @@ import React, { memo, useState } from 'react';
 import { type ArtworkWithArtist } from 'types';
 import Link from 'next/link';
 import Button from './Button';
+import Title from './Title';
 
 interface ArtworkCardProps {
   artwork: ArtworkWithArtist;
@@ -56,10 +57,10 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
       <div
         className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
         <div className="min-h-2/3 m-4 w-full rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
-          <h3 className="mb-2 text-2xl font-semibold">{artwork.name}</h3>
+          <Title className="mb-2">{artwork.name}</Title>
           {!artistView && (
             <Link href={`/artist/${artwork.artist.id}`} className="m-auto flex w-fit">
-              <Button className="border border-neutral-800/20 bg-transparent backdrop-blur-none dark:border-neutral-200/20 dark:bg-transparent">
+              <Button className="border-b border-neutral-800/20 bg-transparent shadow-md backdrop-blur-0 dark:border-neutral-200/20 dark:bg-transparent">
                 {artwork.artist.name}
               </Button>
             </Link>

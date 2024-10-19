@@ -7,13 +7,13 @@
  * <StyleFilter />
  */
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { api } from '@/trpc/react';
 import { LuFilter, LuFilterX } from 'react-icons/lu';
 import Button from '../ui/Button';
 import Dropdown from '../ui/Dropdown';
 import scrollToTop from '@/utils/scrollToTop';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Style {
   name: string | null;
@@ -110,6 +110,7 @@ function StyleFilterSkeleton() {
 
 function StyleFilter() {
   const router = useRouter();
+  const pathname = usePathname();
   const [selectedStyle, setSelectedStyle] = useState('');
 
   // Fetch styles from the server
@@ -137,6 +138,12 @@ function StyleFilter() {
     setSelectedStyle('');
     handleStyleChange('');
   };
+
+  useEffect(() => {
+    if (!pathname.includes('style/')) {
+      setSelectedStyle('');
+    }
+  }, [pathname]);
 
   // Render a skeleton if the styles are loading or fetching
   if (isLoading || isFetching || !styles) {
