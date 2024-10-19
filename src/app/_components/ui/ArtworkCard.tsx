@@ -60,7 +60,7 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
           <Title className="mb-2">{artwork.name}</Title>
           {!artistView && (
             <Link href={`/artist/${artwork.artist.id}`} className="m-auto flex w-fit">
-              <Button className="border-b border-neutral-800/20 bg-transparent shadow-md backdrop-blur-0 dark:border-neutral-200/20 dark:bg-transparent">
+              <Button className="border-b border-neutral-800/20 bg-transparent shadow-md backdrop-blur-none dark:border-neutral-200/20 dark:bg-transparent">
                 {artwork.artist.name}
               </Button>
             </Link>
