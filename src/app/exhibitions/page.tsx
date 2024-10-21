@@ -1,13 +1,18 @@
 import { api } from '@/trpc/server';
-import ExhibitionCard from '../_components/ui/ExhibitionCard';
+import LoadingBar from '../_components/ui/LoadingBar';
+import { Suspense } from 'react';
+import ExhibitionInfiniteList from './ExhibitionInfiniteList';
+import ErrorPage from '../_components/ErrorPage';
 
 export default async function ExhibitionList() {
-  const exhibitions = await api.exhibitions.getAll();
-  return (
-    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
-      {exhibitions.map((exhibition) => (
-        <ExhibitionCard key={exhibition.id} exhibition={exhibition} />
-      ))}
-    </div>
-  );
+  const initialExhibitions = await api.exhibitions.getAll({ limit: 6 });
+  try {
+    return (
+      <Suspense fallback={<LoadingBar />}>
+        <ExhibitionInfiniteList initialExhibitions={initialExhibitions} />
+      </Suspense>
+    );
+  } catch (_error: unknown) {
+    return <ErrorPage message="Failed to load exhibitions" />;
+  }
 }

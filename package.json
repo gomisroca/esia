@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.6.0",
+    "@mantine/hooks": "^7.13.3",
     "@prisma/client": "^5.14.0",
     "@supabase/supabase-js": "^2.45.2",
     "@t3-oss/env-nextjs": "^0.10.1",

@@ -7,16 +7,16 @@
 
 import LoadingBar from './_components/ui/LoadingBar';
 import { Suspense } from 'react';
-import { api } from '@/trpc/server';
-import ArtworkList from './_components/ui/ArtworkList';
 import ErrorPage from './_components/ErrorPage';
+import LandingInfiniteList from './LandingInfiniteList';
+import { api } from '@/trpc/server';
 
 export default async function LandingPage() {
+  const initialArtworks = await api.artworks.getAll({ limit: 6 });
   try {
-    const artworks = await api.artworks.getAll();
     return (
       <Suspense fallback={<LoadingBar />}>
-        <ArtworkList artworks={artworks} />
+        <LandingInfiniteList initialArtworks={initialArtworks} />
       </Suspense>
     );
   } catch (_error: unknown) {
