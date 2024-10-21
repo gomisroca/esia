@@ -22,6 +22,32 @@ interface ArtworkResponse {
   medium_display: string;
 }
 
+interface ExhibitionResponse {
+  pagination: {
+    next_url: string;
+  };
+  data: ExhibitionResponseData[];
+}
+
+interface ExhibitionResponseData {
+  id: number;
+  title: string;
+  short_description: string;
+  aic_start_at: string;
+  aic_end_at: string;
+  image_url?: string;
+  artwork_titles?: string[];
+}
+
+interface TransformedExhibition {
+  name: string;
+  shortDescription: string;
+  startDate: Date;
+  endDate: Date;
+  imageUrl?: string;
+  artworks?: string[]
+}
+
 interface Response {
   pagination: {
     next_url: string;
@@ -46,8 +72,8 @@ interface TransformedArtwork {
 
 async function getAllArtworks() {
   const artworks: ArtworkResponse[] = [];
-  let nextUrl = 'https://api.artic.edu/api/v1/artworks?search?query[term][is_public_domain]=true&limit=100&page=6';
-  let count = 6;
+  let nextUrl = 'https://api.artic.edu/api/v1/artworks?search?query[term][is_public_domain]=true&limit=100&page=1';
+  let count = 1;
 
   while (count < 10) {
     try {
@@ -91,27 +117,6 @@ async function transformArtwork(artwork: ArtworkResponse): Promise<TransformedAr
     };
   } catch (error) {
     console.error('Error transforming artwork:', error);
-    return null;
-  }
-}
-
-async function uploadImageFromUrl(imageUrl: string, bucketName: string, fileName: string) {
-  try {
-    const response = await fetch(imageUrl);
-    if (!response.ok) throw new Error(`Failed to fetch image. Status: ${response.status}`);
-
-    const blob = await response.blob();
-    const { data, error } = await supabase.storage.from(bucketName).upload(fileName, blob, {
-      contentType: blob.type,
-      upsert: true,
-    });
-
-    if (error) throw new Error(`Failed to upload image to Supabase: ${error.message}`);
-
-    console.log('Image uploaded successfully:', data);
-    return data;
-  } catch (error) {
-    console.error('Error uploading image:', error);
     return null;
   }
 }
@@ -165,6 +170,98 @@ async function saveArtwork(artwork: TransformedArtwork, artistId: string) {
   }
 }
 
+async function getAllExhibitions() {
+  const exhibitions: ExhibitionResponseData[] = [];
+  let nextUrl = 'https://api.artic.edu/api/v1/exhibitions?limit=100&page=1';
+  let count = 1;
+
+  while (count < 5) {
+    try {
+      const response = await fetch(nextUrl);
+      if (!response.ok) {
+        console.error(`Failed to fetch artworks, status: ${response.status}`);
+        break;
+      }
+
+      const res: ExhibitionResponse = await response.json();
+      const newExhibitions = res.data.filter((x) => x.title !== null);
+      exhibitions.push(...newExhibitions);
+
+      if (!res.pagination.next_url) break;
+
+      count++;
+      nextUrl = `https://api.artic.edu/api/v1/exhibitions?limit=100&page=${count}`;
+    } catch (error) {
+      console.error('Error fetching exhibitions:', error);
+      break;
+    }
+  }
+
+  console.log(`Total exhibitions retrieved: ${exhibitions.length}`);
+  return exhibitions;
+}
+
+async function transformExhibition(exhibition: ExhibitionResponseData): Promise<TransformedExhibition | null> {
+  try {
+    let image = undefined;
+    if(exhibition.image_url){
+      image = await uploadImageFromUrl(exhibition.image_url, 'exhibition', `${exhibition.id}.jpg`);
+    }
+    return {
+      name: exhibition.title,
+      shortDescription: exhibition.short_description,
+      startDate: new Date(exhibition.aic_start_at),
+      endDate: new Date(exhibition.aic_end_at),
+      imageUrl: image?.path || undefined,
+    };
+  } catch (error) {
+    console.error('Error transforming artwork:', error);
+    return null;
+  }
+}
+
+async function saveExhibition(exhibition: TransformedExhibition) {
+  try {
+    let link = undefined;
+    if(exhibition.imageUrl){
+      link = await supabase.storage.from('exhibition').getPublicUrl(exhibition.imageUrl);
+    }
+
+    await db.exhibition.create({
+      data: {
+        name: exhibition.name,
+        description: exhibition.shortDescription,
+        start: exhibition.startDate,
+        end: exhibition.endDate,
+        image: link ? link.data.publicUrl : undefined,
+      },
+    });
+  } catch (error) {
+    console.error('Error saving exhibition:', error);
+  }
+}
+
+async function uploadImageFromUrl(imageUrl: string, bucketName: string, fileName: string) {
+  try {
+    const response = await fetch(imageUrl);
+    if (!response.ok) throw new Error(`Failed to fetch image. Status: ${response.status}`);
+
+    const blob = await response.blob();
+    const { data, error } = await supabase.storage.from(bucketName).upload(fileName, blob, {
+      contentType: blob.type,
+      upsert: true,
+    });
+
+    if (error) throw new Error(`Failed to upload image to Supabase: ${error.message}`);
+
+    console.log('Image uploaded successfully:', data);
+    return data;
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    return null;
+  }
+}
+
 async function main() {
   try {
     const artworks = await getAllArtworks();
@@ -182,6 +279,22 @@ async function main() {
             if (artist) {
               await saveArtwork(transformedArtwork, artist.id);
             }
+          }
+        }, 2000);
+      }
+    }
+
+    const exhibitions = await getAllExhibitions();
+    for (const exhibition of exhibitions) {
+      const existingExhibition = await db.exhibition.findUnique({
+        where: { name: exhibition.title },
+      });
+
+      if (!existingExhibition) {
+        setTimeout(async () => {
+          const transformedExhibition = await transformExhibition(exhibition);
+          if (transformedExhibition) {
+            await saveExhibition(transformedExhibition);
           }
         }, 2000);
       }
