@@ -80,11 +80,11 @@ model Artwork {
 }
 
 model Exhibition {
-    id          String @id @default(cuid())
-    name        String
-    url         String
-    start       String
-    end         String
+    id          String   @id @default(cuid())
+    name        String   @unique
+    image       String?
+    start       DateTime
+    end         DateTime
     description String
 }
 
