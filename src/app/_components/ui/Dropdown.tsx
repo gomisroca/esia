@@ -19,6 +19,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Button from './Button';
+import { twMerge } from 'tailwind-merge';
 
 interface DropdownProps {
   button: {
@@ -61,17 +62,17 @@ function Dropdown({ button, children, className, closeOnChildClick = true }: Dro
   return (
     <div className="relative inline-block">
       {/* Renders the button with the provided name and onClick event handler */}
-      <Button
-        name={button.name}
-        className={`${button.className ? button.className : ''}`}
-        onClick={() => setIsOpen(!isOpen)}>
+      <Button name={button.name} className={button.className ?? undefined} onClick={() => setIsOpen(!isOpen)}>
         {button.text}
       </Button>
       {/* Renders the dropdown menu if isOpen is true */}
       {isOpen && (
         <div
           ref={dropdownRef}
-          className={`absolute z-50 mt-2 rounded-md border border-neutral-200/30 drop-shadow-md backdrop-blur-sm dark:border-neutral-800/30 ${className ? className : ''}`}>
+          className={twMerge(
+            'absolute z-50 mt-2 rounded-md border border-neutral-200/30 drop-shadow-md backdrop-blur-sm dark:border-neutral-800/30',
+            className
+          )}>
           <ul
             onClick={closeOnChildClick ? handleChildClick : undefined}
             className="flex flex-wrap items-center justify-center gap-2 rounded-md p-2 text-center font-bold text-neutral-800 transition-all duration-200 dark:text-neutral-200">
