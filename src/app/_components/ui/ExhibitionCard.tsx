@@ -39,7 +39,7 @@ function ExhibitionCardContent({ exhibition }: { exhibition: Exhibition }) {
           <p>
             {exhibition.start.toLocaleDateString()} - {exhibition.end.toLocaleDateString()}
           </p>
-          <p dangerouslySetInnerHTML={{ __html: exhibition.description }} />
+          <p dangerouslySetInnerHTML={{ __html: exhibition.description }} className="line-clamp-5" />
         </div>
       </Link>
     </div>
