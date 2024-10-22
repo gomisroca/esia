@@ -3,21 +3,44 @@ import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';
 import { TRPCError } from '@trpc/server';
 
 export const artworksRouter = createTRPCRouter({
-  getAll: publicProcedure.query(({ ctx }) => {
-    try {
-      return ctx.db.artwork.findMany({
-        include: {
-          artist: true,
-        },
-      });
-    } catch (error) {
-      if (error instanceof TRPCError) {
-        throw error;
-      } else {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Artworks not found' });
+  getAll: publicProcedure
+    .input(
+      z.object({
+        limit: z.number().min(1).max(100).nullish(),
+        cursor: z.string().nullish(),
+      })
+    )
+    .query(async ({ ctx, input }) => {
+      try {
+        const limit = input.limit ?? 10;
+        const { cursor } = input;
+        const artworks = await ctx.db.artwork.findMany({
+          take: limit + 1,
+          cursor: cursor ? { id: cursor } : undefined,
+          include: {
+            artist: true,
+          },
+        });
+
+        let nextCursor: typeof cursor | undefined = undefined;
+
+        if (artworks.length > limit) {
+          const nextArtwork = artworks.pop();
+          nextCursor = nextArtwork!.id;
+        }
+
+        return {
+          artworks,
+          nextCursor,
+        };
+      } catch (error) {
+        if (error instanceof TRPCError) {
+          throw error;
+        } else {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artworks not found' });
+        }
       }
-    }
-  }),
+    }),
   getStyles: publicProcedure.query(async ({ ctx }) => {
     try {
       const styles = await ctx.db.artwork.groupBy({
