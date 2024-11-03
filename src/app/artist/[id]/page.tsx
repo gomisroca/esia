@@ -38,6 +38,7 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
       </div>
       {artworks.length > 3 && (
         <Image
+          unoptimized
           src={artworks[Math.floor(Math.random() * artworks.length)]!.image!}
           alt={artworks[Math.floor(Math.random() * artworks.length)]!.name}
           width={300}

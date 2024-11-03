@@ -45,6 +45,7 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
 
       {/* Image */}
       <Image
+        unoptimized
         onLoad={() => setLoaded(true)}
         src={artwork.image ?? '/ph.jpg'}
         alt={artwork.name}

@@ -9,6 +9,7 @@ async function ExhibitionSingle({ params }: { params: { id: string } }) {
   return (
     <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">
       <Image
+        unoptimized
         src={exhibition.image ?? '/ph.jpg'}
         alt={exhibition.name}
         width={500}
