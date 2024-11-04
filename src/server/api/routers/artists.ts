@@ -26,4 +26,15 @@ export const artistsRouter = createTRPCRouter({
         }
       }
     }),
+  getAll: publicProcedure.query(({ ctx }) => {
+    try {
+      return ctx.db.artist.findMany();
+    } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error;
+      } else {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Artists not found' });
+      }
+    }
+  }),
 });
