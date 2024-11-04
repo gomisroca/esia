@@ -23,6 +23,7 @@ function ExhibitionCardContent({ exhibition }: { exhibition: Exhibition }) {
 
       {/* Image */}
       <Image
+        unoptimized
         onLoad={() => setLoaded(true)}
         src={exhibition.image ?? '/ph.jpg'}
         alt={exhibition.name}
