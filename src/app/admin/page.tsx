@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import ProtectedRoute from '../_components/ProtectedRoute';
-import { FaCalendar, FaUsers } from 'react-icons/fa6';
+import { FaCalendar, FaNewspaper, FaUsers } from 'react-icons/fa6';
 import { FaPaintBrush } from 'react-icons/fa';
 
 const AdminDashboard = () => {
@@ -9,8 +9,7 @@ const AdminDashboard = () => {
       <div className="rounded-lg bg-gray-50 p-8 dark:bg-gray-900">
         <div className="mx-auto max-w-6xl">
           <h1 className="mb-8 text-3xl font-bold text-gray-900 dark:text-white">Admin Dashboard</h1>
-
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-4">
             {/* Artworks Section */}
             <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800">
               <div className="border-b border-gray-100 p-6 dark:border-gray-700">
@@ -72,6 +71,28 @@ const AdminDashboard = () => {
                     href="/admin/exhibitions/update"
                     className="block w-full rounded-md px-4 py-2 text-left text-emerald-600 transition-colors duration-150 hover:bg-emerald-300/50 hover:text-emerald-700 dark:text-emerald-400 dark:hover:bg-gray-700/50 dark:hover:text-emerald-300">
                     Update Exhibition
+                  </Link>
+                </div>
+              </div>
+            </div>
+
+            {/* Blogs Section */}
+            <div className="overflow-hidden rounded-lg border border-gray-300 bg-gray-200 shadow-sm dark:border-gray-700 dark:bg-gray-800">
+              <div className="border-b border-gray-100 p-6 dark:border-gray-700">
+                <div className="mb-4 flex items-center gap-3">
+                  <FaNewspaper className="h-6 w-6 text-rose-600 dark:text-rose-400" />
+                  <h2 className="text-xl font-semibold text-gray-800 dark:text-gray-100">Blogs</h2>
+                </div>
+                <div className="space-y-3">
+                  <Link
+                    href="/admin/blogs/create"
+                    className="block w-full rounded-md px-4 py-2 text-left text-rose-600 transition-colors duration-150 hover:bg-rose-300/50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-gray-700/50 dark:hover:text-rose-300">
+                    Create Blog
+                  </Link>
+                  <Link
+                    href="/admin/blogs/update"
+                    className="block w-full rounded-md px-4 py-2 text-left text-rose-600 transition-colors duration-150 hover:bg-rose-300/50 hover:text-rose-700 dark:text-rose-400 dark:hover:bg-gray-700/50 dark:hover:text-rose-300">
+                    Update Blog
                   </Link>
                 </div>
               </div>
