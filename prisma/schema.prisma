@@ -93,5 +93,5 @@ model Blog {
     name        String
     content     String
     date        DateTime
-    headerImage String
+    headerImage String?
 }
