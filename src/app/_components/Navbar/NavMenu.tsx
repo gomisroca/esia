@@ -2,6 +2,7 @@ import ModeButton from './ModeButton';
 import SearchBar from './SearchBar';
 import StyleFilter from './StyleFilter';
 import ExhibitionButton from './ExhibitionButton';
+import BlogButton from './BlogButton';
 
 function NavMenu() {
   return (
@@ -9,6 +10,7 @@ function NavMenu() {
       <SearchBar />
       <StyleFilter />
       <ExhibitionButton />
+      <BlogButton />
       <ModeButton />
     </div>
   );
