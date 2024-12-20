@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { vi } from 'vitest';
 import { signIn } from 'next-auth/react';
-import SignInButton from '../app/sign-in/SignInButton';
+import SignInButton from '../../app/sign-in/SignInButton';
 
 vi.mock('next-auth/react', () => ({
   signIn: vi.fn(),

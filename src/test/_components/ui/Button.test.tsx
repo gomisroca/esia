@@ -1,5 +1,4 @@
-// Button.test.tsx
-import Button from '../app/_components/ui/Button';
+import Button from '@/app/_components/ui/Button';
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { expect, vi } from 'vitest';
@@ -28,6 +27,7 @@ describe('Button component', () => {
     const { getByRole } = render(<Button disabled>Click me!</Button>);
     const button = getByRole('button');
     expect(button).toBeDisabled();
+    expect(button).toHaveClass('cursor-not-allowed opacity-50');
   });
 
   it('sets type attribute correctly', () => {
