@@ -1,0 +1,12 @@
+.env
+Dockerfile
+.dockerignore
+coverage
+playwright-report
+test-results
+node_modules
+npm-debug.log
+README.md
+.next
+.git
+prisma/seed.ts
