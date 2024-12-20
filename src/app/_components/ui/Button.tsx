@@ -26,11 +26,21 @@ interface ButtonProps {
   disabled?: boolean;
   name?: string;
   type?: 'button' | 'submit' | 'reset';
+  role?: string;
 }
 
-function Button({ children, onClick, className, disabled = false, name, type = 'button' }: ButtonProps) {
+function Button({
+  children,
+  onClick,
+  className,
+  disabled = false,
+  name,
+  type = 'button',
+  role = 'button',
+}: ButtonProps) {
   return (
     <button
+      role={role}
       type={type}
       onClick={onClick}
       name={name ?? ''}
