@@ -25,6 +25,7 @@ interface ButtonProps {
   children: React.ReactNode;
   disabled?: boolean;
   name?: string;
+  ariaLabel?: string;
   type?: 'button' | 'submit' | 'reset';
   role?: string;
 }
@@ -35,11 +36,13 @@ function Button({
   className,
   disabled = false,
   name,
+  ariaLabel,
   type = 'button',
   role = 'button',
 }: ButtonProps) {
   return (
     <button
+      aria-label={ariaLabel}
       role={role}
       type={type}
       onClick={onClick}

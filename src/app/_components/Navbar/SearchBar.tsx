@@ -39,12 +39,14 @@ const SearchBar = () => {
       className="right-0"
       closeOnChildClick={false}
       button={{
+        ariaLabel: 'Search Button',
         name: 'searchButton',
         className:
           'rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none',
         text: <LuSearch role="search" className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200" />,
       }}>
       <input
+        aria-label="Search Input"
         className="rounded-md bg-neutral-200 px-4 py-2 text-neutral-800 drop-shadow-md dark:bg-neutral-800 dark:text-neutral-200"
         type="text"
         value={searchTerm}

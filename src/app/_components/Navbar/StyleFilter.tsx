@@ -36,7 +36,7 @@ interface Style {
  *   handleStyleChange={handleStyleChange}
  * />
  */
-function FilterDropdown({
+export function FilterDropdown({
   sortedStyles,
   selectedStyle,
   setSelectedStyle,
@@ -87,7 +87,7 @@ function FilterDropdown({
  * @example
  * <FilterOffButton handleClearFilter={handleClearFilter} />
  */
-function FilterOffButton({ handleClearFilter }: { handleClearFilter: () => void }) {
+export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () => void }) {
   return (
     <Button
       name="filterOffButton"
