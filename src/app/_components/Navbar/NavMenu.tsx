@@ -6,7 +6,10 @@ import BlogButton from './BlogButton';
 
 function NavMenu() {
   return (
-    <div className="pointer-events-auto absolute right-0 top-2 flex flex-col items-center justify-center gap-4 md:right-4 md:top-4">
+    <div
+      data-testid="nav-menu"
+      role="navigation"
+      className="pointer-events-auto absolute right-0 top-2 flex flex-col items-center justify-center gap-4 md:right-4 md:top-4">
       <SearchBar />
       <StyleFilter />
       <ExhibitionButton />

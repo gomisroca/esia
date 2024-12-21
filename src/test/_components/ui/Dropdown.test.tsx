@@ -1,8 +1,7 @@
-// Dropdown.test.tsx
 import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { expect } from 'vitest';
-import Dropdown from '../app/_components/ui/Dropdown';
+import Dropdown from '@/app/_components/ui/Dropdown';
 
 describe('Dropdown component', () => {
   it('renders the dropdown button with the correct name', () => {

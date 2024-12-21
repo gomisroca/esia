@@ -39,6 +39,8 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
     <div
       className="group relative h-[30rem] w-[22rem] cursor-pointer overflow-hidden rounded-md md:h-[45rem] md:w-[30rem]"
       onClick={handleFlip}
+      data-artist-view={artistView}
+      data-flipped={isFlipped}
       data-testid="artwork-card">
       {/* Skeleton while image is loading */}
       {!loaded && <ArtworkSkeleton />}

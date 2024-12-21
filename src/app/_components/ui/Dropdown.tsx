@@ -26,6 +26,7 @@ interface DropdownProps {
     text: string | React.ReactNode;
     className?: string;
     name?: string;
+    ariaLabel?: string;
   };
   className?: string;
   children: React.ReactNode;
@@ -62,7 +63,11 @@ function Dropdown({ button, children, className, closeOnChildClick = true }: Dro
   return (
     <div className="relative inline-block">
       {/* Renders the button with the provided name and onClick event handler */}
-      <Button name={button.name} className={button.className ?? undefined} onClick={() => setIsOpen(!isOpen)}>
+      <Button
+        ariaLabel={button.ariaLabel}
+        name={button.name}
+        className={button.className ?? undefined}
+        onClick={() => setIsOpen(!isOpen)}>
         {button.text}
       </Button>
       {/* Renders the dropdown menu if isOpen is true */}

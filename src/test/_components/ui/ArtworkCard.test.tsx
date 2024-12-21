@@ -1,7 +1,6 @@
-// ArtworkCard.test.tsx
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import ArtworkCard from '../app/_components/ui/ArtworkCard';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import ArtworkCard from '@/app/_components/ui/ArtworkCard';
 import { type ArtworkWithArtist } from 'types';
 
 const mockArtwork: ArtworkWithArtist = {
@@ -43,6 +42,12 @@ describe('ArtworkCard component', () => {
     expect(screen.getByText(mockArtwork.style!)).toBeInTheDocument();
   });
 
+  it('shows placeholder image if image is not provided', () => {
+    render(<ArtworkCard artwork={{ ...mockArtwork, image: null }} />);
+    const img = screen.getByAltText(mockArtwork.name);
+    expect(img).toHaveAttribute('src', expect.stringContaining('ph.jpg'));
+  });
+
   it('shows skeleton while image is loading and hides it after image loads', async () => {
     render(<ArtworkCard artwork={mockArtwork} />);
     const skeleton = screen.getByTestId('artwork-skeleton');
@@ -59,8 +64,19 @@ describe('ArtworkCard component', () => {
   it('applies hover effect on image', () => {
     render(<ArtworkCard artwork={mockArtwork} />);
     const img = screen.getByAltText(mockArtwork.name);
-    fireEvent.mouseOver(img);
+    act(() => {
+      fireEvent.mouseOver(img);
+    });
 
     expect(img).toHaveClass('group-hover:scale-110');
+  });
+
+  it('flips the card on click', () => {
+    render(<ArtworkCard artwork={mockArtwork} />);
+    const card = screen.getByTestId('artwork-card');
+    act(() => {
+      fireEvent.click(card);
+    });
+    expect(card).toHaveAttribute('data-flipped', 'true');
   });
 });
