@@ -69,15 +69,15 @@ describe('StyleFilter', () => {
 
   it('renders filter dropdown when data is loaded', () => {
     render(<StyleFilter />);
-    expect(screen.getByRole('button', { name: 'Filter' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Filter Button' })).toBeInTheDocument();
   });
 
   it('clears filter when pathname changes to non-style route', () => {
     const { rerender } = render(<StyleFilter />);
 
-    expect(screen.getByRole('button', { name: 'Filter' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Filter Button' })).toBeInTheDocument();
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
     });
 
     act(() => {
@@ -109,9 +109,9 @@ describe('FilterDropdown', () => {
 
   it('renders all style options', () => {
     render(<FilterDropdown {...mockProps} />);
-    expect(screen.getByRole('button', { name: 'Filter' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Filter Button' })).toBeInTheDocument();
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
     });
     expect(screen.getByRole('button', { name: 'Modern' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Classic' })).toBeInTheDocument();
@@ -120,7 +120,7 @@ describe('FilterDropdown', () => {
   it('calls handlers with correct style on button click', () => {
     render(<FilterDropdown {...mockProps} />);
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
     });
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'Modern' }));
@@ -134,7 +134,7 @@ describe('FilterDropdown', () => {
   it('disables button for selected style', () => {
     render(<FilterDropdown {...mockProps} selectedStyle="Modern" />);
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
     });
     expect(screen.getByRole('button', { name: 'Modern' })).toBeDisabled();
   });
@@ -149,13 +149,14 @@ describe('FilterOffButton', () => {
 
   it('renders clear filter button', () => {
     render(<FilterOffButton handleClearFilter={mockHandleClearFilter} />);
+    expect(screen.getByRole('button', { name: 'Clear Filter Button' })).toBeInTheDocument();
     expect(screen.getByTestId('filter-off-icon')).toBeInTheDocument();
   });
 
   it('calls handleClearFilter when clicked', () => {
     render(<FilterOffButton handleClearFilter={mockHandleClearFilter} />);
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'FilterOff' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Clear Filter Button' }));
     });
     expect(mockHandleClearFilter).toHaveBeenCalled();
   });

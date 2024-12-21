@@ -17,6 +17,7 @@ function ModeButton() {
 
   return (
     <Button
+      ariaLabel="Theme Button"
       onClick={() => (theme === 'dark' ? setTheme('light') : setTheme('dark'))}
       className="rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none">
       <FaSun className="size-[1.2rem] rotate-0 scale-100 text-neutral-800 transition-all dark:-rotate-90 dark:scale-0" />

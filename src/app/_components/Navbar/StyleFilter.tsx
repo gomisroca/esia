@@ -50,6 +50,7 @@ export function FilterDropdown({
   return (
     <Dropdown
       button={{
+        ariaLabel: 'Filter Button',
         text: (
           <LuFilter
             role="filter-button"
@@ -90,6 +91,7 @@ export function FilterDropdown({
 export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () => void }) {
   return (
     <Button
+      ariaLabel="Clear Filter Button"
       name="filterOffButton"
       className="rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none"
       onClick={handleClearFilter}>

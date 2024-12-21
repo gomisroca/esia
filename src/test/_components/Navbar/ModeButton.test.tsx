@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, act } from '@testing-library/react';
 import ModeButton from '@/app/_components/Navbar/ModeButton';
 
 vi.mock('next-themes', () => ({
@@ -26,7 +26,7 @@ describe('ModeButton', () => {
     });
 
     render(<ModeButton />);
-    expect(screen.getByRole('button')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Theme Button' })).toBeInTheDocument();
   });
 
   it('displays both sun and moon icons', () => {
@@ -47,7 +47,9 @@ describe('ModeButton', () => {
     });
 
     render(<ModeButton />);
-    fireEvent.click(screen.getByRole('button'));
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Theme Button' }));
+    });
     expect(mockSetTheme).toHaveBeenCalledWith('dark');
   });
 
@@ -58,7 +60,9 @@ describe('ModeButton', () => {
     });
 
     render(<ModeButton />);
-    fireEvent.click(screen.getByRole('button'));
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: 'Theme Button' }));
+    });
     expect(mockSetTheme).toHaveBeenCalledWith('light');
   });
 
@@ -78,8 +82,8 @@ describe('ModeButton', () => {
       setTheme: mockSetTheme,
     });
 
-    const { container } = render(<ModeButton />);
-    const button = container.firstChild as HTMLElement;
+    render(<ModeButton />);
+    const button = screen.getByRole('button', { name: 'Theme Button' });
     expect(button).toHaveClass('dark:bg-neutral-800/30');
   });
 });
