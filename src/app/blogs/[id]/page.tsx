@@ -19,7 +19,8 @@ async function BlogSingle({ params }: { params: { id: string } }) {
       <div className="flex flex-col gap-2 p-2 text-center text-neutral-800 dark:text-neutral-200 md:p-4">
         <div>
           <Title>{blog.name}</Title>
-          <p className="font-bold">{blog.date.toLocaleDateString()}</p>
+
+          <p className="font-bold">{blog.date.toDateString()}</p>
         </div>
         <p
           className="whitespace-pre-line rounded-md bg-slate-900/10 p-2 text-left md:p-4"
