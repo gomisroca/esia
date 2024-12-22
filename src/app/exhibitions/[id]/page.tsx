@@ -19,7 +19,7 @@ async function ExhibitionSingle({ params }: { params: { id: string } }) {
       <div className="p-4 text-center text-neutral-800 dark:text-neutral-200">
         <Title>{exhibition.name}</Title>
         <p className="font-bold">
-          {exhibition.start.toLocaleDateString()} - {exhibition.end.toLocaleDateString()}
+          {exhibition.start.toDateString()} - {exhibition.end.toDateString()}
         </p>
         <p dangerouslySetInnerHTML={{ __html: exhibition.description }} />
       </div>

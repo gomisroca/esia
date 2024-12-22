@@ -14,6 +14,6 @@ test('displays selected artist artworks', async ({ page }) => {
   await page.goto('/artist/cm09zs6xe000014ca2hdva1n4');
 
   // Expect artwork list
-  await expect(page.locator('img[alt="The Bath"]')).toBeVisible();
-  await expect(page.locator('img[alt="On a Balcony"]')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'On a Balcony' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'The Bath' })).toBeVisible();
 });

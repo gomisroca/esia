@@ -15,7 +15,7 @@ test('renders blog title', async ({ page }) => {
 test('renders blog date', async ({ page }) => {
   await page.goto('/blogs/cm34dmhzw000010jd5vhjof3b');
 
-  await expect(page.getByText('12/11/2024')).toBeVisible();
+  await expect(page.getByText('Tue Nov 12 2024')).toBeVisible();
 });
 
 test('renders blog text', async ({ page }) => {

@@ -15,7 +15,7 @@ test('renders blog title', async ({ page }) => {
 test('renders blog date', async ({ page }) => {
   await page.goto('/exhibitions/cm2ipg66500bcbekejhyc6i97');
 
-  await expect(page.getByText('21/05/2022 - 21/05/2023')).toBeVisible();
+  await expect(page.getByText('Sat May 21 2022 - Sun May 21 2023')).toBeVisible();
 });
 
 test('renders blog text', async ({ page }) => {

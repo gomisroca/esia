@@ -31,8 +31,6 @@ export const artistsRouter = createTRPCRouter({
     .input(
       z.object({
         artistId: z.string(),
-        skip: z.number().optional(),
-        take: z.number().optional(),
       })
     )
     .query(({ ctx, input }) => {

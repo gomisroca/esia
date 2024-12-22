@@ -44,7 +44,7 @@ describe('BlogCard component', () => {
 
   it('displays the blog date correctly', () => {
     render(<BlogCard blog={mockBlog} />);
-    expect(screen.getByText(mockBlog.date.toLocaleDateString())).toBeInTheDocument();
+    expect(screen.getByText(mockBlog.date.toDateString())).toBeInTheDocument();
   });
 
   it('truncates the blog content correctly', () => {

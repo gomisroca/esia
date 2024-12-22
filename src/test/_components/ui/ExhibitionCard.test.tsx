@@ -48,8 +48,8 @@ describe('ExhibitionCard Component', () => {
   it('renders the exhibition details correctly', () => {
     render(<ExhibitionCard exhibition={mockExhibition} />);
     expect(screen.getByText(mockExhibition.name)).toBeInTheDocument();
-    const startString = mockExhibition.start.toLocaleDateString();
-    const endString = mockExhibition.end.toLocaleDateString();
+    const startString = mockExhibition.start.toDateString();
+    const endString = mockExhibition.end.toDateString();
     expect(screen.getByText(`${startString} - ${endString}`)).toBeInTheDocument();
     expect(screen.getByText('An amazing collection of impressionist artwork.')).toBeInTheDocument();
   });
