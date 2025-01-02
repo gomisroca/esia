@@ -5,10 +5,10 @@ import path from 'path';
 export default defineConfig({
   plugins: [react()],
   test: {
-    exclude: ['test-e2e', 'node_modules'],
+    exclude: ['e2e', 'node_modules'],
     environment: 'jsdom',
     globals: true,
-    setupFiles: './src/test/setup.ts',
+    setupFiles: './src/tests/setup.ts',
     coverage: {
       reporter: ['text', 'json', 'html'],
       include: ['src/**/*.tsx'],
