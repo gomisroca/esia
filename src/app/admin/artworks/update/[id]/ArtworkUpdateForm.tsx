@@ -70,7 +70,7 @@ export default function ArtworkUpdateForm({ id }: ArtworkUpdateFormProps) {
     }
   );
 
-  const { data: artists, error: fetchArtistsError, isLoading: isArtistsLoading } = api.artists.getAll.useQuery();
+  const { data: artists, error: fetchArtistsError, isLoading: isArtistsLoading } = api.artists.getAll.useQuery({});
 
   // Update mutation
   const updateArtwork = api.artworks.update.useMutation({

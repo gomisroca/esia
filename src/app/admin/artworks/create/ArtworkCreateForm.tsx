@@ -51,7 +51,7 @@ export default function ArtworkUpdateForm() {
   const utils = api.useUtils();
   const [formState, setFormState] = useState<FormState>(INITIAL_FORM_STATE);
 
-  const { data: artists, error: fetchError, isLoading: isLoading } = api.artists.getAll.useQuery();
+  const { data: artists, error: fetchError, isLoading: isLoading } = api.artists.getAll.useQuery({});
 
   // Create mutation
   const createArtwork = api.artworks.create.useMutation({
