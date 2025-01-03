@@ -165,12 +165,12 @@ To get started uploading your own data directly from the website, initialize the
 
 | Procedure | Method | Description | Input | Output |
 | --- | --- | --- | --- | --- |
-| QUERY | `getUnique` | Get a unique artwork | ID | Artwork |
-| QUERY | `getAll` | Get paginated artworks | Limit?, Cursor? | Artwork[] |
-| QUERY | `search` | Get all artworks by search query | Search Term | Artwork[]? |
+| QUERY | `getUnique` | Get a unique artwork | ID, Artist? | Artwork |
+| QUERY | `getAll` | Get paginated artworks | Limit?, Cursor?, Artist? | Artwork[] |
 | CREATE | `create` | Create new artwork | Artwork Data | Artwork |
 | UPDATE | `update` | Update an existing artwork | Artwork Data | Artwork |
 | DELETE | `delete` | Delete an existing artwork | ID | Boolean |
+| QUERY | `search` | Get all artworks by search query | Search Term | Artwork[]? |
 
 
 </details>
@@ -192,8 +192,8 @@ To get started uploading your own data directly from the website, initialize the
 
 | Procedure | Method | Description | Input | Output |
 | --- | --- | --- | --- | --- |
-| QUERY | `getUnique` | Get a unique artist and their artworks | ID | Artist + Artwork[] |
-| QUERY | `getAll` | Get all artists | | Artist[] |
+| QUERY | `getUnique` | Get a unique artist and their artworks | ID, Artworks? | Artist |
+| QUERY | `getAll` | Get all artists | | Artist[], Artworks? |
 | CREATE | `create` | Create new artist entry | Artist Data | Artist |
 | UPDATE | `update` | Update an existing artist | Artist Data | Artist |
 | DELETE | `delete` | Delete an existing artist | ID | Boolean |
