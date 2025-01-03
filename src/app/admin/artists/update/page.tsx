@@ -4,7 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 
 async function ArtistUpdateList() {
-  const artists = await api.artists.getAll();
+  const artists = await api.artists.getAll({});
 
   return (
     <ProtectedRoute>

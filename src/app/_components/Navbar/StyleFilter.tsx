@@ -116,7 +116,7 @@ function StyleFilter() {
   const [selectedStyle, setSelectedStyle] = useState('');
 
   // Fetch styles from the server
-  const { data: styles, isLoading, isFetching } = api.artworks.getStyles.useQuery();
+  const { data: styles, isLoading, isFetching } = api.styles.getAll.useQuery({});
 
   // Memoize the sorted styles to avoid re-sorting on every render
   const sortedStyles = useMemo(() => {
