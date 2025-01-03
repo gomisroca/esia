@@ -7,6 +7,7 @@ export const artistsRouter = createTRPCRouter({
     .input(
       z.object({
         id: z.string(),
+        artworks: z.boolean().optional().default(false),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -16,7 +17,7 @@ export const artistsRouter = createTRPCRouter({
             id: input.id,
           },
           include: {
-            artworks: true,
+            artworks: input.artworks,
           },
         });
       } catch (error) {
@@ -27,38 +28,27 @@ export const artistsRouter = createTRPCRouter({
         }
       }
     }),
-  getInformation: publicProcedure
+  getAll: publicProcedure
     .input(
       z.object({
-        artistId: z.string(),
+        artworks: z.boolean().optional().default(false),
       })
     )
     .query(({ ctx, input }) => {
       try {
-        return ctx.db.artist.findUnique({
-          where: {
-            id: input.artistId,
+        return ctx.db.artist.findMany({
+          include: {
+            artworks: input.artworks,
           },
         });
       } catch (error) {
         if (error instanceof TRPCError) {
           throw error;
         } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artist not found' });
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artists not found' });
         }
       }
     }),
-  getAll: publicProcedure.query(({ ctx }) => {
-    try {
-      return ctx.db.artist.findMany();
-    } catch (error) {
-      if (error instanceof TRPCError) {
-        throw error;
-      } else {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Artists not found' });
-      }
-    }
-  }),
   create: protectedProcedure
     .input(
       z.object({
