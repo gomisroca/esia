@@ -13,8 +13,8 @@ vi.mock('next/navigation', () => ({
 // Mock trpc
 vi.mock('@/trpc/react', () => ({
   api: {
-    artworks: {
-      getStyles: {
+    styles: {
+      getAll: {
         useQuery: vi.fn(),
       },
     },
@@ -49,7 +49,7 @@ describe('StyleFilter', () => {
       push: mockPush,
     }));
     (usePathname as jest.Mock).mockReturnValue('/');
-    (api.artworks.getStyles.useQuery as jest.Mock).mockReturnValue({
+    (api.styles.getAll.useQuery as jest.Mock).mockReturnValue({
       data: mockStyles,
       isLoading: false,
       isFetching: false,
@@ -57,7 +57,7 @@ describe('StyleFilter', () => {
   });
 
   it('renders skeleton while loading', () => {
-    (api.artworks.getStyles.useQuery as jest.Mock).mockReturnValue({
+    (api.styles.getAll.useQuery as jest.Mock).mockReturnValue({
       data: null,
       isLoading: true,
       isFetching: false,

@@ -20,7 +20,7 @@ export default async function StyleBasedList({ params }: Readonly<{ params: { na
     const decodedStyleName = decodeURIComponent(encodedStyleName);
     const styleName = decodedStyleName.replace(/\+/g, ' ');
 
-    const artworks = await api.artworks.getByStyle({ style: styleName });
+    const artworks = await api.styles.getUnique({ name: styleName });
 
     return (
       <Suspense fallback={<LoadingBar />}>

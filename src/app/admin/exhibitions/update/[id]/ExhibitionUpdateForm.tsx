@@ -59,10 +59,13 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
     data: exhibition,
     error: fetchError,
     isLoading,
-  } = api.exhibitions.getUnique.useQuery(id, {
-    retry: 2,
-    enabled: Boolean(id),
-  });
+  } = api.exhibitions.getUnique.useQuery(
+    { id },
+    {
+      retry: 2,
+      enabled: Boolean(id),
+    }
+  );
 
   // Update mutation
   const updateExhibition = api.exhibitions.update.useMutation({

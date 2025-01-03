@@ -12,7 +12,10 @@ import LandingInfiniteList from './LandingInfiniteList';
 import { api } from '@/trpc/server';
 
 export default async function LandingPage() {
-  const initialArtworks = await api.artworks.getAll({ limit: 6 });
+  const initialArtworks = await api.artworks.getAll({
+    artist: true,
+    limit: 6,
+  });
   try {
     return (
       <Suspense fallback={<LoadingBar />}>

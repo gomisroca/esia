@@ -3,6 +3,7 @@ import { artworksRouter } from './routers/artworks';
 import { artistsRouter } from './routers/artists';
 import { exhibitionsRouter } from './routers/exhibitions';
 import { blogsRouter } from './routers/blogs';
+import { stylesRouter } from './routers/styles';
 
 /**
  * This is the primary router for your server.
@@ -12,6 +13,7 @@ import { blogsRouter } from './routers/blogs';
 export const appRouter = createTRPCRouter({
   artworks: artworksRouter,
   artists: artistsRouter,
+  styles: stylesRouter,
   exhibitions: exhibitionsRouter,
   blogs: blogsRouter,
 });

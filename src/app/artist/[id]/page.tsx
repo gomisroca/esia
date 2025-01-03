@@ -9,12 +9,11 @@
 
 import { api } from '@/trpc/server';
 import { Suspense } from 'react';
-import { type Artist } from '@prisma/client';
+import { type Artwork, type Artist } from '@prisma/client';
 import LoadingBar from '@/app/_components/ui/LoadingBar';
 import ArtworkList from '@/app/_components/ui/ArtworkList';
 import ErrorPage from '@/app/_components/ErrorPage';
 import Image from 'next/image';
-import { type ArtworkWithArtist } from 'types';
 import Title from '@/app/_components/ui/Title';
 
 /**
@@ -25,7 +24,7 @@ import Title from '@/app/_components/ui/Title';
  * @example
  * <ArtistInfo artist={artist} />
  */
-function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: ArtworkWithArtist[] }>) {
+function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: Artwork[] }>) {
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-2">
@@ -57,15 +56,14 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
 
 export default async function Artist({ params }: Readonly<{ params: { id: string } }>) {
   try {
-    const artist = await api.artists.getInformation({ artistId: params.id });
-    const artworks = await api.artworks.getByArtist({ artistId: params.id });
+    const artist = await api.artists.getUnique({ id: params.id, artworks: true });
     if (!artist) return <ErrorPage message="Failed to load artist or artworks" />;
     return (
       <Suspense fallback={<LoadingBar />}>
         {artist && (
           <>
-            <ArtistInfo artist={artist} artworks={artworks} />
-            <ArtworkList artworks={artworks} artistView={true} />
+            <ArtistInfo artist={artist} artworks={artist.artworks} />
+            <ArtworkList artworks={artist.artworks} artistView={true} />
           </>
         )}
       </Suspense>

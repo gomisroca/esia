@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 async function BlogSingle({ params }: { params: { id: string } }) {
-  const blog = await api.blogs.getUnique(params.id);
+  const blog = await api.blogs.getUnique({ id: params.id });
   if (!blog) return notFound();
   return (
     <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">

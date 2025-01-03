@@ -12,6 +12,7 @@ interface LandingInfiniteListProps {
 function LandingInfiniteList({ initialArtworks }: LandingInfiniteListProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = api.artworks.getAll.useInfiniteQuery(
     {
+      artist: true,
       limit: 6,
     },
     {

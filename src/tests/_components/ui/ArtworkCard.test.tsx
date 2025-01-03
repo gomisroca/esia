@@ -35,7 +35,7 @@ describe('ArtworkCard component', () => {
     fireEvent.mouseOver(screen.getByAltText(mockArtwork.name)); // Simulate hover
 
     expect(screen.getByText(mockArtwork.name)).toBeInTheDocument();
-    expect(screen.getByText(mockArtwork.artist.name)).toBeInTheDocument();
+    expect(screen.getByText(mockArtwork.artist!.name)).toBeInTheDocument();
     expect(screen.getByText(mockArtwork.date!)).toBeInTheDocument();
     expect(screen.getByText(mockArtwork.origin!)).toBeInTheDocument();
     expect(screen.getByText(mockArtwork.medium!)).toBeInTheDocument();

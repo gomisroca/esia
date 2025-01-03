@@ -5,6 +5,23 @@ import uploadImage from '@/utils/uploadImage';
 import { env } from '@/env';
 
 export const blogsRouter = createTRPCRouter({
+  getUnique: publicProcedure
+    .input(
+      z.object({
+        id: z.string(),
+      })
+    )
+    .query(({ ctx, input }) => {
+      try {
+        return ctx.db.blog.findUnique({ where: { id: input.id } });
+      } catch (error) {
+        if (error instanceof TRPCError) {
+          throw error;
+        } else {
+          throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
+        }
+      }
+    }),
   getAll: publicProcedure
     .input(
       z.object({
@@ -41,17 +58,6 @@ export const blogsRouter = createTRPCRouter({
         }
       }
     }),
-  getUnique: publicProcedure.input(z.string()).query(({ ctx, input }) => {
-    try {
-      return ctx.db.blog.findUnique({ where: { id: input } });
-    } catch (error) {
-      if (error instanceof TRPCError) {
-        throw error;
-      } else {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
-      }
-    }
-  }),
   create: protectedProcedure
     .input(
       z.object({

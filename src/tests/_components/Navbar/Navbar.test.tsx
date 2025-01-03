@@ -11,8 +11,8 @@ vi.mock('next/navigation', () => ({
 
 vi.mock('@/trpc/react', () => ({
   api: {
-    artworks: {
-      getStyles: {
+    styles: {
+      getAll: {
         useQuery: vi.fn(),
       },
     },
@@ -47,7 +47,7 @@ describe('Navbar', () => {
       push: mockPush,
     }));
     (usePathname as Mock).mockReturnValue('/');
-    (api.artworks.getStyles.useQuery as jest.Mock).mockReturnValue({
+    (api.styles.getAll.useQuery as jest.Mock).mockReturnValue({
       data: mockStyles,
       isLoading: false,
       isFetching: false,

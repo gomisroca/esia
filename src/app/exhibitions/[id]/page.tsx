@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 
 async function ExhibitionSingle({ params }: { params: { id: string } }) {
-  const exhibition = await api.exhibitions.getUnique(params.id);
+  const exhibition = await api.exhibitions.getUnique({ id: params.id });
   if (!exhibition) return notFound();
   return (
     <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">
