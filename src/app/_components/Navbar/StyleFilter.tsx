@@ -50,14 +50,14 @@ export function FilterDropdown({
   return (
     <Dropdown
       button={{
-        ariaLabel: 'Filter Button',
+        ariaLabel: 'Filter Dropdown',
         text: (
           <LuFilter
-            role="filter-button"
+            role="filter-dropdown"
             className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200"
           />
         ),
-        name: 'filterButton',
+        name: 'filterDropdown',
         className:
           'bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none rounded-r-none md:rounded-md',
       }}
@@ -91,10 +91,11 @@ export function FilterDropdown({
 export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () => void }) {
   return (
     <Button
-      ariaLabel="Clear Filter Button"
-      name="filterOffButton"
+      ariaLabel="Clear Filter"
+      name="clearFilter"
       className="rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none"
       onClick={handleClearFilter}>
+      <span className="sr-only">Clear Filter</span>
       <LuFilterX role="filter-off" className="size-[1.2rem] text-neutral-800 dark:text-neutral-200" />
     </Button>
   );
@@ -104,6 +105,7 @@ function StyleFilterSkeleton() {
   return (
     <div className="z-10 mx-auto flex w-fit flex-col items-center justify-center gap-4">
       <Button className="rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none">
+        <span className="sr-only">Filter Skeleton</span>
         <LuFilter className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200" />
       </Button>
     </div>
@@ -148,8 +150,11 @@ function StyleFilter() {
   }, [pathname]);
 
   // Render a skeleton if the styles are loading or fetching
-  if (isLoading || isFetching || !styles) {
+  if (isLoading || isFetching) {
     return <StyleFilterSkeleton />;
+  }
+  if (!styles || styles.length === 0) {
+    return null;
   }
 
   return (

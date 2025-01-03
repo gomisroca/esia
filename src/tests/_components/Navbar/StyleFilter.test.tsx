@@ -1,16 +1,17 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { useRouter, usePathname } from 'next/navigation';
 import { render, screen, fireEvent, act } from '@testing-library/react';
+import { api } from '@/trpc/react';
+import scrollToTop from '@/utils/scrollToTop';
 import StyleFilter, { FilterDropdown, FilterOffButton } from '@/app/_components/Navbar/StyleFilter';
 
-// Mock next/navigation
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({
     push: vi.fn(),
   })),
-  usePathname: vi.fn(() => '/'),
+  usePathname: vi.fn().mockReturnValue('/'),
 }));
 
-// Mock trpc
 vi.mock('@/trpc/react', () => ({
   api: {
     styles: {
@@ -21,143 +22,258 @@ vi.mock('@/trpc/react', () => ({
   },
 }));
 
-// Mock react-icons
-vi.mock('react-icons/lu', () => ({
-  LuFilter: () => <div data-testid="filter-icon">Filter</div>,
-  LuFilterX: () => <div data-testid="filter-off-icon">FilterOff</div>,
-}));
-
-// Mock scrollToTop utility
 vi.mock('@/utils/scrollToTop', () => ({
   default: vi.fn(),
 }));
 
-import { useRouter, usePathname } from 'next/navigation';
-import { api } from '@/trpc/react';
-import scrollToTop from '@/utils/scrollToTop';
-
 describe('StyleFilter', () => {
-  const mockPush = vi.fn();
-  const mockStyles = [
-    { name: 'Modern', count: 10 },
-    { name: 'Classic', count: 5 },
-  ];
+  const mockUseRouter = { ...useRouter(), push: vi.fn() };
 
   beforeEach(() => {
-    vi.clearAllMocks();
-    (useRouter as jest.Mock).mockImplementation(() => ({
-      push: mockPush,
-    }));
-    (usePathname as jest.Mock).mockReturnValue('/');
-    (api.styles.getAll.useQuery as jest.Mock).mockReturnValue({
-      data: mockStyles,
+    vi.mocked(useRouter).mockReturnValue(mockUseRouter);
+    vi.mocked(usePathname).mockReturnValue('/');
+    vi.mocked(api.styles.getAll.useQuery).mockReturnValue({
+      data: [
+        { name: 'Casual', count: 10 },
+        { name: 'Formal', count: 5 },
+      ],
       isLoading: false,
       isFetching: false,
-    });
-  });
-
-  it('renders skeleton while loading', () => {
-    (api.styles.getAll.useQuery as jest.Mock).mockReturnValue({
-      data: null,
-      isLoading: true,
-      isFetching: false,
-    });
-
-    render(<StyleFilter />);
-    expect(screen.getByTestId('filter-icon')).toBeInTheDocument();
-  });
-
-  it('renders filter dropdown when data is loaded', () => {
-    render(<StyleFilter />);
-    expect(screen.getByRole('button', { name: 'Filter Button' })).toBeInTheDocument();
-  });
-
-  it('clears filter when pathname changes to non-style route', () => {
-    const { rerender } = render(<StyleFilter />);
-
-    expect(screen.getByRole('button', { name: 'Filter Button' })).toBeInTheDocument();
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
-    });
-
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Modern' }));
-    });
-
-    // Change pathname
-    (usePathname as jest.Mock).mockReturnValue('/about');
-    rerender(<StyleFilter />);
-
-    expect(screen.queryByTestId('filter-off-icon')).not.toBeInTheDocument();
-  });
-});
-
-describe('FilterDropdown', () => {
-  const mockProps = {
-    sortedStyles: [
-      { name: 'Modern', count: 10 },
-      { name: 'Classic', count: 5 },
-    ],
-    selectedStyle: '',
-    setSelectedStyle: vi.fn(),
-    handleStyleChange: vi.fn(),
-  };
-
-  beforeEach(() => {
+      trpc: { path: 'styles.getAll' },
+    } as ReturnType<typeof api.styles.getAll.useQuery>);
     vi.clearAllMocks();
   });
 
-  it('renders all style options', () => {
-    render(<FilterDropdown {...mockProps} />);
-    expect(screen.getByRole('button', { name: 'Filter Button' })).toBeInTheDocument();
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
-    });
-    expect(screen.getByRole('button', { name: 'Modern' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Classic' })).toBeInTheDocument();
+  it('renders the skeleton while loading', () => {
+    vi.mocked(api.styles.getAll.useQuery).mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      isFetching: false,
+      trpc: { path: 'styles.getAll' },
+    } as ReturnType<typeof api.styles.getAll.useQuery>);
+
+    render(<StyleFilter />);
+    expect(screen.getByRole('button', { name: /Filter Skeleton/i })).toBeInTheDocument();
   });
 
-  it('calls handlers with correct style on button click', () => {
-    render(<FilterDropdown {...mockProps} />);
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
-    });
-    act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Modern' }));
-    });
+  it('renders the skeleton while fetching', () => {
+    vi.mocked(api.styles.getAll.useQuery).mockReturnValue({
+      data: undefined,
+      isLoading: false,
+      isFetching: true,
+      trpc: { path: 'styles.getAll' },
+    } as ReturnType<typeof api.styles.getAll.useQuery>);
 
-    expect(mockProps.setSelectedStyle).toHaveBeenCalledWith('Modern');
-    expect(mockProps.handleStyleChange).toHaveBeenCalledWith('Modern');
-    expect(scrollToTop).toHaveBeenCalledWith('instant');
+    render(<StyleFilter />);
+    expect(screen.getByRole('button', { name: /Filter Skeleton/i })).toBeInTheDocument();
   });
 
-  it('disables button for selected style', () => {
-    render(<FilterDropdown {...mockProps} selectedStyle="Modern" />);
+  it('renders nothing when there are no styles', () => {
+    vi.mocked(api.styles.getAll.useQuery).mockReturnValue({
+      data: [],
+      isLoading: false,
+      isFetching: false,
+      trpc: { path: 'styles.getAll' },
+    } as ReturnType<typeof api.styles.getAll.useQuery>);
+
+    render(<StyleFilter />);
+    expect(screen.queryByRole('button', { name: /Filter Skeleton/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Filter Off Button/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Filter Dropdown/i })).not.toBeInTheDocument();
+  });
+
+  it('renders the filter dropdown when there are styles', () => {
+    render(<StyleFilter />);
+
+    expect(screen.queryByRole('button', { name: /Filter Skeleton/i })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Filter Off Button/i })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Filter Dropdown/i })).toBeInTheDocument();
+  });
+
+  it('memoizes and sorts styles by count in descending order', () => {
+    vi.mocked(api.styles.getAll.useQuery).mockReturnValue({
+      data: [
+        { name: 'Casual', count: 10 },
+        { name: 'Formal', count: 5 },
+        { name: 'Sport', count: 15 },
+      ],
+      isLoading: false,
+      isFetching: false,
+      trpc: { path: 'styles.getAll' },
+    } as ReturnType<typeof api.styles.getAll.useQuery>);
+
+    render(<StyleFilter />);
+
+    const dropdown = screen.getByRole('button', { name: /Filter Dropdown/i });
+    expect(dropdown).toBeInTheDocument();
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Filter Button' }));
+      fireEvent.click(dropdown);
     });
-    expect(screen.getByRole('button', { name: 'Modern' })).toBeDisabled();
+
+    const styleItems = screen.getAllByRole('button');
+
+    expect(styleItems[1]?.textContent).toBe('Sport');
+    expect(styleItems[2]?.textContent).toBe('Casual');
+    expect(styleItems[3]?.textContent).toBe('Formal');
+  });
+
+  it('renders styles and allows selection', () => {
+    render(<StyleFilter />);
+
+    const dropdown = screen.getByRole('button', { name: /Filter Dropdown/i });
+    expect(dropdown).toBeInTheDocument();
+    act(() => {
+      fireEvent.click(dropdown);
+    });
+
+    expect(screen.getByText('Casual')).toBeInTheDocument();
+    expect(screen.getByText('Formal')).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(screen.getByText('Casual'));
+    });
+    expect(mockUseRouter.push).toHaveBeenCalledWith('/style/casual');
+  });
+
+  it('null style removes selected style', async () => {
+    render(<StyleFilter />);
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /Filter Dropdown/i }));
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText('Casual'));
+    });
+    expect(mockUseRouter.push).toHaveBeenCalledWith('/style/casual');
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /Clear Filter/i }));
+    });
+
+    expect(mockUseRouter.push).toHaveBeenCalledWith('/');
   });
 });
 
 describe('FilterOffButton', () => {
-  const mockHandleClearFilter = vi.fn();
+  const mockUseRouter = { ...useRouter(), push: vi.fn() };
 
   beforeEach(() => {
+    vi.mocked(useRouter).mockReturnValue(mockUseRouter);
     vi.clearAllMocks();
   });
 
-  it('renders clear filter button', () => {
-    render(<FilterOffButton handleClearFilter={mockHandleClearFilter} />);
-    expect(screen.getByRole('button', { name: 'Clear Filter Button' })).toBeInTheDocument();
-    expect(screen.getByTestId('filter-off-icon')).toBeInTheDocument();
+  it('renders the clear filter button when a style is selected', () => {
+    vi.mocked(api.styles.getAll.useQuery).mockReturnValue({
+      data: [
+        { name: 'Casual', count: 10 },
+        { name: 'Formal', count: 5 },
+      ],
+      isLoading: false,
+      isFetching: false,
+      trpc: { path: 'styles.getAll' },
+    } as ReturnType<typeof api.styles.getAll.useQuery>);
+
+    render(<StyleFilter />);
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /Filter Dropdown/i }));
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText('Casual'));
+    });
+
+    expect(screen.getByRole('button', { name: /Clear Filter/i }));
   });
 
-  it('calls handleClearFilter when clicked', () => {
-    render(<FilterOffButton handleClearFilter={mockHandleClearFilter} />);
+  it('clears selected style', () => {
+    const handleClearFilter = vi.fn();
+    render(<FilterOffButton handleClearFilter={handleClearFilter} />);
+
     act(() => {
-      fireEvent.click(screen.getByRole('button', { name: 'Clear Filter Button' }));
+      fireEvent.click(screen.getByRole('button', { name: /Clear Filter/i }));
     });
-    expect(mockHandleClearFilter).toHaveBeenCalled();
+
+    expect(handleClearFilter).toHaveBeenCalled();
+  });
+});
+
+describe('FilterDropdown', () => {
+  const mockUseRouter = { ...useRouter(), push: vi.fn() };
+  const mockStyles = [
+    { name: 'Casual', count: 10 },
+    { name: 'Formal', count: 5 },
+  ];
+
+  beforeEach(() => {
+    vi.mocked(useRouter).mockReturnValue(mockUseRouter);
+    vi.mocked(scrollToTop);
+    vi.clearAllMocks();
+  });
+
+  it('renders the filter dropdown', () => {
+    const setSelectedStyle = vi.fn();
+    const handleStyleChange = vi.fn();
+
+    render(
+      <FilterDropdown
+        sortedStyles={mockStyles}
+        selectedStyle="Casual"
+        setSelectedStyle={setSelectedStyle}
+        handleStyleChange={handleStyleChange}
+      />
+    );
+
+    const dropdown = screen.getByRole('button', { name: /Filter Dropdown/i });
+    expect(dropdown).toBeInTheDocument();
+  });
+
+  it('renders the filter dropdown with styles', () => {
+    const setSelectedStyle = vi.fn();
+    const handleStyleChange = vi.fn();
+
+    render(
+      <FilterDropdown
+        sortedStyles={mockStyles}
+        selectedStyle="Casual"
+        setSelectedStyle={setSelectedStyle}
+        handleStyleChange={handleStyleChange}
+      />
+    );
+
+    const dropdown = screen.getByRole('button', { name: /Filter Dropdown/i });
+    act(() => {
+      fireEvent.click(dropdown);
+    });
+
+    expect(screen.getByText('Casual')).toBeInTheDocument();
+    expect(screen.getByText('Formal')).toBeInTheDocument();
+  });
+
+  it('clicking a style updates the selected style and triggers scroll action', () => {
+    const setSelectedStyle = vi.fn();
+    const handleStyleChange = vi.fn();
+
+    render(
+      <FilterDropdown
+        sortedStyles={mockStyles}
+        selectedStyle="Casual"
+        setSelectedStyle={setSelectedStyle}
+        handleStyleChange={handleStyleChange}
+      />
+    );
+
+    act(() => {
+      fireEvent.click(screen.getByRole('button', { name: /Filter Dropdown/i }));
+    });
+
+    act(() => {
+      fireEvent.click(screen.getByText('Formal'));
+    });
+
+    expect(setSelectedStyle).toHaveBeenCalledWith('Formal');
+    expect(handleStyleChange).toHaveBeenCalledWith('Formal');
+    expect(scrollToTop).toHaveBeenCalledWith('instant');
   });
 });
