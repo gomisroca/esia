@@ -44,6 +44,7 @@
       <ul>
         <li><a href="#procedure-types">Procedure Types</a></li>
         <li><a href="#artworks">Artworks</a></li>
+        <li><a href="#artsyles">Artstyles</a></li>
         <li><a href="#artists">Artists</a></li>
         <li><a href="#blogs">Blogs</a></li>
         <li><a href="#exhibitions">Exhibitions</a></li>
@@ -166,14 +167,22 @@ To get started uploading your own data directly from the website, initialize the
 | --- | --- | --- | --- | --- |
 | QUERY | `getUnique` | Get a unique artwork | ID | Artwork |
 | QUERY | `getAll` | Get paginated artworks | Limit?, Cursor? | Artwork[] |
-| QUERY | `getStyles` | Get all artwork styles | | ArtworkStyle[] |
-| QUERY | `getByStyle` | Get all artworks by style | Style Name | Artwork[]? |
-| QUERY | `getByArtist` | Get all artworks by artist | Artist ID | Artwork[]? |
 | QUERY | `search` | Get all artworks by search query | Search Term | Artwork[]? |
 | CREATE | `create` | Create new artwork | Artwork Data | Artwork |
 | UPDATE | `update` | Update an existing artwork | Artwork Data | Artwork |
 | DELETE | `delete` | Delete an existing artwork | ID | Boolean |
 
+
+</details>
+
+<h3 id="artsyles">💄 Artstyles</h3>
+<details>
+  <summary>Methods and Procedures</summary>
+
+| Procedure | Method | Description | Input | Output |
+| --- | --- | --- | --- | --- |
+| QUERY | `getUnique` | Get all artworks in a style | Name | Artwork[] |
+| QUERY | `getAll` | Get all styles | | Artstyle[] |
 
 </details>
 
@@ -184,7 +193,6 @@ To get started uploading your own data directly from the website, initialize the
 | Procedure | Method | Description | Input | Output |
 | --- | --- | --- | --- | --- |
 | QUERY | `getUnique` | Get a unique artist and their artworks | ID | Artist + Artwork[] |
-| QUERY | `getInformation` | Get simple artist data | ID | Artist |
 | QUERY | `getAll` | Get all artists | | Artist[] |
 | CREATE | `create` | Create new artist entry | Artist Data | Artist |
 | UPDATE | `update` | Update an existing artist | Artist Data | Artist |
