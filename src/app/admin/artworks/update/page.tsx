@@ -5,7 +5,7 @@ import Link from 'next/link';
 import React from 'react';
 
 async function ArtworkUpdateList() {
-  const artworks = await api.artworks.getAll({ limit: null, cursor: null });
+  const artworks = await api.artworks.getAll({ artist: true, limit: null, cursor: null });
 
   return (
     <ProtectedRoute>
