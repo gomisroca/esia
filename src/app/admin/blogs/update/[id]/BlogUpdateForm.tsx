@@ -56,10 +56,13 @@ export default function BlogUpdateForm({ id }: BlogUpdateFormProps) {
     data: blog,
     error: fetchError,
     isLoading,
-  } = api.blogs.getUnique.useQuery(id, {
-    retry: 2,
-    enabled: Boolean(id),
-  });
+  } = api.blogs.getUnique.useQuery(
+    { id },
+    {
+      retry: 2,
+      enabled: Boolean(id),
+    }
+  );
 
   // Update mutation
   const updateBlog = api.blogs.update.useMutation({
