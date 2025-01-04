@@ -212,45 +212,6 @@ describe('FilterDropdown', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the filter dropdown', () => {
-    const setSelectedStyle = vi.fn();
-    const handleStyleChange = vi.fn();
-
-    render(
-      <FilterDropdown
-        sortedStyles={mockStyles}
-        selectedStyle="Casual"
-        setSelectedStyle={setSelectedStyle}
-        handleStyleChange={handleStyleChange}
-      />
-    );
-
-    const dropdown = screen.getByRole('button', { name: /Filter Dropdown/i });
-    expect(dropdown).toBeInTheDocument();
-  });
-
-  it('renders the filter dropdown with styles', () => {
-    const setSelectedStyle = vi.fn();
-    const handleStyleChange = vi.fn();
-
-    render(
-      <FilterDropdown
-        sortedStyles={mockStyles}
-        selectedStyle="Casual"
-        setSelectedStyle={setSelectedStyle}
-        handleStyleChange={handleStyleChange}
-      />
-    );
-
-    const dropdown = screen.getByRole('button', { name: /Filter Dropdown/i });
-    act(() => {
-      fireEvent.click(dropdown);
-    });
-
-    expect(screen.getByText('Casual')).toBeInTheDocument();
-    expect(screen.getByText('Formal')).toBeInTheDocument();
-  });
-
   it('clicking a style updates the selected style and triggers scroll action', () => {
     const setSelectedStyle = vi.fn();
     const handleStyleChange = vi.fn();

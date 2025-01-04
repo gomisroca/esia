@@ -22,12 +22,14 @@ describe('BlogCard component', () => {
     expect(screen.getByTestId('blog-skeleton')).toBeInTheDocument();
   });
 
-  it('displays image after loading', () => {
+  it('displays image after loading', async () => {
     render(<BlogCard blog={mockBlog} />);
     const image = screen.getByAltText(mockBlog.name);
-    act(() => {
+
+    await act(async () => {
       fireEvent.load(image);
     });
+
     expect(image).toBeInTheDocument();
   });
 
