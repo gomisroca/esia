@@ -33,7 +33,7 @@ function LandingInfiniteList({ initialArtworks }: LandingInfiniteListProps) {
   }, [entry, fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <div className="flex flex-col space-y-4">
+    <div className="flex flex-col space-y-4" data-testid="scrollable-container">
       {status === 'pending' ? (
         <h1 className="p-4 text-xl font-bold">Loading...</h1>
       ) : status === 'error' ? (
