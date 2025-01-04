@@ -78,5 +78,9 @@ describe('ArtworkCard component', () => {
       fireEvent.click(card);
     });
     expect(card).toHaveAttribute('data-flipped', 'true');
+    act(() => {
+      fireEvent.click(card);
+    });
+    expect(card).toHaveAttribute('data-flipped', 'false');
   });
 });

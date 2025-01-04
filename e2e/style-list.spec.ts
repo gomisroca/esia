@@ -2,14 +2,14 @@ import { test, expect } from '@playwright/test';
 
 test('renders style list dropdown', async ({ page }) => {
   await page.goto('/');
-  await expect(page.locator('button[name="filterButton"]')).toBeVisible();
+  await expect(page.locator('button[name="filterDropdown"]')).toBeVisible();
 });
 
 test('renders style list options', async ({ page }) => {
   await page.goto('/');
 
   // Click on the style list to trigger the dropdown
-  const filterButton = page.locator('button[name="filterButton"]');
+  const filterButton = page.locator('button[name="filterDropdown"]');
   await filterButton.click();
 
   // Wait for the dropdown and specific options to be available
@@ -21,7 +21,7 @@ test('calls handleStyleChange callback when style is selected', async ({ page })
   await page.goto('/');
 
   // Click on the style list to trigger the dropdown
-  const filterButton = page.locator('button[name="filterButton"]');
+  const filterButton = page.locator('button[name="filterDropdown"]');
   await filterButton.click();
 
   // Select the style
@@ -37,7 +37,7 @@ test('clears selected style when clear button is clicked', async ({ page }) => {
   await page.goto('/');
 
   // Click on the style list to trigger the dropdown
-  const filterButton = page.locator('button[name="filterButton"]');
+  const filterButton = page.locator('button[name="filterDropdown"]');
   await filterButton.click();
 
   // Select the style
@@ -45,7 +45,7 @@ test('clears selected style when clear button is clicked', async ({ page }) => {
   await styleButton.click();
 
   // Click on the 'filter off' button to clear the style
-  const filterOffButton = page.locator('button[name="filterOffButton"]');
+  const filterOffButton = page.locator('button[name="clearFilter"]');
   await filterOffButton.click();
 
   // Check if the style is disabled

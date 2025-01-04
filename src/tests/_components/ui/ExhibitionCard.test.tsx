@@ -4,11 +4,6 @@ import ExhibitionCard from '@/app/_components/ui/ExhibitionCard';
 import { type Exhibition } from '@prisma/client';
 import '@testing-library/jest-dom';
 
-vi.mock('next/image', () => ({
-  // eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text
-  default: (props: React.ImgHTMLAttributes<HTMLImageElement>) => <img {...props} />,
-}));
-
 vi.mock('next/link', () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
 }));
