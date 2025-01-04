@@ -9,7 +9,7 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await expect(artworkList).toContainText('On a Balcony');
 
   // Click on the style list to trigger the dropdown
-  const filterButton = page.locator('button[name="filterButton"]');
+  const filterButton = page.locator('button[name="filterDropdown"]');
   await filterButton.click();
 
   // Select the style
