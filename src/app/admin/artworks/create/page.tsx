@@ -1,6 +1,8 @@
 import React from 'react';
-import ArtworkCreateForm from './ArtworkCreateForm';
+
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
+
+import ArtworkCreateForm from './ArtworkCreateForm';
 
 async function ArtworkCreate() {
   return (

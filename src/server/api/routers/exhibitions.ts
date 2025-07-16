@@ -1,8 +1,10 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
-import uploadImage from '@/utils/uploadImage';
+import { z } from 'zod';
+
 import { env } from '@/env';
+import uploadImage from '@/utils/uploadImage';
+
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const exhibitionsRouter = createTRPCRouter({
   getUnique: publicProcedure

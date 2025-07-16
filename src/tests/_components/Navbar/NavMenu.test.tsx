@@ -1,6 +1,9 @@
-import NavMenu from '@/app/_components/Navbar/NavMenu';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect, vi, type Mock } from 'vitest';
+import { usePathname, useRouter } from 'next/navigation';
+import { describe, expect, it, type Mock, vi } from 'vitest';
+
+import NavMenu from '@/app/_components/Navbar/NavMenu';
+import { api } from '@/trpc/react';
 
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({
@@ -22,9 +25,6 @@ vi.mock('@/trpc/react', () => ({
 vi.mock('@/app/hooks/useDebounce', () => ({
   default: (value: string) => value,
 }));
-
-import { useRouter, usePathname } from 'next/navigation';
-import { api } from '@/trpc/react';
 
 describe('NavMenu', () => {
   const mockPush = vi.fn();

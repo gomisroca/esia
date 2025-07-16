@@ -1,9 +1,10 @@
 'use client';
 
-import Button from '@/app/_components/ui/Button';
-import { api } from '@/trpc/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+
+import Button from '@/app/_components/ui/Button';
+import { api } from '@/trpc/react';
 
 interface ArtistUpdateFormProps {
   id: string;
@@ -195,7 +196,7 @@ export default function ArtistUpdateForm({ id }: ArtistUpdateFormProps) {
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <Button
-        className="bg-red-500 px-4 py-2 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 xl:bg-red-500 xl:dark:bg-red-600"
+        className="bg-red-500 px-4 py-2 hover:bg-red-600 xl:bg-red-500 dark:bg-red-600 dark:hover:bg-red-700 xl:dark:bg-red-600"
         onClick={handleDelete}
         disabled={formState.isDeleting}>
         {formState.isDeleting ? 'Deleting...' : 'Delete'}

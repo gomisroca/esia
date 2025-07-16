@@ -1,5 +1,7 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+import { act, fireEvent, render, screen } from '@testing-library/react';
+
 import BackToTopButton from '@/app/_components/Navbar/BackToTopButton';
 import scrollToTop from '@/utils/scrollToTop';
 

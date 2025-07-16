@@ -1,7 +1,8 @@
-import { describe, it, expect, vi, beforeEach, type Mock } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { api } from '@/trpc/react';
+import { beforeEach, describe, expect, it, type Mock, vi } from 'vitest';
+
 import LandingInfiniteList from '@/app/LandingInfiniteList';
+import { api } from '@/trpc/react';
 
 vi.mock('@/trpc/react', () => ({
   api: {

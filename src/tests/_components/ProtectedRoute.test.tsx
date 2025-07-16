@@ -1,8 +1,9 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { render } from '@testing-library/react';
+import { redirect } from 'next/navigation';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import { getServerAuthSession } from '@/server/auth';
-import { redirect } from 'next/navigation';
-import { render } from '@testing-library/react';
 
 vi.mock('@/server/auth', () => ({
   getServerAuthSession: vi.fn(),

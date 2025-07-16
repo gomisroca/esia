@@ -1,9 +1,11 @@
 'use client';
 
-import { api, type RouterOutputs } from '@/trpc/react';
 import { useIntersection } from '@mantine/hooks';
-import ArtworkCard from './_components/ui/ArtworkCard';
 import { useEffect } from 'react';
+
+import { api, type RouterOutputs } from '@/trpc/react';
+
+import ArtworkCard from './_components/ui/ArtworkCard';
 
 type ArtworkListOutput = RouterOutputs['artworks']['getAll'];
 interface LandingInfiniteListProps {

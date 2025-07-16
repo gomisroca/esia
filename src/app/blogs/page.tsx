@@ -1,8 +1,10 @@
-import { api } from '@/trpc/server';
-import LoadingBar from '../_components/ui/LoadingBar';
 import { Suspense } from 'react';
-import BlogInfiniteList from './BlogInfiniteList';
+
+import { api } from '@/trpc/server';
+
 import ErrorPage from '../_components/ErrorPage';
+import LoadingBar from '../_components/ui/LoadingBar';
+import BlogInfiniteList from './BlogInfiniteList';
 
 export default async function BlogList() {
   const initialBlogs = await api.blogs.getAll({ limit: 6 });

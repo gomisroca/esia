@@ -1,9 +1,11 @@
 'use client';
 
-import { api, type RouterOutputs } from '@/trpc/react';
-import ExhibitionCard from '../_components/ui/ExhibitionCard';
 import { useIntersection } from '@mantine/hooks';
 import { useEffect } from 'react';
+
+import { api, type RouterOutputs } from '@/trpc/react';
+
+import ExhibitionCard from '../_components/ui/ExhibitionCard';
 
 type ExhibitionListOutput = RouterOutputs['exhibitions']['getAll'];
 interface ExhibitionInfiniteListProps {

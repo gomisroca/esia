@@ -1,7 +1,8 @@
-import Title from '@/app/_components/ui/Title';
-import { api } from '@/trpc/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+
+import Title from '@/app/_components/ui/Title';
+import { api } from '@/trpc/server';
 
 async function ExhibitionSingle({ params }: { params: { id: string } }) {
   const exhibition = await api.exhibitions.getUnique({ id: params.id });

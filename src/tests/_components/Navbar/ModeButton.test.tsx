@@ -1,4 +1,6 @@
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { useTheme } from 'next-themes';
+
 import ModeButton from '@/app/_components/Navbar/ModeButton';
 
 vi.mock('next-themes', () => ({
@@ -9,8 +11,6 @@ vi.mock('react-icons/fa6', () => ({
   FaSun: () => <div data-testid="sun-icon">Sun</div>,
   FaMoon: () => <div data-testid="moon-icon">Moon</div>,
 }));
-
-import { useTheme } from 'next-themes';
 
 describe('ModeButton', () => {
   const mockSetTheme = vi.fn();

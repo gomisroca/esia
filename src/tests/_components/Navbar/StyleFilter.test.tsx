@@ -1,9 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { useRouter, usePathname } from 'next/navigation';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { usePathname, useRouter } from 'next/navigation';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import StyleFilter, { FilterDropdown, FilterOffButton } from '@/app/_components/Navbar/StyleFilter';
 import { api } from '@/trpc/react';
 import scrollToTop from '@/utils/scrollToTop';
-import StyleFilter, { FilterDropdown, FilterOffButton } from '@/app/_components/Navbar/StyleFilter';
 
 vi.mock('next/navigation', () => ({
   useRouter: vi.fn(() => ({

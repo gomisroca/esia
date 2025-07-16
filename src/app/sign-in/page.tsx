@@ -1,10 +1,12 @@
 import React from 'react';
-import SignInButton from './SignInButton';
-import { type Provider } from 'types';
 import { FaGoogle } from 'react-icons/fa6';
+import { type Provider } from 'types';
+
 import { getServerAuthSession } from '@/server/auth';
-import SignOutButton from './SignOutButton';
+
 import Title from '../_components/ui/Title';
+import SignInButton from './SignInButton';
+import SignOutButton from './SignOutButton';
 
 const providers: Provider[] = [
   {

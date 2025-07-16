@@ -7,13 +7,15 @@
  * <StyleFilter />
  */
 
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { api } from '@/trpc/react';
 import { LuFilter, LuFilterX } from 'react-icons/lu';
+
+import { api } from '@/trpc/react';
+import scrollToTop from '@/utils/scrollToTop';
+
 import Button from '../ui/Button';
 import Dropdown from '../ui/Dropdown';
-import scrollToTop from '@/utils/scrollToTop';
-import { usePathname, useRouter } from 'next/navigation';
 
 interface Style {
   name: string | null;
@@ -93,7 +95,7 @@ export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () =
     <Button
       ariaLabel="Clear Filter"
       name="clearFilter"
-      className="rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none"
+      className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30"
       onClick={handleClearFilter}>
       <span className="sr-only">Clear Filter</span>
       <LuFilterX role="filter-off" className="size-[1.2rem] text-neutral-800 dark:text-neutral-200" />
@@ -104,7 +106,7 @@ export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () =
 function StyleFilterSkeleton() {
   return (
     <div className="z-10 mx-auto flex w-fit flex-col items-center justify-center gap-4">
-      <Button className="rounded-r-none bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:rounded-md md:bg-transparent md:drop-shadow-none">
+      <Button className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30">
         <span className="sr-only">Filter Skeleton</span>
         <LuFilter className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200" />
       </Button>

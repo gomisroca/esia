@@ -5,11 +5,13 @@
  * <LandingPage />
  */
 
-import LoadingBar from './_components/ui/LoadingBar';
 import { Suspense } from 'react';
-import ErrorPage from './_components/ErrorPage';
-import LandingInfiniteList from './LandingInfiniteList';
+
 import { api } from '@/trpc/server';
+
+import ErrorPage from './_components/ErrorPage';
+import LoadingBar from './_components/ui/LoadingBar';
+import LandingInfiniteList from './LandingInfiniteList';
 
 export default async function LandingPage() {
   const initialArtworks = await api.artworks.getAll({

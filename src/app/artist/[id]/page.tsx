@@ -7,14 +7,15 @@
  * <Artist id="123" />
  */
 
-import { api } from '@/trpc/server';
-import { Suspense } from 'react';
-import { type Artwork, type Artist } from '@prisma/client';
-import LoadingBar from '@/app/_components/ui/LoadingBar';
-import ArtworkList from '@/app/_components/ui/ArtworkList';
-import ErrorPage from '@/app/_components/ErrorPage';
+import { type Artist, type Artwork } from '@prisma/client';
 import Image from 'next/image';
+import { Suspense } from 'react';
+
+import ErrorPage from '@/app/_components/ErrorPage';
+import ArtworkList from '@/app/_components/ui/ArtworkList';
+import LoadingBar from '@/app/_components/ui/LoadingBar';
 import Title from '@/app/_components/ui/Title';
+import { api } from '@/trpc/server';
 
 /**
  * Renders the artist information.

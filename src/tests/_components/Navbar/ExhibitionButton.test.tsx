@@ -1,5 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+import { render, screen } from '@testing-library/react';
+
 import ExhibitionButton from '@/app/_components/Navbar/ExhibitionButton';
 
 describe('ExhibitionButton', () => {

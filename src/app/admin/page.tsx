@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import ProtectedRoute from '../_components/ProtectedRoute';
-import { FaCalendar, FaNewspaper, FaUsers } from 'react-icons/fa6';
 import { FaPaintBrush } from 'react-icons/fa';
+import { FaCalendar, FaNewspaper, FaUsers } from 'react-icons/fa6';
+
+import ProtectedRoute from '../_components/ProtectedRoute';
 
 const AdminDashboard = () => {
   return (

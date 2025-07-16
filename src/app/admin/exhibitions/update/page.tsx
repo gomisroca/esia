@@ -1,8 +1,9 @@
-import ProtectedRoute from '@/app/_components/ProtectedRoute';
-import { api } from '@/trpc/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
+import { api } from '@/trpc/server';
 
 async function ExhibitionUpdateList() {
   const exhibitions = await api.exhibitions.getAll({ limit: null, cursor: null });

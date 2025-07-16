@@ -9,11 +9,12 @@
 
 import '@/styles/globals.css';
 
-import { Arimo } from 'next/font/google';
 import { type Metadata } from 'next';
+import { Arimo } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 
 import { TRPCReactProvider } from '@/trpc/react';
+
 import Navbar from './_components/Navbar';
 
 export const metadata: Metadata = {

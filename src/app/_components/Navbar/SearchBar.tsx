@@ -7,11 +7,13 @@
  * <SearchBar />
  */
 
-import useDebounce from '@/app/hooks/useDebounce';
-import { type ChangeEvent, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Dropdown from '../ui/Dropdown';
+import { type ChangeEvent, useEffect, useState } from 'react';
 import { LuSearch } from 'react-icons/lu';
+
+import useDebounce from '@/app/hooks/useDebounce';
+
+import Dropdown from '../ui/Dropdown';
 
 const SearchBar = () => {
   const router = useRouter();

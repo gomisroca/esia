@@ -1,7 +1,8 @@
-import Title from '@/app/_components/ui/Title';
-import { api } from '@/trpc/server';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
+
+import Title from '@/app/_components/ui/Title';
+import { api } from '@/trpc/server';
 
 async function BlogSingle({ params }: { params: { id: string } }) {
   const blog = await api.blogs.getUnique({ id: params.id });
@@ -16,14 +17,14 @@ async function BlogSingle({ params }: { params: { id: string } }) {
         height={250}
         className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
       />
-      <div className="flex flex-col gap-2 p-2 text-center text-neutral-800 dark:text-neutral-200 md:p-4">
+      <div className="flex flex-col gap-2 p-2 text-center text-neutral-800 md:p-4 dark:text-neutral-200">
         <div>
           <Title>{blog.name}</Title>
 
           <p className="font-bold">{blog.date.toDateString()}</p>
         </div>
         <p
-          className="whitespace-pre-line rounded-md bg-slate-900/10 p-2 text-left md:p-4"
+          className="rounded-md bg-slate-900/10 p-2 text-left whitespace-pre-line md:p-4"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </div>

@@ -7,11 +7,12 @@
  * <Search term="The Bath" />
  */
 
+import { Suspense } from 'react';
+
 import ErrorPage from '@/app/_components/ErrorPage';
 import ArtworkList from '@/app/_components/ui/ArtworkList';
 import LoadingBar from '@/app/_components/ui/LoadingBar';
 import { api } from '@/trpc/server';
-import { Suspense } from 'react';
 
 export default async function Search({ params }: Readonly<{ params: { term: string } }>) {
   try {

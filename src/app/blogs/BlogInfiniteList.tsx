@@ -1,9 +1,11 @@
 'use client';
 
-import { api, type RouterOutputs } from '@/trpc/react';
-import BlogCard from '../_components/ui/BlogCard';
 import { useIntersection } from '@mantine/hooks';
 import { useEffect } from 'react';
+
+import { api, type RouterOutputs } from '@/trpc/react';
+
+import BlogCard from '../_components/ui/BlogCard';
 
 type BlogListOutput = RouterOutputs['blogs']['getAll'];
 interface BlogInfiniteListProps {

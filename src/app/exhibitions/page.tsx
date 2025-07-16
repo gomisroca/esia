@@ -1,8 +1,10 @@
-import { api } from '@/trpc/server';
-import LoadingBar from '../_components/ui/LoadingBar';
 import { Suspense } from 'react';
-import ExhibitionInfiniteList from './ExhibitionInfiniteList';
+
+import { api } from '@/trpc/server';
+
 import ErrorPage from '../_components/ErrorPage';
+import LoadingBar from '../_components/ui/LoadingBar';
+import ExhibitionInfiniteList from './ExhibitionInfiniteList';
 
 export default async function ExhibitionList() {
   const initialExhibitions = await api.exhibitions.getAll({ limit: 6 });
