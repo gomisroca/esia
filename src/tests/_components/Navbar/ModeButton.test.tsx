@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useTheme } from 'next-themes';
+import { vi } from 'vitest';
 
 import ModeButton from '@/app/_components/Navbar/ModeButton';
 

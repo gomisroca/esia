@@ -1,6 +1,7 @@
 import '@testing-library/jest-dom';
 
 import { render, screen } from '@testing-library/react';
+import { vi } from 'vitest';
 
 import RootLayout from '@/app/layout';
 
