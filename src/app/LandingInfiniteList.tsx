@@ -2,6 +2,7 @@
 
 import { useIntersection } from '@mantine/hooks';
 import { useEffect } from 'react';
+import { type ArtworkWithArtist } from 'types';
 
 import { api, type RouterOutputs } from '@/trpc/react';
 
@@ -45,7 +46,7 @@ function LandingInfiniteList({ initialArtworks }: LandingInfiniteListProps) {
         <>
           {data?.pages.map((page, i) => (
             <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list" key={i}>
-              {page.artworks.map((artwork, index) => (
+              {page.artworks.map((artwork: ArtworkWithArtist, index) => (
                 <div key={artwork.id} ref={index === page.artworks.length - 1 ? ref : undefined}>
                   <ArtworkCard artwork={artwork} artistView={false} />
                 </div>
