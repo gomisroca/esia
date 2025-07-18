@@ -55,9 +55,10 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
   );
 }
 
-export default async function Artist({ params }: Readonly<{ params: { id: string } }>) {
+export default async function Artist({ params }: { params: Promise<{ id: string }> }) {
+  const paramsData = await params;
   try {
-    const artist = await api.artists.getUnique({ id: params.id, artworks: true });
+    const artist = await api.artists.getUnique({ id: paramsData.id, artworks: true });
     if (!artist) return <ErrorPage message="Failed to load artist or artworks" />;
     return (
       <Suspense fallback={<LoadingBar />}>

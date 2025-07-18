@@ -14,9 +14,10 @@ import ArtworkList from '@/app/_components/ui/ArtworkList';
 import LoadingBar from '@/app/_components/ui/LoadingBar';
 import { api } from '@/trpc/server';
 
-export default async function Search({ params }: Readonly<{ params: { term: string } }>) {
+export default async function Search({ params }: { params: Promise<{ term: string }> }) {
+  const paramsData = await params;
   try {
-    const encodedTerm = params.term;
+    const encodedTerm = paramsData.term;
     const decodedTerm = decodeURIComponent(encodedTerm);
     const cleanTerm = decodedTerm.replace(/\+/g, ' ');
 

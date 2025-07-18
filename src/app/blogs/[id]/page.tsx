@@ -4,8 +4,9 @@ import { notFound } from 'next/navigation';
 import Title from '@/app/_components/ui/Title';
 import { api } from '@/trpc/server';
 
-async function BlogSingle({ params }: { params: { id: string } }) {
-  const blog = await api.blogs.getUnique({ id: params.id });
+async function BlogSingle({ params }: { params: Promise<{ id: string }> }) {
+  const paramsData = await params;
+  const blog = await api.blogs.getUnique({ id: paramsData.id });
   if (!blog) return notFound();
   return (
     <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">

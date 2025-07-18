@@ -15,9 +15,10 @@ import LoadingBar from '@/app/_components/ui/LoadingBar';
 import Title from '@/app/_components/ui/Title';
 import { api } from '@/trpc/server';
 
-export default async function StyleBasedList({ params }: Readonly<{ params: { name: string } }>) {
+export default async function StyleBasedList({ params }: { params: Promise<{ name: string }> }) {
+  const paramsData = await params;
   try {
-    const encodedStyleName = params.name;
+    const encodedStyleName = paramsData.name;
     const decodedStyleName = decodeURIComponent(encodedStyleName);
     const styleName = decodedStyleName.replace(/\+/g, ' ');
 
