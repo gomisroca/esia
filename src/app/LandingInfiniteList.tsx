@@ -12,16 +12,17 @@ interface LandingInfiniteListProps {
   initialArtworks: ArtworkListOutput;
 }
 function LandingInfiniteList({ initialArtworks }: LandingInfiniteListProps) {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = api.artworks.getAll.useInfiniteQuery(
-    {
-      artist: true,
-      limit: 6,
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-      initialData: { pages: [initialArtworks], pageParams: [undefined] },
-    }
-  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, fetchStatus, status } =
+    api.artworks.getAll.useInfiniteQuery(
+      {
+        artist: true,
+        limit: 6,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        initialData: { pages: [initialArtworks], pageParams: [undefined] },
+      }
+    );
 
   const { ref, entry } = useIntersection({
     root: null,
@@ -36,7 +37,7 @@ function LandingInfiniteList({ initialArtworks }: LandingInfiniteListProps) {
 
   return (
     <div className="flex flex-col space-y-4" data-testid="scrollable-container">
-      {status === 'pending' ? (
+      {fetchStatus === 'fetching' ? (
         <h1 className="p-4 text-xl font-bold">Loading...</h1>
       ) : status === 'error' ? (
         <h1 className="p-4 text-xl font-bold">Error fetching posts</h1>

@@ -12,15 +12,16 @@ interface ExhibitionInfiniteListProps {
   initialExhibitions: ExhibitionListOutput;
 }
 export default function ExhibitionInfiniteList({ initialExhibitions }: ExhibitionInfiniteListProps) {
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } = api.exhibitions.getAll.useInfiniteQuery(
-    {
-      limit: 6,
-    },
-    {
-      getNextPageParam: (lastPage) => lastPage.nextCursor,
-      initialData: { pages: [initialExhibitions], pageParams: [undefined] },
-    }
-  );
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, fetchStatus, status } =
+    api.exhibitions.getAll.useInfiniteQuery(
+      {
+        limit: 6,
+      },
+      {
+        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        initialData: { pages: [initialExhibitions], pageParams: [undefined] },
+      }
+    );
 
   const { ref, entry } = useIntersection({
     root: null,
@@ -35,7 +36,7 @@ export default function ExhibitionInfiniteList({ initialExhibitions }: Exhibitio
 
   return (
     <div className="flex flex-col space-y-4">
-      {status === 'pending' ? (
+      {fetchStatus === 'fetching' ? (
         <h1 className="p-4 text-xl font-bold">Loading...</h1>
       ) : status === 'error' ? (
         <h1 className="p-4 text-xl font-bold">Error fetching posts</h1>
