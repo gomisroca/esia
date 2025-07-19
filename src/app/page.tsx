@@ -5,26 +5,22 @@
  * <LandingPage />
  */
 
-import { Suspense } from 'react';
-
 import { api } from '@/trpc/server';
 
-import ErrorPage from './_components/ErrorPage';
-import LoadingBar from './_components/ui/LoadingBar';
-import LandingInfiniteList from './LandingInfiniteList';
+import ArtworkCard from './_components/ui/ArtworkCard';
 
 export default async function LandingPage() {
-  const initialArtworks = await api.artworks.getAll({
+  const artworks = await api.artworks.getAll({
     artist: true,
-    limit: 6,
   });
-  try {
-    return (
-      <Suspense fallback={<LoadingBar />}>
-        <LandingInfiniteList initialArtworks={initialArtworks} />
-      </Suspense>
-    );
-  } catch (_error: unknown) {
-    return <ErrorPage message="Failed to load artworks" />;
-  }
+
+  return (
+    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
+      {artworks.map((artwork) => (
+        <div key={artwork.id}>
+          <ArtworkCard artwork={artwork} artistView={false} />
+        </div>
+      ))}
+    </div>
+  );
 }

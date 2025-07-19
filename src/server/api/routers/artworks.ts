@@ -34,34 +34,18 @@ export const artworksRouter = createTRPCRouter({
   getAll: publicProcedure
     .input(
       z.object({
-        limit: z.number().min(1).max(100).nullish(),
-        cursor: z.string().nullish(),
         artist: z.boolean().optional().default(false),
       })
     )
     .query(async ({ ctx, input }) => {
       try {
-        const limit = input.limit ?? 10;
-        const { cursor } = input;
         const artworks = await ctx.db.artwork.findMany({
-          take: limit + 1,
-          cursor: cursor ? { id: cursor } : undefined,
           include: {
             artist: input.artist,
           },
         });
 
-        let nextCursor: typeof cursor | undefined = undefined;
-
-        if (artworks.length > limit) {
-          const nextArtwork = artworks.pop();
-          nextCursor = nextArtwork!.id;
-        }
-
-        return {
-          artworks,
-          nextCursor,
-        };
+        return artworks;
       } catch (error) {
         if (error instanceof TRPCError) {
           throw error;

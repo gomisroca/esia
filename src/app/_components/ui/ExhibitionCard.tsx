@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import React, { memo, useState } from 'react';
 import Title from './Title';
-import { type Exhibition } from '@prisma/client';
+import { type Exhibition } from 'generated/prisma';
 import Link from 'next/link';
 
 function ExhibitionSkeleton() {

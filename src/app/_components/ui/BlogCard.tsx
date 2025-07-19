@@ -1,6 +1,6 @@
 'use client';
 
-import { type Blog } from '@prisma/client';
+import { type Blog } from 'generated/prisma';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo, useState } from 'react';

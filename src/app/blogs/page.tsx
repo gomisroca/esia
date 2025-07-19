@@ -1,20 +1,17 @@
-import { Suspense } from 'react';
-
 import { api } from '@/trpc/server';
 
-import ErrorPage from '../_components/ErrorPage';
-import LoadingBar from '../_components/ui/LoadingBar';
-import BlogInfiniteList from './BlogInfiniteList';
+import BlogCard from '../_components/ui/BlogCard';
 
 export default async function BlogList() {
-  const initialBlogs = await api.blogs.getAll({ limit: 6 });
-  try {
-    return (
-      <Suspense fallback={<LoadingBar />}>
-        <BlogInfiniteList initialBlogs={initialBlogs} />
-      </Suspense>
-    );
-  } catch (_error: unknown) {
-    return <ErrorPage message="Failed to load blogs" />;
-  }
+  const blogs = await api.blogs.getAll();
+
+  return (
+    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
+      {blogs.map((blog) => (
+        <div key={blog.id}>
+          <BlogCard blog={blog} />
+        </div>
+      ))}
+    </div>
+  );
 }
