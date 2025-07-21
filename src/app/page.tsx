@@ -1,26 +1,28 @@
+'use client';
+
 /**
- * Renders a list of artworks with infinite scrolling.
+ * Renders a list of artworks.
  *
  * @example
  * <LandingPage />
  */
 
-import { api } from '@/trpc/server';
+import { api } from '@/trpc/react';
 
 import ArtworkCard from './_components/ui/ArtworkCard';
+import { VirtualGrid } from './_components/ui/VirtualGrid';
 
-export default async function LandingPage() {
-  const artworks = await api.artworks.getAll({
-    artist: true,
-  });
+export default function LandingPage() {
+  const { data: artworks, isLoading } = api.artworks.getAll.useQuery({ artist: true });
+
+  if (isLoading || !artworks) return <p>Loading...</p>;
 
   return (
-    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
-      {artworks.map((artwork) => (
-        <div key={artwork.id}>
-          <ArtworkCard artwork={artwork} artistView={false} />
-        </div>
-      ))}
-    </div>
+    <VirtualGrid
+      items={artworks}
+      columnCount={3}
+      estimateHeight={725}
+      renderItem={(artwork) => <ArtworkCard artwork={artwork} artistView={false} />}
+    />
   );
 }
