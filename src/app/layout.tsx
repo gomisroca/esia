@@ -26,7 +26,7 @@ const arimo = Arimo({ subsets: ['latin'] });
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={arimo.className}>
+    <html lang="en" className={arimo.className} suppressHydrationWarning>
       <body>
         <ThemeProvider attribute="class">
           <TRPCReactProvider>
