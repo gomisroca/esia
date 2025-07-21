@@ -1,14 +1,14 @@
 'use client';
 
-import React from 'react';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { ReactNode } from 'react';
 
 interface VirtualGridProps<T> {
   items: T[];
   estimateHeight?: number;
   columnCount?: number;
   overscan?: number;
-  renderItem: (item: T, index: number) => React.ReactNode;
+  renderItem: (item: T, index: number) => ReactNode;
 }
 
 export function VirtualGrid<T>({
