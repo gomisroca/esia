@@ -1,17 +1,22 @@
-import { api } from '@/trpc/server';
+'use client';
+
+import { api } from '@/trpc/react';
 
 import ExhibitionCard from '../_components/ui/ExhibitionCard';
+import LoadingBar from '../_components/ui/LoadingBar';
+import { VirtualGrid } from '../_components/ui/VirtualGrid';
 
-export default async function ExhibitionList() {
-  const exhibitions = await api.exhibitions.getAll();
+export default function ExhibitionList() {
+  const { data: exhibitions, isLoading } = api.exhibitions.getAll.useQuery();
+
+  if (isLoading || !exhibitions) return <LoadingBar />;
 
   return (
-    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
-      {exhibitions.map((exhibition) => (
-        <div key={exhibition.id}>
-          <ExhibitionCard exhibition={exhibition} />
-        </div>
-      ))}
-    </div>
+    <VirtualGrid
+      items={exhibitions}
+      columnCount={3}
+      estimateHeight={725}
+      renderItem={(exhibition) => <ExhibitionCard exhibition={exhibition} />}
+    />
   );
 }
