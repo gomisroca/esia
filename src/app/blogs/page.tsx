@@ -1,17 +1,17 @@
-import { api } from '@/trpc/server';
+'use client';
+
+import { api } from '@/trpc/react';
 
 import BlogCard from '../_components/ui/BlogCard';
+import LoadingBar from '../_components/ui/LoadingBar';
+import { VirtualGrid } from '../_components/ui/VirtualGrid';
 
-export default async function BlogList() {
-  const blogs = await api.blogs.getAll();
+export default function BlogList() {
+  const { data: blogs, isLoading } = api.blogs.getAll.useQuery();
+
+  if (isLoading || !blogs) return <LoadingBar />;
 
   return (
-    <div className="mx-auto flex w-full flex-wrap items-center justify-center gap-2" role="list">
-      {blogs.map((blog) => (
-        <div key={blog.id}>
-          <BlogCard blog={blog} />
-        </div>
-      ))}
-    </div>
+    <VirtualGrid items={blogs} columnCount={3} estimateHeight={725} renderItem={(blog) => <BlogCard blog={blog} />} />
   );
 }
