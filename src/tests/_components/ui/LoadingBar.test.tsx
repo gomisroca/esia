@@ -1,5 +1,7 @@
 import '@testing-library/jest-dom';
+
 import { render, screen } from '@testing-library/react';
+
 import LoadingBar from '@/app/_components/ui/LoadingBar';
 
 describe('LoadingBar component', () => {

@@ -1,28 +1,29 @@
+'use client';
+
 /**
- * Renders a list of artworks with infinite scrolling.
+ * Renders a list of artworks.
  *
  * @example
  * <LandingPage />
  */
 
-import LoadingBar from './_components/ui/LoadingBar';
-import { Suspense } from 'react';
-import ErrorPage from './_components/ErrorPage';
-import LandingInfiniteList from './LandingInfiniteList';
-import { api } from '@/trpc/server';
+import { api } from '@/trpc/react';
 
-export default async function LandingPage() {
-  const initialArtworks = await api.artworks.getAll({
-    artist: true,
-    limit: 6,
-  });
-  try {
-    return (
-      <Suspense fallback={<LoadingBar />}>
-        <LandingInfiniteList initialArtworks={initialArtworks} />
-      </Suspense>
-    );
-  } catch (_error: unknown) {
-    return <ErrorPage message="Failed to load artworks" />;
-  }
+import ArtworkCard from './_components/ui/ArtworkCard';
+import LoadingBar from './_components/ui/LoadingBar';
+import { VirtualGrid } from './_components/ui/VirtualGrid';
+
+export default function LandingPage() {
+  const { data: artworks, isLoading } = api.artworks.getAll.useQuery({ artist: true });
+
+  if (isLoading || !artworks) return <LoadingBar />;
+
+  return (
+    <VirtualGrid
+      items={artworks}
+      columnCount={3}
+      estimateHeight={725}
+      renderItem={(artwork) => <ArtworkCard artwork={artwork} artistView={false} />}
+    />
+  );
 }

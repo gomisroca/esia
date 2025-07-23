@@ -1,8 +1,10 @@
 import '@testing-library/jest-dom';
+
 import { render, screen } from '@testing-library/react';
 import { vi } from 'vitest';
-import { getServerAuthSession } from '@/server/auth';
+
 import SignIn from '@/app/sign-in/page';
+import { getServerAuthSession } from '@/server/auth';
 
 vi.mock('@/server/auth', () => ({
   getServerAuthSession: vi.fn(),

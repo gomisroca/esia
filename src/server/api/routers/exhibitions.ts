@@ -1,8 +1,10 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
-import uploadImage from '@/utils/uploadImage';
+import { z } from 'zod';
+
 import { env } from '@/env';
+import uploadImage from '@/utils/uploadImage';
+
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const exhibitionsRouter = createTRPCRouter({
   getUnique: publicProcedure
@@ -22,42 +24,21 @@ export const exhibitionsRouter = createTRPCRouter({
         }
       }
     }),
-  getAll: publicProcedure
-    .input(
-      z.object({
-        limit: z.number().min(1).max(100).nullish(),
-        cursor: z.string().nullish(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      try {
-        const limit = input.limit ?? 10;
-        const { cursor } = input;
-        const exhibitions = await ctx.db.exhibition.findMany({
-          take: limit + 1,
-          cursor: cursor ? { id: cursor } : undefined,
-          orderBy: { start: 'desc' },
-        });
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const exhibitions = await ctx.db.exhibition.findMany({
+        orderBy: { start: 'desc' },
+      });
 
-        let nextCursor: typeof cursor | undefined = undefined;
-
-        if (exhibitions.length > limit) {
-          const nextExhibition = exhibitions.pop();
-          nextCursor = nextExhibition!.id;
-        }
-
-        return {
-          exhibitions,
-          nextCursor,
-        };
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Exhibitions not found' });
-        }
+      return exhibitions;
+    } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error;
+      } else {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Exhibitions not found' });
       }
-    }),
+    }
+  }),
   create: protectedProcedure
     .input(
       z.object({

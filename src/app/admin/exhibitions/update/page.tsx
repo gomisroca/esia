@@ -1,16 +1,17 @@
-import ProtectedRoute from '@/app/_components/ProtectedRoute';
-import { api } from '@/trpc/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
+import { api } from '@/trpc/server';
+
 async function ExhibitionUpdateList() {
-  const exhibitions = await api.exhibitions.getAll({ limit: null, cursor: null });
+  const exhibitions = await api.exhibitions.getAll();
 
   return (
     <ProtectedRoute>
       <div className="flex flex-col gap-4">
-        {exhibitions.exhibitions.map((exhibition) => (
+        {exhibitions.map((exhibition) => (
           <Link
             key={exhibition.id}
             href={`/admin/exhibitions/update/${exhibition.id}`}

@@ -1,16 +1,17 @@
-import ProtectedRoute from '@/app/_components/ProtectedRoute';
-import { api } from '@/trpc/server';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
 
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
+import { api } from '@/trpc/server';
+
 async function ArtworkUpdateList() {
-  const artworks = await api.artworks.getAll({ artist: true, limit: null, cursor: null });
+  const artworks = await api.artworks.getAll({ artist: true });
 
   return (
     <ProtectedRoute>
       <div className="flex flex-col gap-4">
-        {artworks.artworks.map((artwork) => (
+        {artworks.map((artwork) => (
           <Link
             key={artwork.id}
             href={`/admin/artworks/update/${artwork.id}`}

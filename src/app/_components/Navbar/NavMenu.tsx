@@ -1,15 +1,15 @@
+import BlogButton from './BlogButton';
+import ExhibitionButton from './ExhibitionButton';
 import ModeButton from './ModeButton';
 import SearchBar from './SearchBar';
 import StyleFilter from './StyleFilter';
-import ExhibitionButton from './ExhibitionButton';
-import BlogButton from './BlogButton';
 
 function NavMenu() {
   return (
     <div
       data-testid="nav-menu"
       role="navigation"
-      className="pointer-events-auto absolute right-0 top-2 flex flex-col items-center justify-center gap-4 md:right-4 md:top-4">
+      className="pointer-events-auto absolute top-2 right-0 flex flex-col items-center justify-center gap-4 md:top-4 md:right-4">
       <SearchBar />
       <StyleFilter />
       <ExhibitionButton />

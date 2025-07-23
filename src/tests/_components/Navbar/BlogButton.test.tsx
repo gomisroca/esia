@@ -1,5 +1,7 @@
-import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+
+import { render, screen } from '@testing-library/react';
+
 import BlogButton from '@/app/_components/Navbar/BlogButton';
 
 describe('BlogButton', () => {

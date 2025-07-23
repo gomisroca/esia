@@ -1,6 +1,8 @@
+import { redirect } from 'next/navigation';
+
 import { env } from '@/env';
 import { getServerAuthSession } from '@/server/auth';
-import { redirect } from 'next/navigation';
+
 import ErrorPage from './ErrorPage';
 
 export default async function ProtectedRoute({ children }: { children: React.ReactNode }) {

@@ -1,18 +1,22 @@
-import { api } from '@/trpc/server';
-import LoadingBar from '../_components/ui/LoadingBar';
-import { Suspense } from 'react';
-import ExhibitionInfiniteList from './ExhibitionInfiniteList';
-import ErrorPage from '../_components/ErrorPage';
+'use client';
 
-export default async function ExhibitionList() {
-  const initialExhibitions = await api.exhibitions.getAll({ limit: 6 });
-  try {
-    return (
-      <Suspense fallback={<LoadingBar />}>
-        <ExhibitionInfiniteList initialExhibitions={initialExhibitions} />
-      </Suspense>
-    );
-  } catch (_error: unknown) {
-    return <ErrorPage message="Failed to load exhibitions" />;
-  }
+import { api } from '@/trpc/react';
+
+import ExhibitionCard from '../_components/ui/ExhibitionCard';
+import LoadingBar from '../_components/ui/LoadingBar';
+import { VirtualGrid } from '../_components/ui/VirtualGrid';
+
+export default function ExhibitionList() {
+  const { data: exhibitions, isLoading } = api.exhibitions.getAll.useQuery();
+
+  if (isLoading || !exhibitions) return <LoadingBar />;
+
+  return (
+    <VirtualGrid
+      items={exhibitions}
+      columnCount={3}
+      estimateHeight={725}
+      renderItem={(exhibition) => <ExhibitionCard exhibition={exhibition} />}
+    />
+  );
 }

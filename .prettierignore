@@ -8,7 +8,7 @@ tsconfig.app.json
 dist/
 coverage/
 node_modules/
-src/components/ui/
+src/app/_components/ui/
 README.md
 .eslintrc.cjs
 .github/
@@ -20,3 +20,5 @@ README.md
 .eslintignore
 .env.example
 prisma/
+public/
+generated/

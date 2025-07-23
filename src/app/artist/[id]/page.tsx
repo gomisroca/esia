@@ -7,14 +7,15 @@
  * <Artist id="123" />
  */
 
-import { api } from '@/trpc/server';
-import { Suspense } from 'react';
-import { type Artwork, type Artist } from '@prisma/client';
-import LoadingBar from '@/app/_components/ui/LoadingBar';
-import ArtworkList from '@/app/_components/ui/ArtworkList';
-import ErrorPage from '@/app/_components/ErrorPage';
+import { type Artist, type Artwork } from 'generated/prisma';
 import Image from 'next/image';
+import { Suspense } from 'react';
+
+import ErrorPage from '@/app/_components/ErrorPage';
+import ArtworkList from '@/app/_components/ui/ArtworkList';
+import LoadingBar from '@/app/_components/ui/LoadingBar';
 import Title from '@/app/_components/ui/Title';
+import { api } from '@/trpc/server';
 
 /**
  * Renders the artist information.
@@ -54,9 +55,10 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
   );
 }
 
-export default async function Artist({ params }: Readonly<{ params: { id: string } }>) {
+export default async function Artist({ params }: { params: Promise<{ id: string }> }) {
+  const paramsData = await params;
   try {
-    const artist = await api.artists.getUnique({ id: params.id, artworks: true });
+    const artist = await api.artists.getUnique({ id: paramsData.id, artworks: true });
     if (!artist) return <ErrorPage message="Failed to load artist or artworks" />;
     return (
       <Suspense fallback={<LoadingBar />}>

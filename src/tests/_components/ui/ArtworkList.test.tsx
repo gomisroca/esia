@@ -1,7 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { expect } from 'vitest';
-import ArtworkList from '@/app/_components/ui/ArtworkList';
 import { type ArtworkWithArtist } from 'types';
+import { expect } from 'vitest';
+
+import ArtworkList from '@/app/_components/ui/ArtworkList';
 
 describe('ArtworkList component', () => {
   const mockArtworks: ArtworkWithArtist[] = [

@@ -1,8 +1,10 @@
-import { z } from 'zod';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 import { TRPCError } from '@trpc/server';
-import uploadImage from '@/utils/uploadImage';
+import { z } from 'zod';
+
 import { env } from '@/env';
+import uploadImage from '@/utils/uploadImage';
+
+import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 
 export const blogsRouter = createTRPCRouter({
   getUnique: publicProcedure
@@ -22,42 +24,21 @@ export const blogsRouter = createTRPCRouter({
         }
       }
     }),
-  getAll: publicProcedure
-    .input(
-      z.object({
-        limit: z.number().min(1).max(100).nullish(),
-        cursor: z.string().nullish(),
-      })
-    )
-    .query(async ({ ctx, input }) => {
-      try {
-        const limit = input.limit ?? 10;
-        const { cursor } = input;
-        const blogs = await ctx.db.blog.findMany({
-          take: limit + 1,
-          cursor: cursor ? { id: cursor } : undefined,
-          orderBy: { date: 'desc' },
-        });
+  getAll: publicProcedure.query(async ({ ctx }) => {
+    try {
+      const blogs = await ctx.db.blog.findMany({
+        orderBy: { date: 'desc' },
+      });
 
-        let nextCursor: typeof cursor | undefined = undefined;
-
-        if (blogs.length > limit) {
-          const nextBlog = blogs.pop();
-          nextCursor = nextBlog!.id;
-        }
-
-        return {
-          blogs,
-          nextCursor,
-        };
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Blogs not found' });
-        }
+      return blogs;
+    } catch (error) {
+      if (error instanceof TRPCError) {
+        throw error;
+      } else {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Blogs not found' });
       }
-    }),
+    }
+  }),
   create: protectedProcedure
     .input(
       z.object({

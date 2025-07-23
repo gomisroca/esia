@@ -1,5 +1,6 @@
-import Title from '@/app/_components/ui/Title';
 import { render, screen } from '@testing-library/react';
+
+import Title from '@/app/_components/ui/Title';
 
 describe('Title', () => {
   it('renders the title with the correct text', () => {

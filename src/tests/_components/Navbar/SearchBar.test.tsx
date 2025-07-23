@@ -1,6 +1,7 @@
-import { describe, it, expect, vi, type Mock } from 'vitest';
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { useRouter } from 'next/navigation';
+import { describe, expect, it, type Mock, vi } from 'vitest';
+
 import SearchBar from '@/app/_components/Navbar/SearchBar';
 
 vi.mock('next/navigation', () => ({

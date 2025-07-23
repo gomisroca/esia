@@ -1,8 +1,10 @@
-import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
-import { describe, it, expect, vi } from 'vitest';
-import ExhibitionCard from '@/app/_components/ui/ExhibitionCard';
-import { type Exhibition } from '@prisma/client';
 import '@testing-library/jest-dom';
+
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { type Exhibition } from 'generated/prisma';
+import { describe, expect, it, vi } from 'vitest';
+
+import ExhibitionCard from '@/app/_components/ui/ExhibitionCard';
 
 vi.mock('next/link', () => ({
   default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,

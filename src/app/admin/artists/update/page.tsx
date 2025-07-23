@@ -1,7 +1,8 @@
-import ProtectedRoute from '@/app/_components/ProtectedRoute';
-import { api } from '@/trpc/server';
 import Link from 'next/link';
 import React from 'react';
+
+import ProtectedRoute from '@/app/_components/ProtectedRoute';
+import { api } from '@/trpc/server';
 
 async function ArtistUpdateList() {
   const artists = await api.artists.getAll({});

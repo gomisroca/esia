@@ -1,18 +1,17 @@
-import { api } from '@/trpc/server';
-import LoadingBar from '../_components/ui/LoadingBar';
-import { Suspense } from 'react';
-import BlogInfiniteList from './BlogInfiniteList';
-import ErrorPage from '../_components/ErrorPage';
+'use client';
 
-export default async function BlogList() {
-  const initialBlogs = await api.blogs.getAll({ limit: 6 });
-  try {
-    return (
-      <Suspense fallback={<LoadingBar />}>
-        <BlogInfiniteList initialBlogs={initialBlogs} />
-      </Suspense>
-    );
-  } catch (_error: unknown) {
-    return <ErrorPage message="Failed to load blogs" />;
-  }
+import { api } from '@/trpc/react';
+
+import BlogCard from '../_components/ui/BlogCard';
+import LoadingBar from '../_components/ui/LoadingBar';
+import { VirtualGrid } from '../_components/ui/VirtualGrid';
+
+export default function BlogList() {
+  const { data: blogs, isLoading } = api.blogs.getAll.useQuery();
+
+  if (isLoading || !blogs) return <LoadingBar />;
+
+  return (
+    <VirtualGrid items={blogs} columnCount={3} estimateHeight={725} renderItem={(blog) => <BlogCard blog={blog} />} />
+  );
 }

@@ -1,7 +1,9 @@
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent, act } from '@testing-library/react';
+
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { type Blog } from 'generated/prisma';
+
 import BlogCard from '@/app/_components/ui/BlogCard';
-import { type Blog } from '@prisma/client';
 
 const mockBlog: Blog = {
   id: '1',

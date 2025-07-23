@@ -1,11 +1,14 @@
 import React from 'react';
-import ArtworkUpdateForm from './ArtworkUpdateForm';
+
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
 
-async function ArtworkUpdate({ params }: { params: { id: string } }) {
+import ArtworkUpdateForm from './ArtworkUpdateForm';
+
+async function ArtworkUpdate({ params }: { params: Promise<{ id: string }> }) {
+  const paramsData = await params;
   return (
     <ProtectedRoute>
-      <ArtworkUpdateForm id={params.id} />
+      <ArtworkUpdateForm id={paramsData.id} />
     </ProtectedRoute>
   );
 }

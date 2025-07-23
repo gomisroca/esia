@@ -1,8 +1,10 @@
 // SignInButton.test.tsx
 import '@testing-library/jest-dom';
-import { render, screen, fireEvent } from '@testing-library/react';
-import { vi } from 'vitest';
+
+import { fireEvent, render, screen } from '@testing-library/react';
 import { signIn } from 'next-auth/react';
+import { vi } from 'vitest';
+
 import SignInButton from '../../app/sign-in/SignInButton';
 
 vi.mock('next-auth/react', () => ({

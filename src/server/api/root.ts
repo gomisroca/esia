@@ -1,8 +1,9 @@
 import { createCallerFactory, createTRPCRouter } from '@/server/api/trpc';
-import { artworksRouter } from './routers/artworks';
+
 import { artistsRouter } from './routers/artists';
-import { exhibitionsRouter } from './routers/exhibitions';
+import { artworksRouter } from './routers/artworks';
 import { blogsRouter } from './routers/blogs';
+import { exhibitionsRouter } from './routers/exhibitions';
 import { stylesRouter } from './routers/styles';
 
 /**
