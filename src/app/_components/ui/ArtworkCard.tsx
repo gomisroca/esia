@@ -58,7 +58,7 @@ function ArtworkCardContent({ artwork, artistView = false }: ArtworkCardProps) {
 
       {/* Overlay on hover/click */}
       <div
-        className={`absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
+        className={`absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
         <div className="min-h-2/3 m-4 w-full rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
           <Title className="mb-2">{artwork.name}</Title>
           {!artistView && artwork.artist && (
