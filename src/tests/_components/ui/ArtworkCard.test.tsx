@@ -52,7 +52,7 @@ describe('ArtworkCard component', () => {
 
   it('shows skeleton while image is loading and hides it after image loads', async () => {
     render(<ArtworkCard artwork={mockArtwork} />);
-    const skeleton = screen.getByTestId('artwork-skeleton');
+    const skeleton = screen.getByTestId('card-skeleton');
     expect(skeleton).toBeInTheDocument(); // Ensure skeleton is shown initially
 
     const image = screen.getByAltText(mockArtwork.name);
@@ -75,7 +75,7 @@ describe('ArtworkCard component', () => {
 
   it('flips the card on click', () => {
     render(<ArtworkCard artwork={mockArtwork} />);
-    const card = screen.getByTestId('artwork-card');
+    const card = screen.getByTestId('card');
     act(() => {
       fireEvent.click(card);
     });
