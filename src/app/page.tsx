@@ -23,7 +23,7 @@ export default function LandingPage() {
       items={artworks}
       columnCount={3}
       estimateHeight={725}
-      renderItem={(artwork) => <ArtworkCard artwork={artwork} artistView={false} />}
+      renderItem={(artwork) => <ArtworkCard artwork={artwork} />}
     />
   );
 }

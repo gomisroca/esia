@@ -65,7 +65,7 @@ export default async function Artist({ params }: { params: Promise<{ id: string 
         {artist && (
           <>
             <ArtistInfo artist={artist} artworks={artist.artworks} />
-            <ArtworkList artworks={artist.artworks} artistView={true} />
+            <ArtworkList artworks={artist.artworks} />
           </>
         )}
       </Suspense>
