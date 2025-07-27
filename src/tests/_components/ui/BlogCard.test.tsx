@@ -16,12 +16,12 @@ const mockBlog: Blog = {
 describe('BlogCard component', () => {
   it('renders correctly', () => {
     render(<BlogCard blog={mockBlog} />);
-    expect(screen.getByTestId('exhibition-card')).toBeInTheDocument();
+    expect(screen.getByTestId('card')).toBeInTheDocument();
   });
 
   it('displays BlogSkeleton while image is loading', () => {
     render(<BlogCard blog={mockBlog} />);
-    expect(screen.getByTestId('blog-skeleton')).toBeInTheDocument();
+    expect(screen.getByTestId('card-skeleton')).toBeInTheDocument();
   });
 
   it('displays image after loading', async () => {

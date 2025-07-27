@@ -22,7 +22,7 @@ const mockExhibition: Exhibition = {
 describe('ExhibitionCard Component', () => {
   it('renders the skeleton while the image is loading', () => {
     render(<ExhibitionCard exhibition={mockExhibition} />);
-    expect(screen.getByTestId('exhibition-skeleton')).toBeInTheDocument();
+    expect(screen.getByTestId('card-skeleton')).toBeInTheDocument();
   });
 
   it('renders the image and hides the skeleton after loading', async () => {
@@ -37,7 +37,7 @@ describe('ExhibitionCard Component', () => {
     });
 
     await waitFor(() => {
-      const skeleton = screen.queryByTestId('exhibition-skeleton');
+      const skeleton = screen.queryByTestId('card-skeleton');
       expect(skeleton).toBeNull();
     });
   });
