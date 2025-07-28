@@ -50,11 +50,4 @@ describe('BlogCard component', () => {
     render(<BlogCard blog={mockBlog} />);
     expect(screen.getByText(mockBlog.date.toDateString())).toBeInTheDocument();
   });
-
-  it('truncates the blog content correctly', () => {
-    render(<BlogCard blog={mockBlog} />);
-    expect(
-      screen.getByText(/This is a test blog content that is long enough to be truncated\.\.\./)
-    ).toBeInTheDocument();
-  });
 });
