@@ -1,12 +1,11 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('artwork list changes when style is selected', async ({ page }) => {
   await page.goto('/');
 
   // Expect initial artwork list
-  const artworkList = page.getByRole('list');
-  await expect(artworkList).toContainText('The Bath');
-  await expect(artworkList).toContainText('On a Balcony');
+  await expect(page.getByRole('heading', { name: 'Under the Lamp', exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'On a Balcony', exact: true })).toBeVisible();
 
   // Click on the style list to trigger the dropdown
   const filterButton = page.locator('button[name="filterDropdown"]');
@@ -18,6 +17,5 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await styleButton.click();
 
   // Expect new artwork list
-  const newArtwork = page.locator('img[alt="The Butterfly, from Histoire naturelle"]');
-  await expect(newArtwork).toBeVisible({ timeout: 10000 });
+  await expect(page.getByRole('heading', { name: 'The Butterfly, from Histoire' })).toBeVisible();
 });

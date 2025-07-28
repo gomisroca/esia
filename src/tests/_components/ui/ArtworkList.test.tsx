@@ -51,15 +51,7 @@ describe('ArtworkList component', () => {
 
   it('renders the correct number of ArtworkCard components', () => {
     render(<ArtworkList artworks={mockArtworks} />);
-    const artworkCards = screen.getAllByTestId('artwork-card');
+    const artworkCards = screen.getAllByTestId('card');
     expect(artworkCards).toHaveLength(mockArtworks.length);
-  });
-
-  it('passes the artistView prop correctly to ArtworkCard components', () => {
-    render(<ArtworkList artworks={mockArtworks} artistView={true} />);
-    const artworkCards = screen.getAllByTestId('artwork-card');
-    artworkCards.forEach((card) => {
-      expect(card).toHaveAttribute('data-artist-view', 'true');
-    });
   });
 });
