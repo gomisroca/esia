@@ -14,23 +14,28 @@ import { type ArtworkWithArtist } from 'types';
 import Card from './Card';
 import Title from './Title';
 import Link from 'next/link';
-import Button from './Button';
 
 function ArtworkCardContent({ artwork }: { artwork: ArtworkWithArtist }) {
   return (
     <Card image={artwork.image ?? undefined} name={artwork.name}>
-      <Title className="mb-2">{artwork.name}</Title>
-      {artwork.artist && (
-        <Link href={`/artist/${artwork.artist.id}`} className="m-auto flex w-fit cursor-pointer">
-          <Button className="border-b border-neutral-800/20 bg-transparent shadow-md backdrop-blur-none dark:border-neutral-200/20 dark:bg-transparent">
+      <section className="flex flex-col gap-4">
+        <Title className="mb-2">{artwork.name}</Title>
+        <div className="flex items-center justify-center gap-2">
+          <p>{artwork.date}</p>
+          <p>{artwork.origin}</p>
+        </div>
+        {artwork.artist && (
+          <Link
+            href={`/artist/${artwork.artist.id}`}
+            className="mx-auto flex w-fit cursor-pointer text-xl transition-transform duration-200 ease-in-out hover:scale-110">
             {artwork.artist.name}
-          </Button>
-        </Link>
-      )}
-      <p>{artwork.date}</p>
-      <p>{artwork.origin}</p>
-      <p>{artwork.medium}</p>
-      <p>{artwork.style}</p>
+          </Link>
+        )}
+      </section>
+      <section className="flex flex-col gap-2">
+        <p>{artwork.medium}</p>
+        <p>{artwork.style}</p>
+      </section>
     </Card>
   );
 }
