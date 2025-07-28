@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
 test('displays selected artist information', async ({ page }) => {
   await page.goto('/artist/cm09zs6xe000014ca2hdva1n4');
