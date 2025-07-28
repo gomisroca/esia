@@ -51,7 +51,7 @@ function CardContent({ children, image, name }: { children: ReactNode; image?: s
       {/* Overlay on hover/click */}
       <div
         className={`absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
-        <div className="m-4 min-h-2/3 w-full cursor-default rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
+        <div className="m-4 flex min-h-2/3 w-full cursor-default flex-col items-center justify-evenly rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
           {children}
         </div>
       </div>
