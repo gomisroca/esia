@@ -18,7 +18,7 @@ async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> })
         height={250}
         className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
       />
-      <div className="p-4 text-center text-neutral-800 dark:text-neutral-200">
+      <div className="p-4 text-center">
         <Title>{exhibition.name}</Title>
         <p className="font-bold">
           {exhibition.start.toDateString()} - {exhibition.end.toDateString()}

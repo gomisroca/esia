@@ -53,12 +53,7 @@ export function FilterDropdown({
     <Dropdown
       button={{
         ariaLabel: 'Filter Dropdown',
-        text: (
-          <LuFilter
-            role="filter-dropdown"
-            className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200"
-          />
-        ),
+        text: <LuFilter role="filter-dropdown" className="size-[1.2rem] stroke-[3px]" />,
         name: 'filterDropdown',
         className:
           'bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none rounded-r-none md:rounded-md',
@@ -98,7 +93,7 @@ export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () =
       className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30"
       onClick={handleClearFilter}>
       <span className="sr-only">Clear Filter</span>
-      <LuFilterX role="filter-off" className="size-[1.2rem] text-neutral-800 dark:text-neutral-200" />
+      <LuFilterX role="filter-off" className="size-[1.2rem]" />
     </Button>
   );
 }
@@ -108,7 +103,7 @@ function StyleFilterSkeleton() {
     <div className="z-10 mx-auto flex w-fit flex-col items-center justify-center gap-4">
       <Button className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30">
         <span className="sr-only">Filter Skeleton</span>
-        <LuFilter className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200" />
+        <LuFilter className="size-[1.2rem] stroke-[3px]" />
       </Button>
     </div>
   );
