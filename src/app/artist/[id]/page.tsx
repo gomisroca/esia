@@ -31,7 +31,7 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
       <div className="flex flex-col items-center justify-center gap-2">
         <Title>{artist.name}</Title>
         {artist.birth && (
-          <p className="text-center text-lg font-bold text-neutral-800 dark:text-neutral-200">
+          <p className="text-center text-lg font-bold">
             {artist.birth} - {artist.death && artist.death}
           </p>
         )}
@@ -43,11 +43,11 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
           alt={artworks[Math.floor(Math.random() * artworks.length)]!.name}
           width={300}
           height={300}
-          className="rounded-md shadow-md"
+          className="rounded-sm shadow-md"
         />
       )}
       {artist.description && (
-        <p className="rounded-md bg-neutral-800/10 p-5 text-neutral-800 dark:bg-neutral-200/10 dark:text-neutral-200">
+        <p className="rounded-sm bg-neutral-800/10 p-5 dark:bg-neutral-200/10">
           {artist.description.replace(/<[^>]+>/g, '\n')}
         </p>
       )}

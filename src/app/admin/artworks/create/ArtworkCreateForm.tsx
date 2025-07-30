@@ -186,7 +186,7 @@ export default function ArtworkUpdateForm() {
       <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-2">
         <p>Name</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="name"
           type="text"
           placeholder="Name"
@@ -195,7 +195,7 @@ export default function ArtworkUpdateForm() {
         />
         <p>Medium</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="medium"
           type="text"
           placeholder="Medium"
@@ -204,7 +204,7 @@ export default function ArtworkUpdateForm() {
         />
         <p>Style</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="style"
           type="text"
           placeholder="Style"
@@ -213,7 +213,7 @@ export default function ArtworkUpdateForm() {
         />
         <p>Date</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="date"
           type="text"
           placeholder="Date"
@@ -222,7 +222,7 @@ export default function ArtworkUpdateForm() {
         />
         <p>Origin</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="origin"
           type="text"
           placeholder="Origin"
@@ -231,7 +231,7 @@ export default function ArtworkUpdateForm() {
         />
         <p>Image</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           type="file"
           name="image"
           accept="image/png, image/jpeg, image/jpg"
@@ -239,7 +239,7 @@ export default function ArtworkUpdateForm() {
         />
         <select
           name="artistId"
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           onChange={(e) => setFormState({ ...formState, artistId: e.target.value })}>
           <option value="">Select an artist</option>
           {artists.map((artist) => (
@@ -253,7 +253,7 @@ export default function ArtworkUpdateForm() {
         </Button>
       </form>
       {formState.message && (
-        <div className="rounded-md bg-neutral-200 p-4 dark:bg-neutral-800">
+        <div className="rounded-sm bg-neutral-200 p-4 dark:bg-neutral-800">
           <p
             className={`${formState.message.error ? 'text-bold text-red-500' : 'text-bold text-green-500'} text-lg font-bold`}>
             {formState.message.message}

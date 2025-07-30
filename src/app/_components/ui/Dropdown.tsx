@@ -75,12 +75,12 @@ function Dropdown({ button, children, className, closeOnChildClick = true }: Dro
         <div
           ref={dropdownRef}
           className={twMerge(
-            'absolute z-50 mt-2 rounded-md border border-neutral-200/30 drop-shadow-md backdrop-blur-sm dark:border-neutral-800/30',
+            'absolute z-50 mt-2 rounded-sm border border-neutral-200/30 drop-shadow-md backdrop-blur-sm dark:border-neutral-800/30',
             className
           )}>
           <ul
             onClick={closeOnChildClick ? handleChildClick : undefined}
-            className="flex flex-wrap items-center justify-center gap-2 rounded-md p-2 text-center font-bold text-neutral-800 transition-all duration-200 dark:text-neutral-200">
+            className="flex flex-wrap items-center justify-center gap-2 rounded-sm p-2 text-center font-bold transition-all duration-200">
             {children}
           </ul>
         </div>

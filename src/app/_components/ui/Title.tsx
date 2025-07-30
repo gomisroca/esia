@@ -17,11 +17,7 @@ interface TitleProps {
 }
 
 function Title({ className, children }: TitleProps) {
-  return (
-    <h1 className={twMerge('text-center text-3xl font-bold text-neutral-800 dark:text-neutral-200', className)}>
-      {children}
-    </h1>
-  );
+  return <h1 className={twMerge('text-center text-3xl font-bold', className)}>{children}</h1>;
 }
 
 export default Title;

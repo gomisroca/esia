@@ -106,7 +106,7 @@ export default function ArtistCreateForm() {
       <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-2">
         <p>Name</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="name"
           type="text"
           placeholder="Name"
@@ -115,7 +115,7 @@ export default function ArtistCreateForm() {
         />
         <p>Description</p>
         <textarea
-          className="w-full rounded-md bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="description"
           placeholder="Description"
           onChange={(e) => setFormState({ ...formState, description: e.target.value })}
@@ -123,7 +123,7 @@ export default function ArtistCreateForm() {
         />
         <p>Birth</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="birth"
           type="number"
           placeholder="Birth"
@@ -132,7 +132,7 @@ export default function ArtistCreateForm() {
         />
         <p>Death</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="death"
           type="number"
           placeholder="Death"
@@ -143,7 +143,7 @@ export default function ArtistCreateForm() {
         </Button>
       </form>
       {formState.message && (
-        <div className="rounded-md bg-neutral-200 p-4 dark:bg-neutral-800">
+        <div className="rounded-sm bg-neutral-200 p-4 dark:bg-neutral-800">
           <p
             className={`${formState.message.error ? 'text-bold text-red-500' : 'text-bold text-green-500'} text-lg font-bold`}>
             {formState.message.message}

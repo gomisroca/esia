@@ -259,7 +259,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
       <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-2">
         <p>Name</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="name"
           type="text"
           placeholder="Name"
@@ -269,7 +269,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
         />
         <p>Description</p>
         <textarea
-          className="w-full rounded-md bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="description"
           placeholder="Description"
           value={formState.description}
@@ -278,7 +278,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
         />
         <p>Start Date</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="start"
           type="date"
           placeholder="Start Date"
@@ -288,7 +288,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
         />
         <p>End Date</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="end"
           type="date"
           placeholder="End Date"
@@ -303,14 +303,14 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
             alt={formState.name}
             width={200}
             height={250}
-            className="m-auto rounded-xl"
+            className="m-auto rounded-sm"
           />
         ) : (
           <p>No image uploaded</p>
         )}
         <p>New Image (optional)</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           type="file"
           name="image"
           accept="image/png, image/jpeg, image/jpg"
@@ -321,7 +321,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
         </Button>
       </form>
       {formState.message && (
-        <div className="rounded-md bg-neutral-200 p-4 dark:bg-neutral-800">
+        <div className="rounded-sm bg-neutral-200 p-4 dark:bg-neutral-800">
           <p
             className={`${formState.message.error ? 'text-bold text-red-500' : 'text-bold text-green-500'} text-lg font-bold`}>
             {formState.message.message}

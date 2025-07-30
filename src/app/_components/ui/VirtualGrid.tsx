@@ -32,35 +32,29 @@ export function VirtualGrid<T>({
         height: `${rowVirtualizer.getTotalSize()}px`,
         position: 'relative',
       }}
-      className="w-full"
-    >
+      className="w-full">
       {rowVirtualizer.getVirtualItems().map((virtualRow) => {
         const children = [];
 
         for (let i = 0; i < columnCount; i++) {
-            const index = virtualRow.index * columnCount + i;
-            const item = items[index];
-            if (item === undefined) continue;
+          const index = virtualRow.index * columnCount + i;
+          const item = items[index];
+          if (item === undefined) continue;
 
-            children.push(
-                <div key={index}>
-                {renderItem(item, index)}
-                </div>
-            );
+          children.push(<div key={index}>{renderItem(item, index)}</div>);
         }
 
         return (
           <div
             key={virtualRow.key}
-            className="flex justify-center gap-4"
+            className="flex justify-center gap-1.5"
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
               width: '100%',
               transform: `translateY(${virtualRow.start}px)`,
-            }}
-          >
+            }}>
             {children}
           </div>
         );

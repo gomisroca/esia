@@ -19,7 +19,7 @@ function ExhibitionCardContent({ exhibition }: { exhibition: Exhibition }) {
           {exhibition.start.toDateString()} - {exhibition.end.toDateString()}
         </p>
       </section>
-      <div className="rounded-md bg-slate-900/10 p-2 text-left md:p-4">
+      <div className="rounded-sm bg-slate-900/10 p-2 text-left md:p-4">
         <p dangerouslySetInnerHTML={{ __html: exhibition.description }} className="line-clamp-5" />
       </div>
     </Card>

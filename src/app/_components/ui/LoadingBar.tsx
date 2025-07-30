@@ -10,11 +10,11 @@ import React from 'react';
 
 function LoadingBar() {
   return (
-    <div className="fixed bottom-10 left-0 right-0 z-10 mx-auto flex w-1/2 animate-pulse items-center justify-center rounded-md bg-black/40 p-4 text-lg font-bold">
+    <div className="fixed right-0 bottom-10 left-0 z-10 mx-auto flex w-1/2 animate-pulse items-center justify-center rounded-sm bg-black/40 p-4 text-lg font-bold">
       {/* SVG element that acts as a spinning loader icon */}
       <svg
         data-testid="loading-bar-spinner"
-        className="-ml-1 mr-3 h-5 w-5 animate-spin text-white"
+        className="mr-3 -ml-1 h-5 w-5 animate-spin text-white"
         fill="none"
         viewBox="0 0 24 24">
         {/* Outer circle of the spinner, set to be partially transparent */}

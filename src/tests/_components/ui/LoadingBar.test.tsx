@@ -14,7 +14,7 @@ describe('LoadingBar component', () => {
     render(<LoadingBar />);
     const container = screen.getByText('LOADING');
     expect(container).toHaveClass(
-      'fixed bottom-10 left-0 right-0 z-10 mx-auto flex w-1/2 animate-pulse items-center justify-center rounded-md bg-black/40 p-4 text-lg font-bold'
+      'fixed bottom-10 left-0 right-0 z-10 mx-auto flex w-1/2 animate-pulse items-center justify-center rounded-sm bg-black/40 p-4 text-lg font-bold'
     );
   });
 
