@@ -15,13 +15,13 @@ async function BlogUpdateList() {
           <Link
             key={blog.id}
             href={`/admin/blogs/update/${blog.id}`}
-            className="flex flex-row gap-4 rounded-lg bg-neutral-200 p-4 duration-200 hover:bg-neutral-300 active:scale-x-110 active:bg-neutral-300 active:duration-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:active:bg-neutral-700">
+            className="flex flex-row gap-4 rounded-sm bg-neutral-200 p-4 duration-200 hover:bg-neutral-300 active:scale-x-110 active:bg-neutral-300 active:duration-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:active:bg-neutral-700">
             <Image
               src={blog.headerImage ?? '/ph.jpg'}
               alt={blog.name}
               width={200}
               height={200}
-              className="rounded-md"
+              className="rounded-sm"
             />
             <div className="my-2 flex w-1/2 flex-col">
               <p className="text-xl font-bold">{blog.name}</p>

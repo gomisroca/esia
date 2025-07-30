@@ -9,7 +9,7 @@ async function BlogSingle({ params }: { params: Promise<{ id: string }> }) {
   const blog = await api.blogs.getUnique({ id: paramsData.id });
   if (!blog) return notFound();
   return (
-    <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">
+    <div className="m-auto overflow-hidden rounded-sm bg-slate-300/95 dark:bg-slate-900/95">
       <Image
         unoptimized
         src={blog.headerImage ?? '/ph.jpg'}
@@ -25,7 +25,7 @@ async function BlogSingle({ params }: { params: Promise<{ id: string }> }) {
           <p className="font-bold">{blog.date.toDateString()}</p>
         </div>
         <p
-          className="rounded-md bg-slate-900/10 p-2 text-left whitespace-pre-line md:p-4"
+          className="rounded-sm bg-slate-900/10 p-2 text-left whitespace-pre-line md:p-4"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </div>

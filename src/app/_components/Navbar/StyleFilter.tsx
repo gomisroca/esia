@@ -56,7 +56,7 @@ export function FilterDropdown({
         text: <LuFilter role="filter-dropdown" className="size-[1.2rem] stroke-[3px]" />,
         name: 'filterDropdown',
         className:
-          'bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none rounded-r-none md:rounded-md',
+          'bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none rounded-r-none md:rounded-sm',
       }}
       className="absolute right-0 w-[95vw] border xl:w-[52rem]">
       {sortedStyles.map((style) => (
@@ -90,7 +90,7 @@ export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () =
     <Button
       ariaLabel="Clear Filter"
       name="clearFilter"
-      className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30"
+      className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-sm md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30"
       onClick={handleClearFilter}>
       <span className="sr-only">Clear Filter</span>
       <LuFilterX role="filter-off" className="size-[1.2rem]" />
@@ -101,7 +101,7 @@ export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () =
 function StyleFilterSkeleton() {
   return (
     <div className="z-10 mx-auto flex w-fit flex-col items-center justify-center gap-4">
-      <Button className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30">
+      <Button className="rounded-r-none bg-neutral-200/30 drop-shadow-md md:rounded-sm md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30">
         <span className="sr-only">Filter Skeleton</span>
         <LuFilter className="size-[1.2rem] stroke-[3px]" />
       </Button>

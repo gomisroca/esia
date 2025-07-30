@@ -9,7 +9,7 @@ async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> })
   const exhibition = await api.exhibitions.getUnique({ id: paramsData.id });
   if (!exhibition) return notFound();
   return (
-    <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">
+    <div className="m-auto overflow-hidden rounded-sm bg-slate-300/95 dark:bg-slate-900/95">
       <Image
         unoptimized
         src={exhibition.image ?? '/ph.jpg'}

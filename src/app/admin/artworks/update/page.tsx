@@ -15,13 +15,13 @@ async function ArtworkUpdateList() {
           <Link
             key={artwork.id}
             href={`/admin/artworks/update/${artwork.id}`}
-            className="flex flex-row gap-4 rounded-lg bg-neutral-200 p-4 duration-200 hover:bg-neutral-300 active:scale-x-110 active:bg-neutral-300 active:duration-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:active:bg-neutral-700">
+            className="flex flex-row gap-4 rounded-sm bg-neutral-200 p-4 duration-200 hover:bg-neutral-300 active:scale-x-110 active:bg-neutral-300 active:duration-100 dark:bg-neutral-800 dark:hover:bg-neutral-700 dark:active:bg-neutral-700">
             <Image
               src={artwork.image ?? '/ph.jpg'}
               alt={artwork.name}
               width={200}
               height={200}
-              className="rounded-md"
+              className="rounded-sm"
             />
             <div className="my-2 flex w-1/2 flex-col">
               <p className="text-xl font-bold">{artwork.name}</p>

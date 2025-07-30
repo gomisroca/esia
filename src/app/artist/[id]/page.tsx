@@ -43,11 +43,11 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
           alt={artworks[Math.floor(Math.random() * artworks.length)]!.name}
           width={300}
           height={300}
-          className="rounded-md shadow-md"
+          className="rounded-sm shadow-md"
         />
       )}
       {artist.description && (
-        <p className="rounded-md bg-neutral-800/10 p-5 dark:bg-neutral-200/10">
+        <p className="rounded-sm bg-neutral-800/10 p-5 dark:bg-neutral-200/10">
           {artist.description.replace(/<[^>]+>/g, '\n')}
         </p>
       )}

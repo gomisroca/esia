@@ -22,7 +22,7 @@ describe('ErrorPage', () => {
 
     const container = screen.getByText(errorMessage).closest('div');
     expect(container).toHaveClass(
-      'flex flex-col items-center justify-center gap-4 rounded-md bg-neutral-200/40 p-5 dark:bg-neutral-800/40'
+      'flex flex-col items-center justify-center gap-4 rounded-sm bg-neutral-200/40 p-5 dark:bg-neutral-800/40'
     );
   });
 });

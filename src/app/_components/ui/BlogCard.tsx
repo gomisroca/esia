@@ -17,7 +17,7 @@ function BlogCardContent({ blog }: { blog: Blog }) {
         </Link>
         <p className="font-bold">{blog.date.toDateString()}</p>
       </section>
-      <div className="rounded-md bg-slate-900/10 p-2 text-left md:p-4">
+      <div className="rounded-sm bg-slate-900/10 p-2 text-left md:p-4">
         <p dangerouslySetInnerHTML={{ __html: blog.content }} className="line-clamp-5" />
       </div>
     </Card>
