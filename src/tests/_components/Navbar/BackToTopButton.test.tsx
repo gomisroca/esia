@@ -25,7 +25,7 @@ describe('BackToTopButton', () => {
     const button = screen.getByRole('button', { name: 'Back to top' });
     expect(button).toBeInTheDocument();
     expect(button).toHaveClass(
-      'rounded-l-none px-2 text-2xl font-bold backdrop-blur-sm md:rounded-sm pointer-events-auto bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none'
+      'flex cursor-pointer flex-row items-center justify-center rounded-sm bg-white/60 p-2 drop-shadow-md transition-all duration-200 ease-in hover:scale-110 hover:bg-white active:scale-95 active:duration-100 dark:bg-black/60 dark:hover:bg-black rounded-l-none px-3 text-2xl font-bold md:rounded-sm mock-limelight pointer-events-auto'
     );
   });
 

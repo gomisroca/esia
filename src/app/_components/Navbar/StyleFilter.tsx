@@ -55,8 +55,7 @@ export function FilterDropdown({
         ariaLabel: 'Filter Dropdown',
         text: <LuFilter role="filter-dropdown" className="size-[1.2rem] stroke-[3px]" />,
         name: 'filterDropdown',
-        className:
-          'bg-neutral-200/30 drop-shadow-md dark:bg-neutral-800/30 md:bg-transparent md:drop-shadow-none rounded-r-none md:rounded-sm',
+        className: 'rounded-r-none md:rounded-sm',
       }}
       className="absolute right-0 w-[95vw] border xl:w-[52rem]">
       {sortedStyles.map((style) => (

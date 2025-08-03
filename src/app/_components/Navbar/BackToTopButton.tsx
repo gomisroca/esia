@@ -21,7 +21,7 @@ function BackToTopButton() {
       <Button
         ariaLabel="Back to top"
         onClick={() => scrollToTop('smooth')}
-        className={`rounded-l-none px-2 text-2xl font-bold backdrop-blur-sm md:rounded-sm ${limelight.className} pointer-events-auto bg-neutral-200/30 drop-shadow-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30`}>
+        className={`rounded-l-none px-3 text-2xl font-bold md:rounded-sm ${limelight.className} pointer-events-auto`}>
         ESIA
       </Button>
     </Link>
