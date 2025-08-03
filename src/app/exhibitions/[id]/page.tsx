@@ -16,7 +16,7 @@ async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> })
         alt={exhibition.name}
         width={500}
         height={250}
-        className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
+        className="h-full w-full object-cover transition-transform duration-200 ease-in"
       />
       <div className="p-4 text-center">
         <Title>{exhibition.name}</Title>

@@ -16,7 +16,7 @@ async function BlogSingle({ params }: { params: Promise<{ id: string }> }) {
         alt={blog.name}
         width={500}
         height={250}
-        className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
+        className="h-full w-full object-cover transition-transform duration-200 ease-in"
       />
       <div className="flex flex-col gap-2 p-2 text-center md:p-4">
         <div>
