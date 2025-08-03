@@ -18,7 +18,7 @@ interface ErrorPageProps {
 function ErrorPage({ message }: ErrorPageProps) {
   return (
     <div className="flex h-[90vh] w-full items-center justify-center">
-      <div className="flex flex-col items-center justify-center gap-4 rounded-md bg-neutral-200/40 p-5 text-neutral-800 dark:bg-neutral-800/40 dark:text-neutral-200">
+      <div className="flex flex-col items-center justify-center gap-4 rounded-sm bg-neutral-200/40 p-5 dark:bg-neutral-800/40">
         <Title>ERROR</Title>
         <p className="text-xl font-bold">{message}</p>
       </div>

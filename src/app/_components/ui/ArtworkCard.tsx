@@ -13,7 +13,7 @@ import { type ArtworkWithArtist } from 'types';
 
 import Card from './Card';
 import Title from './Title';
-import Link from 'next/link';
+import Link from './Link';
 
 function ArtworkCardContent({ artwork }: { artwork: ArtworkWithArtist }) {
   return (
@@ -24,13 +24,7 @@ function ArtworkCardContent({ artwork }: { artwork: ArtworkWithArtist }) {
           <p>{artwork.date}</p>
           <p>{artwork.origin}</p>
         </div>
-        {artwork.artist && (
-          <Link
-            href={`/artist/${artwork.artist.id}`}
-            className="mx-auto flex w-fit cursor-pointer text-xl transition-transform duration-200 ease-in-out hover:scale-110">
-            {artwork.artist.name}
-          </Link>
-        )}
+        {artwork.artist && <Link href={`/artist/${artwork.artist.id}`}>{artwork.artist.name}</Link>}
       </section>
       <section className="flex flex-col gap-2">
         <p>{artwork.medium}</p>

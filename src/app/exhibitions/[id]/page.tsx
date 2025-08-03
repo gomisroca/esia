@@ -9,16 +9,16 @@ async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> })
   const exhibition = await api.exhibitions.getUnique({ id: paramsData.id });
   if (!exhibition) return notFound();
   return (
-    <div className="m-auto overflow-hidden rounded-md bg-slate-300/95 dark:bg-slate-900/95">
+    <div className="m-auto overflow-hidden rounded-sm bg-slate-300/95 dark:bg-slate-900/95">
       <Image
         unoptimized
         src={exhibition.image ?? '/ph.jpg'}
         alt={exhibition.name}
         width={500}
         height={250}
-        className="h-full w-full object-cover transition-transform duration-500 ease-in-out"
+        className="h-full w-full object-cover transition-transform duration-200 ease-in"
       />
-      <div className="p-4 text-center text-neutral-800 dark:text-neutral-200">
+      <div className="p-4 text-center">
         <Title>{exhibition.name}</Title>
         <p className="font-bold">
           {exhibition.start.toDateString()} - {exhibition.end.toDateString()}

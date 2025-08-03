@@ -85,6 +85,6 @@ describe('ModeButton', () => {
 
     render(<ModeButton />);
     const button = screen.getByRole('button', { name: 'Theme Button' });
-    expect(button).toHaveClass('dark:bg-neutral-800/30');
+    expect(button).toHaveClass('dark:bg-black/60 dark:hover:bg-black');
   });
 });

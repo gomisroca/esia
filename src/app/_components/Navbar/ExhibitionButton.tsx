@@ -7,9 +7,9 @@ function ExhibitionButton() {
     <Link
       aria-label="Exhibitions"
       href="/exhibitions"
-      className="flex flex-row items-center justify-center rounded-md rounded-r-none bg-neutral-200/30 p-2 font-bold text-neutral-800 drop-shadow-md backdrop-blur-sm transition-all duration-200 hover:bg-neutral-200 active:scale-x-110 active:bg-neutral-300 active:duration-100 md:rounded-md md:bg-transparent md:drop-shadow-none dark:bg-neutral-800/30 dark:text-neutral-200 dark:hover:bg-neutral-800 active:dark:bg-neutral-700">
+      className="flex cursor-pointer flex-row items-center justify-center rounded-sm rounded-r-none bg-white/60 p-2 font-bold drop-shadow-md transition-all duration-200 ease-in hover:scale-110 hover:bg-white active:scale-95 active:duration-100 md:rounded-sm dark:bg-black/60 dark:hover:bg-black">
       <span className="sr-only">Exhibitions</span>
-      <FaCalendarAlt className="size-[1.2rem] stroke-[3px] text-neutral-800 dark:text-neutral-200" />
+      <FaCalendarAlt className="size-[1.2rem] stroke-[3px]" />
     </Link>
   );
 }

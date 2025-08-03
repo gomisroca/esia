@@ -156,7 +156,7 @@ export default function BlogCreateForm() {
       <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-2">
         <p>Name</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="name"
           type="text"
           placeholder="Name"
@@ -165,7 +165,7 @@ export default function BlogCreateForm() {
         />
         <p>Content</p>
         <textarea
-          className="w-full rounded-md bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="content"
           placeholder="Content"
           onChange={(e) => setFormState({ ...formState, content: e.target.value })}
@@ -173,7 +173,7 @@ export default function BlogCreateForm() {
         />
         <p>Date</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="date"
           type="date"
           placeholder="Date"
@@ -182,7 +182,7 @@ export default function BlogCreateForm() {
         />
         <p>Image</p>
         <input
-          className="w-full rounded-full bg-slate-300 px-4 py-2 dark:bg-slate-700"
+          className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           type="file"
           name="image"
           accept="image/png, image/jpeg, image/jpg"
@@ -193,7 +193,7 @@ export default function BlogCreateForm() {
         </Button>
       </form>
       {formState.message && (
-        <div className="rounded-md bg-neutral-200 p-4 dark:bg-neutral-800">
+        <div className="rounded-sm bg-neutral-200 p-4 dark:bg-neutral-800">
           <p
             className={`${formState.message.error ? 'text-bold text-red-500' : 'text-bold text-green-500'} text-lg font-bold`}>
             {formState.message.message}
