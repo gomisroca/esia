@@ -48,7 +48,7 @@ function Button({
       onClick={onClick}
       name={name ?? ''}
       className={twMerge(
-        'flex flex-row items-center justify-center rounded-sm p-2 font-bold backdrop-blur-sm transition-all duration-200 hover:bg-neutral-200 active:scale-x-110 active:bg-neutral-300 active:duration-100 dark:hover:bg-neutral-800 active:dark:bg-neutral-700',
+        'flex cursor-pointer flex-row items-center justify-center rounded-sm p-2 font-bold backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-neutral-200 active:scale-95 active:bg-neutral-300 active:duration-100 dark:hover:bg-neutral-800 active:dark:bg-neutral-700',
         className,
         disabled && 'cursor-not-allowed opacity-50'
       )}

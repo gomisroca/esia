@@ -17,7 +17,7 @@ import Image from 'next/image';
 import React, { memo, ReactNode, useState } from 'react';
 
 function CardSkeleton() {
-  return <div data-testid="card-skeleton" className="h-full w-full animate-pulse rounded-md bg-neutral-800/50" />;
+  return <div data-testid="card-skeleton" className="h-full w-full animate-pulse bg-black/80" />;
 }
 
 function CardContent({ children, image, name }: { children: ReactNode; image?: string; name: string }) {
@@ -32,7 +32,7 @@ function CardContent({ children, image, name }: { children: ReactNode; image?: s
 
   return (
     <div
-      className="group relative h-[30rem] w-[22rem] cursor-pointer overflow-hidden rounded-md md:h-[45rem] md:w-[30rem]"
+      className="group relative h-[30rem] w-[22rem] cursor-pointer overflow-hidden rounded-sm md:h-[45rem] md:w-[30rem]"
       onClick={handleFlip}
       data-flipped={isFlipped}
       data-testid="card">
@@ -45,13 +45,13 @@ function CardContent({ children, image, name }: { children: ReactNode; image?: s
         alt={name}
         width={300}
         height={200}
-        className={`h-full w-full object-cover transition-transform duration-500 ease-in-out ${isFlipped ? 'scale-110' : 'scale-100'} group-hover:scale-110`}
+        className={`h-full w-full rounded-sm object-cover transition-transform duration-500 ease-in-out ${isFlipped ? 'scale-110' : 'scale-100'} group-hover:scale-110`}
       />
 
       {/* Overlay on hover/click */}
       <div
-        className={`absolute inset-0 flex items-center justify-center bg-black/50 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
-        <div className="m-4 flex min-h-2/3 w-full cursor-default flex-col items-center justify-evenly rounded-md border-2 border-neutral-200/20 bg-neutral-200/60 p-4 text-center text-neutral-800 drop-shadow-md transition-all duration-200 dark:border-neutral-800/20 dark:bg-neutral-800/60 dark:text-neutral-200">
+        className={`absolute inset-0 flex items-center justify-center rounded-sm bg-black/60 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
+        <div className="m-4 flex min-h-2/3 w-full cursor-default flex-col items-center justify-evenly rounded-sm bg-white/60 p-4 text-center drop-shadow-md transition-all duration-200 dark:bg-black/60">
           {children}
         </div>
       </div>
