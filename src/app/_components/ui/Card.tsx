@@ -45,12 +45,12 @@ function CardContent({ children, image, name }: { children: ReactNode; image?: s
         alt={name}
         width={300}
         height={200}
-        className={`h-full w-full rounded-sm object-cover transition-transform duration-500 ease-in-out ${isFlipped ? 'scale-110' : 'scale-100'} group-hover:scale-110`}
+        className={`h-full w-full rounded-sm object-cover transition-transform duration-200 ease-in ${isFlipped ? 'scale-110' : 'scale-100'} group-hover:scale-110`}
       />
 
       {/* Overlay on hover/click */}
       <div
-        className={`absolute inset-0 flex items-center justify-center rounded-sm bg-black/60 transition-opacity duration-500 ease-in-out ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
+        className={`absolute inset-0 flex items-center justify-center rounded-sm bg-black/60 transition-opacity duration-200 ease-in ${isFlipped ? 'opacity-100' : 'opacity-0'} group-hover:opacity-100`}>
         <div className="m-4 flex min-h-2/3 w-full cursor-default flex-col items-center justify-evenly rounded-sm bg-white/60 p-4 text-center drop-shadow-md transition-all duration-200 dark:bg-black/60">
           {children}
         </div>
