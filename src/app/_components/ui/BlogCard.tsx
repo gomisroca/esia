@@ -13,10 +13,12 @@ function BlogCardContent({ blog }: { blog: Blog }) {
         <Title>{blog.name}</Title>
         <p className="font-bold">{blog.date.toDateString()}</p>
       </section>
-      <div className="rounded-sm bg-slate-900/10 p-2 text-left md:p-4">
+      <div className="my-2 flex-1 rounded-sm bg-slate-900/10 p-2 text-left md:p-4">
         <p dangerouslySetInnerHTML={{ __html: blog.content }} className="line-clamp-5" />
       </div>
-      <Link href={`/blogs/${blog.id}`}>Read More</Link>
+      <Link href={`/blogs/${blog.id}`} className="mb-0">
+        Read More
+      </Link>
     </Card>
   );
 }

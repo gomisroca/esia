@@ -27,12 +27,7 @@ export function VirtualGrid<T>({
   });
 
   return (
-    <div
-      style={{
-        height: `${rowVirtualizer.getTotalSize()}px`,
-        position: 'relative',
-      }}
-      className="w-full">
+    <div className="relative w-full overflow-x-hidden" style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
       {rowVirtualizer.getVirtualItems().map((virtualRow) => {
         const children = [];
 
@@ -41,18 +36,21 @@ export function VirtualGrid<T>({
           const item = items[index];
           if (item === undefined) continue;
 
-          children.push(<div key={index}>{renderItem(item, index)}</div>);
+          children.push(
+            <div key={index} className="min-w-0 flex-1">
+              {renderItem(item, index)}
+            </div>
+          );
         }
 
         return (
           <div
             key={virtualRow.key}
-            className="flex justify-center gap-1.5"
+            className="flex w-full gap-4"
             style={{
               position: 'absolute',
               top: 0,
               left: 0,
-              width: '100%',
               transform: `translateY(${virtualRow.start}px)`,
             }}>
             {children}
