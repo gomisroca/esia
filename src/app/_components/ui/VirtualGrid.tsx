@@ -1,7 +1,7 @@
 'use client';
 
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
-import { ReactNode } from 'react';
+import { type ReactNode } from 'react';
 
 interface VirtualGridProps<T> {
   items: T[];
@@ -26,9 +26,11 @@ export function VirtualGrid<T>({
     overscan,
   });
 
+  const virtualItems = rowVirtualizer.getVirtualItems();
+
   return (
     <div className="relative w-full overflow-x-hidden" style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
-      {rowVirtualizer.getVirtualItems().map((virtualRow) => {
+      {virtualItems.map((virtualRow) => {
         const children = [];
 
         for (let i = 0; i < columnCount; i++) {
