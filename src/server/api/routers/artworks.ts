@@ -1,250 +1,119 @@
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
-import { env } from '@/env';
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '@/server/api/trpc';
-import uploadImage from '@/utils/uploadImage';
+import { adminProcedure, createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import handlePrismaNotFound from '@/utils/handlePrismaError';
+import { resolveImageLink } from '@/utils/uploadImage';
+
+const artworkInput = z.object({
+  name: z.string().min(1, 'Name is required'),
+  medium: z.string().min(1, 'Medium is required'),
+  style: z.string().min(1, 'Style is required'),
+  date: z.string().min(1, 'Date is required'),
+  origin: z.string().min(1, 'Origin is required'),
+  image: z.string().optional(),
+  artistId: z.cuid(),
+});
 
 export const artworksRouter = createTRPCRouter({
   getUnique: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        artist: z.boolean().optional().default(false),
-      })
-    )
+    .input(z.object({ id: z.cuid(), artist: z.boolean().default(false) }))
     .query(async ({ ctx, input }) => {
-      try {
-        return ctx.db.artwork.findUnique({
-          where: {
-            id: input.id,
-          },
-          include: {
-            artist: input.artist,
-          },
-        });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artwork not found' });
-        }
-      }
+      const artwork = await ctx.db.artwork.findUnique({
+        where: { id: input.id },
+        include: { artist: input.artist },
+      });
+      if (!artwork) throw new TRPCError({ code: 'NOT_FOUND', message: 'Artwork not found' });
+      return artwork;
     }),
+
   getAll: publicProcedure
     .input(
       z.object({
-        artist: z.boolean().optional().default(false),
+        artist: z.boolean().default(false),
+        cursor: z.cuid().optional(),
+        limit: z.number().int().min(1).max(100).default(20),
       })
     )
     .query(async ({ ctx, input }) => {
-      try {
-        const artworks = await ctx.db.artwork.findMany({
-          include: {
-            artist: input.artist,
-          },
-        });
-
-        return artworks;
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artworks not found' });
-        }
-      }
+      const items = await ctx.db.artwork.findMany({
+        take: input.limit + 1,
+        cursor: input.cursor ? { id: input.cursor } : undefined,
+        include: { artist: input.artist },
+        orderBy: { name: 'asc' },
+      });
+      const nextCursor = items.length > input.limit ? items.pop()!.id : undefined;
+      return { items, nextCursor };
     }),
-  create: protectedProcedure
+
+  create: adminProcedure.input(artworkInput).mutation(async ({ ctx, input }) => {
+    const imageLink = await resolveImageLink(input.image);
+    const artwork = await ctx.db.artwork.create({
+      data: {
+        name: input.name,
+        medium: input.medium,
+        style: input.style,
+        date: input.date,
+        origin: input.origin,
+        image: imageLink,
+        artistId: input.artistId,
+      },
+    });
+    return { id: artwork.id };
+  }),
+
+  update: adminProcedure
     .input(
       z.object({
-        name: z.string(),
-        medium: z.string(),
-        style: z.string(),
-        date: z.string(),
-        origin: z.string(),
-        image: z.string().optional(),
-        artistId: z.string(),
+        id: z.cuid(),
+        data: artworkInput.extend({ image: z.string().optional(), artistId: z.cuid().optional() }),
       })
     )
     .mutation(async ({ ctx, input }) => {
-      try {
-        if (ctx.session.user.admin !== true)
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authorized' });
+      const existing = await ctx.db.artwork.findUnique({ where: { id: input.id } });
+      if (!existing) throw new TRPCError({ code: 'NOT_FOUND', message: 'Artwork not found' });
 
-        let imageLink: string | undefined;
-        if (input.image) {
-          try {
-            const imagePath = await uploadImage(input.image);
-            imageLink = env.SUPABASE_PROJECT_URL + '/storage/v1/object/public/' + imagePath;
-          } catch (_error) {
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
-          }
-        }
+      const imageLink = await resolveImageLink(input.data.image);
 
-        const artwork = await ctx.db.artwork.create({
+      await ctx.db.artwork
+        .update({
+          where: { id: input.id },
           data: {
-            name: input.name,
-            medium: input.medium,
-            style: input.style,
-            date: input.date,
-            origin: input.origin,
-            image: imageLink,
-            artistId: input.artistId,
+            name: input.data.name,
+            medium: input.data.medium,
+            style: input.data.style,
+            date: input.data.date,
+            origin: input.data.origin,
+            image: imageLink ?? existing.image,
+            artistId: input.data.artistId ?? existing.artistId,
           },
-        });
-
-        return {
-          id: artwork.id,
-        };
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
-        }
-      }
+        })
+        .catch(handlePrismaNotFound('Artwork'));
     }),
-  update: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        data: z.object({
-          name: z.string(),
-          medium: z.string(),
-          style: z.string(),
-          date: z.string(),
-          origin: z.string(),
-          image: z.string().optional(),
-          artistId: z.string().optional(),
-        }),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        if (ctx.session.user.admin !== true)
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authorized' });
 
-        const artwork = await ctx.db.artwork.findUnique({
-          where: {
-            id: input.id,
-          },
-        });
+  delete: adminProcedure.input(z.object({ id: z.cuid() })).mutation(async ({ ctx, input }) => {
+    await ctx.db.artwork.delete({ where: { id: input.id } }).catch(handlePrismaNotFound('Artwork'));
+  }),
 
-        if (!artwork) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artwork not found' });
-        }
-
-        let imageLink: string | undefined;
-        if (input.data.image) {
-          try {
-            const imagePath = await uploadImage(input.data.image);
-            imageLink = env.SUPABASE_PROJECT_URL + '/storage/v1/object/public/' + imagePath;
-          } catch (_error) {
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
-          }
-        }
-
-        const data = input.data;
-
-        await ctx.db.artwork.update({
-          where: {
-            id: input.id,
-          },
-          data: {
-            name: data.name,
-            medium: data.medium,
-            style: data.style,
-            date: data.date,
-            origin: data.origin,
-            image: imageLink ?? artwork.image,
-            artistId: data.artistId ?? artwork.artistId,
-          },
-        });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artwork not found' });
-        }
-      }
-    }),
-  delete: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        if (ctx.session.user.admin !== true)
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authorized' });
-
-        const artwork = await ctx.db.artwork.findUnique({
-          where: {
-            id: input.id,
-          },
-        });
-
-        if (!artwork) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Artwork not found' });
-        }
-
-        await ctx.db.artwork.delete({
-          where: {
-            id: input.id,
-          },
-        });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
-        }
-      }
-    }),
   search: publicProcedure
     .input(
       z.object({
-        term: z.string(),
+        term: z.string().min(2, 'Search term must be at least 2 characters'),
+        limit: z.number().int().min(1).max(50).default(20),
       })
     )
     .query(({ ctx, input }) => {
-      try {
-        return ctx.db.artwork.findMany({
-          where: {
-            OR: [
-              {
-                name: {
-                  contains: input.term,
-                  mode: 'insensitive',
-                },
-              },
-              {
-                style: {
-                  contains: input.term,
-                  mode: 'insensitive',
-                },
-              },
-              {
-                artist: {
-                  name: {
-                    contains: input.term,
-                    mode: 'insensitive',
-                  },
-                },
-              },
-            ],
-          },
-          include: {
-            artist: true,
-          },
-        });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Search failed' });
-        }
-      }
+      return ctx.db.artwork.findMany({
+        take: input.limit,
+        where: {
+          OR: [
+            { name: { contains: input.term, mode: 'insensitive' } },
+            { style: { contains: input.term, mode: 'insensitive' } },
+            { artist: { name: { contains: input.term, mode: 'insensitive' } } },
+          ],
+        },
+        include: { artist: true },
+        orderBy: { name: 'asc' },
+      });
     }),
 });
