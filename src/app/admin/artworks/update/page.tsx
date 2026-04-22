@@ -1,12 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import { api } from '@/trpc/server';
 
-async function ArtworkUpdateList() {
-  const artworks = await api.artworks.getAll({ artist: true });
+export default async function ArtworkUpdateList() {
+  const { items: artworks } = await api.artworks.getAll({ artist: true, limit: 100 });
 
   return (
     <ProtectedRoute>
@@ -39,5 +38,3 @@ async function ArtworkUpdateList() {
     </ProtectedRoute>
   );
 }
-
-export default ArtworkUpdateList;

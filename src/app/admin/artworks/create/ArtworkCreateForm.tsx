@@ -20,8 +20,6 @@ interface FormState {
   origin: string;
   image: string;
   artistId: string;
-  isSubmitting: boolean;
-  isDeleting: boolean;
   message: FormMessage | null;
 }
 
@@ -33,8 +31,6 @@ const INITIAL_FORM_STATE: FormState = {
   origin: '',
   image: '',
   artistId: '',
-  isSubmitting: false,
-  isDeleting: false,
   message: null,
 };
 
@@ -47,110 +43,69 @@ const ERROR_MESSAGES = {
   MISSING_REQUIRED: 'Please fill out all required fields.',
 } as const;
 
-export default function ArtworkUpdateForm() {
+export default function ArtworkCreateForm() {
   const router = useRouter();
   const utils = api.useUtils();
   const [formState, setFormState] = useState<FormState>(INITIAL_FORM_STATE);
 
-  const { data: artists, error: fetchError, isLoading: isLoading } = api.artists.getAll.useQuery({});
+  const {
+    data: artistsData,
+    error: fetchError,
+    isPending: isArtistsPending,
+  } = api.artists.getAll.useQuery({ limit: 100 });
 
-  // Create mutation
   const createArtwork = api.artworks.create.useMutation({
-    onMutate: () => {
-      setFormState((prev) => ({
-        ...prev,
-        isSubmitting: true,
-        message: null,
-      }));
-    },
     onError: (error) => {
       setFormState((prev) => ({
         ...prev,
-        isSubmitting: false,
-        message: {
-          error: true,
-          message: error.message || ERROR_MESSAGES.CREATE_ERROR,
-        },
+        message: { error: true, message: error.message || ERROR_MESSAGES.CREATE_ERROR },
       }));
     },
     onSuccess: async () => {
       await utils.artworks.invalidate();
-      setFormState((prev) => ({
-        ...prev,
-        isSubmitting: false,
-        message: {
-          error: false,
-          message: 'Artwork created successfully!',
-        },
-      }));
+      setFormState({ ...INITIAL_FORM_STATE, message: { error: false, message: 'Artwork created successfully!' } });
     },
   });
 
-  // Form handlers
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const selectedFile = e.target.files![0];
+      const selectedFile = e.target.files?.[0];
+      if (!selectedFile) return;
 
-      if (selectedFile) {
-        const isValidFileType = checkFileType(selectedFile);
-        if (!isValidFileType) {
-          setFormState((prev) => ({
-            ...prev,
-            message: {
-              error: true,
-              message: ERROR_MESSAGES.IMAGE_UPLOAD_TYPE_ERROR,
-            },
-          }));
-          return;
-        }
-        const isValidFileSize = checkFileSize(selectedFile);
-        if (!isValidFileSize) {
-          setFormState((prev) => ({
-            ...prev,
-            message: {
-              error: true,
-              message: ERROR_MESSAGES.IMAGE_UPLOAD_SIZE_ERROR,
-            },
-          }));
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const imageData = e.target!.result;
-          setFormState((prev) => ({ ...prev, image: imageData as string }));
-        };
-        reader.readAsDataURL(selectedFile);
+      if (!checkFileType(selectedFile)) {
+        setFormState((prev) => ({
+          ...prev,
+          message: { error: true, message: ERROR_MESSAGES.IMAGE_UPLOAD_TYPE_ERROR },
+        }));
+        return;
       }
-    } catch (_error) {
-      setFormState((prev) => ({
-        ...prev,
-        message: {
-          error: true,
-          message: ERROR_MESSAGES.IMAGE_UPLOAD_ERROR,
-        },
-      }));
+      if (!checkFileSize(selectedFile)) {
+        setFormState((prev) => ({
+          ...prev,
+          message: { error: true, message: ERROR_MESSAGES.IMAGE_UPLOAD_SIZE_ERROR },
+        }));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setFormState((prev) => ({ ...prev, image: ev.target!.result as string }));
+      };
+      reader.readAsDataURL(selectedFile);
+    } catch {
+      setFormState((prev) => ({ ...prev, message: { error: true, message: ERROR_MESSAGES.IMAGE_UPLOAD_ERROR } }));
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formState.name || !formState.medium || !formState.style || !formState.date || !formState.origin) {
-      setFormState((prev) => ({
-        ...prev,
-        message: {
-          error: true,
-          message: ERROR_MESSAGES.MISSING_REQUIRED,
-        },
-      }));
+      setFormState((prev) => ({ ...prev, message: { error: true, message: ERROR_MESSAGES.MISSING_REQUIRED } }));
       return;
     }
 
@@ -160,20 +115,20 @@ export default function ArtworkUpdateForm() {
       style: formState.style,
       date: formState.date,
       origin: formState.origin,
-      image: formState.image,
+      image: formState.image || undefined,
       artistId: formState.artistId,
     });
   };
 
-  // Loading and error states
-  if (isLoading) {
+  if (isArtistsPending) {
     return (
       <div className="flex h-48 items-center justify-center">
-        <div className="text-lg">Loading artists details...</div>
+        <p className="text-lg">Loading artists...</p>
       </div>
     );
   }
-  if (fetchError || !artists) {
+
+  if (fetchError ?? !artistsData) {
     return (
       <div className="flex flex-col items-center gap-4">
         <p>{ERROR_MESSAGES.FETCH_ERROR}</p>
@@ -181,9 +136,10 @@ export default function ArtworkUpdateForm() {
       </div>
     );
   }
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
-      <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <p>Name</p>
         <input
           className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
@@ -235,14 +191,14 @@ export default function ArtworkUpdateForm() {
           type="file"
           name="image"
           accept="image/png, image/jpeg, image/jpg"
-          onChange={(e) => handleImage(e)}
+          onChange={handleImage}
         />
         <select
           name="artistId"
           className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
-          onChange={(e) => setFormState({ ...formState, artistId: e.target.value })}>
+          onChange={(e) => setFormState((prev) => ({ ...prev, artistId: e.target.value }))}>
           <option value="">Select an artist</option>
-          {artists.map((artist) => (
+          {artistsData.items.map((artist) => (
             <option key={artist.id} value={artist.id}>
               {artist.name}
             </option>
@@ -254,8 +210,7 @@ export default function ArtworkUpdateForm() {
       </form>
       {formState.message && (
         <div className="rounded-sm bg-neutral-200 p-4 dark:bg-neutral-800">
-          <p
-            className={`${formState.message.error ? 'text-bold text-red-500' : 'text-bold text-green-500'} text-lg font-bold`}>
+          <p className={`text-lg font-bold ${formState.message.error ? 'text-red-500' : 'text-green-500'}`}>
             {formState.message.message}
           </p>
         </div>
