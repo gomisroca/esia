@@ -1,10 +1,11 @@
 'use client';
 
-import { type Blog } from 'generated/prisma';
-import Link from './Link';
+import { type Blog } from '@prisma/client';
 import { memo } from 'react';
-import Title from './Title';
+
 import Card from './Card';
+import Link from './Link';
+import Title from './Title';
 
 function BlogCardContent({ blog }: { blog: Blog }) {
   return (

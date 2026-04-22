@@ -7,7 +7,7 @@
  * <Artist id="123" />
  */
 
-import { type Artist, type Artwork } from 'generated/prisma';
+import { type Artist, type Artwork } from '@prisma/client';
 import Image from 'next/image';
 import { Suspense } from 'react';
 

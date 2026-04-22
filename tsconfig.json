@@ -25,7 +25,9 @@
 
     /* Path Aliases */
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@prisma": ["./generated/prisma"],
+      "@prisma/*": ["./generated/prisma/*"]
     }
   },
   "include": [
