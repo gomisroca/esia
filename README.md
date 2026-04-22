@@ -140,8 +140,6 @@ Optionally, run **npm run db:seed** to seed the database with some sample data f
 
 All necessary environment variables can be found in **.env.example**.
 
-Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) specification.
-
 To get started uploading your own data directly from the website, initialize the database and log into the website via **/sign-in**. Afterwards, find your user in the database, give yourself admin privileges and add the account's email to your **.env** ADMIN_ACCOUNTS. You can now access the admin panel at **/admin**.
 
 <p align="right">[<a href="#readme-top">back to top</a>]</p>
