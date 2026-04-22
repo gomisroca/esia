@@ -1,13 +1,4 @@
-/**
- * Renders an artist page with their information and artworks.
- *
- * @param {string} params.id - The id of the artist to display.
- *
- * @example
- * <Artist id="123" />
- */
-
-import { type Artist, type Artwork } from '@prisma/client';
+import { type Artwork } from '@prisma/client';
 import Image from 'next/image';
 import { Suspense } from 'react';
 
@@ -17,30 +8,27 @@ import LoadingBar from '@/app/_components/ui/LoadingBar';
 import Title from '@/app/_components/ui/Title';
 import { api } from '@/trpc/server';
 
-/**
- * Renders the artist information.
- *
- * @param {Artist} artist - The artist object to be displayed.
- *
- * @example
- * <ArtistInfo artist={artist} />
- */
-function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: Artwork[] }>) {
+type ArtistWithArtworks = Awaited<ReturnType<typeof api.artists.getUnique>>;
+
+function ArtistInfo({ artist }: Readonly<{ artist: NonNullable<ArtistWithArtworks> & { artworks: Artwork[] } }>) {
+  const randomArtwork = artist.artworks[Math.floor(Math.random() * artist.artworks.length)];
+
   return (
     <>
       <div className="flex flex-col items-center justify-center gap-2">
         <Title>{artist.name}</Title>
         {artist.birth && (
           <p className="text-center text-lg font-bold">
-            {artist.birth} - {artist.death && artist.death}
+            {artist.birth}
+            {artist.death ? ` - ${artist.death}` : ''}
           </p>
         )}
       </div>
-      {artworks.length > 3 && (
+      {artist.artworks.length > 3 && randomArtwork?.image && (
         <Image
           unoptimized
-          src={artworks[Math.floor(Math.random() * artworks.length)]!.image!}
-          alt={artworks[Math.floor(Math.random() * artworks.length)]!.name}
+          src={randomArtwork.image}
+          alt={randomArtwork.name}
           width={300}
           height={300}
           className="rounded-sm shadow-md"
@@ -56,21 +44,15 @@ function ArtistInfo({ artist, artworks }: Readonly<{ artist: Artist; artworks: A
 }
 
 export default async function Artist({ params }: { params: Promise<{ id: string }> }) {
-  const paramsData = await params;
-  try {
-    const artist = await api.artists.getUnique({ id: paramsData.id, artworks: true });
-    if (!artist) return <ErrorPage message="Failed to load artist or artworks" />;
-    return (
-      <Suspense fallback={<LoadingBar />}>
-        {artist && (
-          <>
-            <ArtistInfo artist={artist} artworks={artist.artworks} />
-            <ArtworkList artworks={artist.artworks} />
-          </>
-        )}
-      </Suspense>
-    );
-  } catch (_error: unknown) {
-    return <ErrorPage message="Failed to load artist or artworks" />;
-  }
+  const { id } = await params;
+  const artist = await api.artists.getUnique({ id, artworks: true }).catch(() => null);
+
+  if (!artist) return <ErrorPage message="Failed to load artist or artworks" />;
+
+  return (
+    <Suspense fallback={<LoadingBar />}>
+      <ArtistInfo artist={artist} />
+      <ArtworkList artworks={artist.artworks} />
+    </Suspense>
+  );
 }
