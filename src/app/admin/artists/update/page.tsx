@@ -1,11 +1,10 @@
 import Link from 'next/link';
-import React from 'react';
 
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import { api } from '@/trpc/server';
 
-async function ArtistUpdateList() {
-  const artists = await api.artists.getAll({});
+export default async function ArtistUpdateList() {
+  const { items: artists } = await api.artists.getAll({ limit: 100 });
 
   return (
     <ProtectedRoute>
@@ -22,5 +21,3 @@ async function ArtistUpdateList() {
     </ProtectedRoute>
   );
 }
-
-export default ArtistUpdateList;
