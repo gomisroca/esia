@@ -1,178 +1,61 @@
 import { TRPCError } from '@trpc/server';
-import { z } from 'zod';
+import { z } from 'zod/v4';
 
-import { env } from '@/env';
-import uploadImage from '@/utils/uploadImage';
+import { adminProcedure, createTRPCRouter, publicProcedure } from '@/server/api/trpc';
+import handlePrismaNotFound from '@/utils/handlePrismaError';
+import { resolveImageLink } from '@/utils/uploadImage';
 
-import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
+const blogInput = z.object({
+  name: z.string().min(1, 'Name is required'),
+  content: z.string().min(1, 'Content is required'),
+  date: z.date(),
+  headerImage: z.string().optional(),
+});
 
 export const blogsRouter = createTRPCRouter({
-  getUnique: publicProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      })
-    )
-    .query(({ ctx, input }) => {
-      try {
-        return ctx.db.blog.findUnique({ where: { id: input.id } });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
-        }
-      }
-    }),
-  getAll: publicProcedure.query(async ({ ctx }) => {
-    try {
-      const blogs = await ctx.db.blog.findMany({
-        orderBy: { date: 'desc' },
-      });
-
-      return blogs;
-    } catch (error) {
-      if (error instanceof TRPCError) {
-        throw error;
-      } else {
-        throw new TRPCError({ code: 'NOT_FOUND', message: 'Blogs not found' });
-      }
-    }
+  getUnique: publicProcedure.input(z.object({ id: z.cuid() })).query(async ({ ctx, input }) => {
+    const blog = await ctx.db.blog.findUnique({ where: { id: input.id } });
+    if (!blog) throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
+    return blog;
   }),
-  create: protectedProcedure
-    .input(
-      z.object({
-        name: z.string(),
-        content: z.string(),
-        date: z.date(),
-        headerImage: z.string().optional(),
+
+  getAll: publicProcedure.query(({ ctx }) => {
+    return ctx.db.blog.findMany({ orderBy: { date: 'desc' } });
+  }),
+
+  create: adminProcedure.input(blogInput).mutation(async ({ ctx, input }) => {
+    const imageLink = await resolveImageLink(input.headerImage, 'blog');
+    const blog = await ctx.db.blog.create({
+      data: {
+        name: input.name,
+        content: input.content,
+        date: input.date,
+        headerImage: imageLink,
+      },
+    });
+    return { id: blog.id };
+  }),
+
+  update: adminProcedure.input(z.object({ id: z.cuid(), data: blogInput })).mutation(async ({ ctx, input }) => {
+    const existing = await ctx.db.blog.findUnique({ where: { id: input.id } });
+    if (!existing) throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
+
+    const imageLink = await resolveImageLink(input.data.headerImage, 'blog');
+
+    await ctx.db.blog
+      .update({
+        where: { id: input.id },
+        data: {
+          name: input.data.name,
+          content: input.data.content,
+          date: input.data.date,
+          headerImage: imageLink ?? existing.headerImage,
+        },
       })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        if (ctx.session.user.admin !== true)
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authorized' });
+      .catch(handlePrismaNotFound('Blog'));
+  }),
 
-        let imageLink: string | undefined;
-        if (input.headerImage) {
-          try {
-            const imagePath = await uploadImage(input.headerImage, 'blog');
-            imageLink = env.SUPABASE_PROJECT_URL + '/storage/v1/object/public/' + imagePath;
-          } catch (_error) {
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
-          }
-        }
-
-        const blog = await ctx.db.blog.create({
-          data: {
-            name: input.name,
-            content: input.content,
-            date: input.date,
-            headerImage: imageLink,
-          },
-        });
-
-        return {
-          id: blog.id,
-        };
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
-        }
-      }
-    }),
-  update: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-        data: z.object({
-          name: z.string(),
-          content: z.string(),
-          date: z.date(),
-          headerImage: z.string().optional(),
-        }),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        if (ctx.session.user.admin !== true)
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authorized' });
-
-        const blog = await ctx.db.blog.findUnique({
-          where: {
-            id: input.id,
-          },
-        });
-
-        if (!blog) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
-        }
-
-        let imageLink: string | undefined;
-        if (input.data.headerImage) {
-          try {
-            const imagePath = await uploadImage(input.data.headerImage, 'blog');
-            imageLink = env.SUPABASE_PROJECT_URL + '/storage/v1/object/public/' + imagePath;
-          } catch (_error) {
-            throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
-          }
-        }
-
-        const data = input.data;
-
-        await ctx.db.blog.update({
-          where: {
-            id: input.id,
-          },
-          data: {
-            name: data.name,
-            content: data.content,
-            date: data.date,
-            headerImage: imageLink ?? blog.headerImage,
-          },
-        });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
-        }
-      }
-    }),
-  delete: protectedProcedure
-    .input(
-      z.object({
-        id: z.string(),
-      })
-    )
-    .mutation(async ({ ctx, input }) => {
-      try {
-        if (ctx.session.user.admin !== true)
-          throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not authorized' });
-
-        const blog = await ctx.db.blog.findUnique({
-          where: {
-            id: input.id,
-          },
-        });
-
-        if (!blog) {
-          throw new TRPCError({ code: 'NOT_FOUND', message: 'Blog not found' });
-        }
-
-        await ctx.db.blog.delete({
-          where: {
-            id: input.id,
-          },
-        });
-      } catch (error) {
-        if (error instanceof TRPCError) {
-          throw error;
-        } else {
-          throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
-        }
-      }
-    }),
+  delete: adminProcedure.input(z.object({ id: z.cuid() })).mutation(async ({ ctx, input }) => {
+    await ctx.db.blog.delete({ where: { id: input.id } }).catch(handlePrismaNotFound('Blog'));
+  }),
 });
