@@ -1,12 +1,3 @@
-/**
- * Root layout component that wraps the entire application.
- *
- * @example
- * <RootLayout>
- *   <Component />
- * </RootLayout>
- */
-
 import '@/styles/globals.css';
 
 import { type Metadata } from 'next';
@@ -31,7 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <ThemeProvider attribute="class">
           <TRPCReactProvider>
             <div style={{ backgroundImage: "url('/bg.jpg')" }} className="bg-cover bg-fixed bg-center bg-no-repeat">
-              <main className="min-h-screen items-center justify-center overflow-x-hidden bg-gradient-to-b from-slate-300/95 via-sky-300/80 to-cyan-300/70 text-neutral-950 dark:from-slate-900/95 dark:via-sky-900/80 dark:to-cyan-900/70 dark:text-neutral-50">
+              <main className="min-h-screen items-center justify-center overflow-x-hidden bg-linear-to-b from-slate-300/95 via-sky-300/80 to-cyan-300/70 text-neutral-950 dark:from-slate-900/95 dark:via-sky-900/80 dark:to-cyan-900/70 dark:text-neutral-50">
                 <Navbar />
                 <div className="container mx-auto w-full px-4 pb-8">{children}</div>
               </main>
