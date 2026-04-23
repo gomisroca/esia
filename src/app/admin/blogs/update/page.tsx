@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import { api } from '@/trpc/server';
 
-async function BlogUpdateList() {
+export default async function BlogUpdateList() {
   const blogs = await api.blogs.getAll();
 
   return (
@@ -36,5 +35,3 @@ async function BlogUpdateList() {
     </ProtectedRoute>
   );
 }
-
-export default BlogUpdateList;
