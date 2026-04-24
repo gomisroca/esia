@@ -1,7 +1,6 @@
-import React from 'react';
 import { FaGoogle } from 'react-icons/fa6';
-import { type Provider } from 'types';
 
+import { type Provider } from '@/../types';
 import { getServerAuthSession } from '@/server/auth';
 
 import Title from '../_components/ui/Title';
@@ -27,14 +26,14 @@ async function SignIn() {
         ))}
       </div>
     );
-  } else {
-    return (
-      <div className="flex flex-col items-center justify-center gap-4">
-        <Title>Signed in as {session.user.email}</Title>
-        <SignOutButton />
-      </div>
-    );
   }
+
+  return (
+    <div className="flex flex-col items-center justify-center gap-4">
+      <Title>Signed in as {session.user.email}</Title>
+      <SignOutButton />
+    </div>
+  );
 }
 
 export default SignIn;

@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import React from 'react';
 import { FaNewspaper } from 'react-icons/fa6';
 
-function BlogButton() {
+export default function BlogButton() {
   return (
     <Link
       aria-label="Blogs"
@@ -13,5 +12,3 @@ function BlogButton() {
     </Link>
   );
 }
-
-export default BlogButton;

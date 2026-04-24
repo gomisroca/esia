@@ -9,7 +9,7 @@
 
 import { signOut } from 'next-auth/react';
 
-import Button from '../_components/ui/Button';
+import Button from '@/app/_components/ui/Button';
 
 function SignOutButton() {
   return (
