@@ -22,12 +22,10 @@
     "jsx": "preserve",
     "plugins": [{ "name": "next" }],
     "incremental": true,
-
+    "baseUrl": ".",
     /* Path Aliases */
     "paths": {
       "@/*": ["./src/*"],
-      "@prisma": ["./generated/prisma"],
-      "@prisma/*": ["./generated/prisma/*"]
     }
   },
   "include": [

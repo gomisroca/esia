@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom';
 
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { type ArtworkWithArtist } from 'types';
 
-import { type ArtworkWithArtist } from '@/../types';
 import ArtworkCard from '@/app/_components/ui/ArtworkCard';
 
 const mockArtwork: ArtworkWithArtist = {

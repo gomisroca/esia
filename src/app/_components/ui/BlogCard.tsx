@@ -1,6 +1,6 @@
 'use client';
 
-import { type Blog } from '@prisma/client';
+import { type Blog } from 'generated/prisma';
 import { memo } from 'react';
 
 import Card from './Card';

@@ -1,4 +1,4 @@
-import { type Prisma } from '@prisma/client';
+import { type Prisma } from 'generated/prisma';
 import { z } from 'zod/v4';
 
 import { createTRPCRouter, publicProcedure } from '@/server/api/trpc';

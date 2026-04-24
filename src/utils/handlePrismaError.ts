@@ -1,5 +1,5 @@
-import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
+import { Prisma } from 'generated/prisma';
 
 export default function handlePrismaNotFound(entity: string) {
   return (error: unknown) => {

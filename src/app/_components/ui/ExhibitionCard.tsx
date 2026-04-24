@@ -1,6 +1,6 @@
 'use client';
 
-import { type Exhibition } from '@prisma/client';
+import { type Exhibition } from 'generated/prisma';
 import React, { memo } from 'react';
 
 import Card from './Card';

@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
-import { type Blog } from '@prisma/client';
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import { type Blog } from 'generated/prisma';
 
 import BlogCard from '@/app/_components/ui/BlogCard';
 

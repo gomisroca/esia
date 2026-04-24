@@ -1,4 +1,4 @@
-import { type Artwork } from '@prisma/client';
+import { type Artwork } from 'generated/prisma';
 import Image from 'next/image';
 import { Suspense } from 'react';
 

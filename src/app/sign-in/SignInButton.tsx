@@ -10,8 +10,7 @@
  */
 
 import { signIn } from 'next-auth/react';
-
-import { type Provider } from '@/../types';
+import { type Provider } from 'types';
 
 import Button from '../_components/ui/Button';
 

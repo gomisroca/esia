@@ -9,8 +9,7 @@
  */
 
 import React, { memo } from 'react';
-
-import { type ArtworkWithArtist } from '@/../types';
+import { type ArtworkWithArtist } from 'types';
 
 import Card from './Card';
 import Link from './Link';

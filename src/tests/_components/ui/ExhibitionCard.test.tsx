@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom';
 
-import { type Exhibition } from '@prisma/client';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { type Exhibition } from 'generated/prisma';
 import { describe, expect, it, vi } from 'vitest';
 
 import ExhibitionCard from '@/app/_components/ui/ExhibitionCard';
