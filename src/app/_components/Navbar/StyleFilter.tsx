@@ -1,12 +1,5 @@
 'use client';
 
-/**
- * Renders a style filter dropdown component.
- *
- * @example
- * <StyleFilter />
- */
-
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import { LuFilter, LuFilterX } from 'react-icons/lu';
@@ -18,26 +11,10 @@ import Button from '../ui/Button';
 import Dropdown from '../ui/Dropdown';
 
 interface Style {
-  name: string | null;
+  name: string;
   count: number;
 }
 
-/**
- * Renders a dropdown component for the style filter.
- *
- * @param sortedStyles - An array of styles sorted by count.
- * @param selectedStyle - The currently selected style.
- * @param setSelectedStyle - A function to set the selected style.
- * @param handleStyleChange - A function to handle style changes.
- *
- * @example
- * <FilterDropdown
- *   sortedStyles={sortedStyles}
- *   selectedStyle={selectedStyle}
- *   setSelectedStyle={setSelectedStyle}
- *   handleStyleChange={handleStyleChange}
- * />
- */
 export function FilterDropdown({
   sortedStyles,
   selectedStyle,
@@ -57,33 +34,25 @@ export function FilterDropdown({
         name: 'filterDropdown',
         className: 'rounded-r-none md:rounded-sm',
       }}
-      className="absolute right-0 w-[95vw] border xl:w-[52rem]">
+      className="absolute right-0 w-[95vw] border xl:w-208">
       {sortedStyles.map((style) => (
         <Button
           key={style.name}
           onClick={() => {
-            setSelectedStyle(style.name!);
-            handleStyleChange(style.name!);
+            setSelectedStyle(style.name);
+            handleStyleChange(style.name);
             scrollToTop('instant');
           }}
           disabled={selectedStyle === style.name}
-          name={style.name!}
+          name={style.name}
           className="border border-neutral-200/30 bg-neutral-200/90 drop-shadow-md dark:border-neutral-800/30 dark:bg-neutral-800/90">
-          {style.name![0]!.toUpperCase() + style.name!.slice(1)}
+          {style.name[0]!.toUpperCase() + style.name.slice(1)}
         </Button>
       ))}
     </Dropdown>
   );
 }
 
-/**
- * Renders a button to clear the selected style.
- *
- * @param handleClearFilter - A function to handle clearing the selected style.
- *
- * @example
- * <FilterOffButton handleClearFilter={handleClearFilter} />
- */
 export function FilterOffButton({ handleClearFilter }: { handleClearFilter: () => void }) {
   return (
     <Button
@@ -113,27 +82,22 @@ function StyleFilter() {
   const pathname = usePathname();
   const [selectedStyle, setSelectedStyle] = useState('');
 
-  // Fetch styles from the server
-  const { data: styles, isLoading, isFetching } = api.styles.getAll.useQuery({});
+  const { data: styles, isPending } = api.styles.getAll.useQuery({});
 
-  // Memoize the sorted styles to avoid re-sorting on every render
   const sortedStyles = useMemo(() => {
     if (!styles) return [];
-    return styles.sort((a, b) => (a.count > b.count ? -1 : 1));
+    return [...styles].filter((s): s is Style => s.name !== null).sort((a, b) => b.count - a.count);
   }, [styles]);
 
-  // Handle style changes
   const handleStyleChange = (newStyle: string) => {
     setSelectedStyle(newStyle);
     if (!newStyle) {
       router.push('/');
       return;
     }
-    const encodedStyle = newStyle.toLocaleLowerCase().replace(/\s+/g, '+');
-    router.push(`/style/${encodedStyle}`);
+    router.push(`/style/${newStyle.toLocaleLowerCase().replace(/\s+/g, '+')}`);
   };
 
-  // Handle clear filter button click
   const handleClearFilter = () => {
     setSelectedStyle('');
     handleStyleChange('');
@@ -145,24 +109,17 @@ function StyleFilter() {
     }
   }, [pathname]);
 
-  // Render a skeleton if the styles are loading or fetching
-  if (isLoading || isFetching) {
-    return <StyleFilterSkeleton />;
-  }
-  if (!styles || styles.length === 0) {
-    return null;
-  }
+  if (isPending) return <StyleFilterSkeleton />;
+  if (!sortedStyles.length) return null;
 
   return (
     <div className="z-10 mx-auto flex w-fit flex-col items-center justify-center gap-4">
-      {/* Dropdown component for the style list */}
       <FilterDropdown
         sortedStyles={sortedStyles}
         selectedStyle={selectedStyle}
         setSelectedStyle={setSelectedStyle}
         handleStyleChange={handleStyleChange}
       />
-      {/* Button to clear the selected style */}
       {selectedStyle && <FilterOffButton handleClearFilter={handleClearFilter} />}
     </div>
   );
