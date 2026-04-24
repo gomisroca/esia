@@ -8,10 +8,10 @@ import { VirtualGrid } from '../_components/ui/VirtualGrid';
 import { useColumnCount } from '../hooks/useColumnCount';
 
 export default function ExhibitionList() {
-  const { data: exhibitions, isLoading } = api.exhibitions.getAll.useQuery();
+  const { data: exhibitions, isPending } = api.exhibitions.getAll.useQuery();
   const columnCount = useColumnCount();
 
-  if (isLoading || !exhibitions) return <LoadingBar />;
+  if (isPending || !exhibitions) return <LoadingBar />;
 
   return (
     <VirtualGrid

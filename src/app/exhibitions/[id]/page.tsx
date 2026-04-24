@@ -4,10 +4,12 @@ import { notFound } from 'next/navigation';
 import Title from '@/app/_components/ui/Title';
 import { api } from '@/trpc/server';
 
-async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> }) {
-  const paramsData = await params;
-  const exhibition = await api.exhibitions.getUnique({ id: paramsData.id });
+export default async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const exhibition = await api.exhibitions.getUnique({ id }).catch(() => null);
+
   if (!exhibition) return notFound();
+
   return (
     <div className="m-auto overflow-hidden rounded-sm bg-slate-300/95 dark:bg-slate-900/95">
       <Image
@@ -28,5 +30,3 @@ async function ExhibitionSingle({ params }: { params: Promise<{ id: string }> })
     </div>
   );
 }
-
-export default ExhibitionSingle;
