@@ -14,7 +14,7 @@
  */
 
 import Image from 'next/image';
-import React, { memo, ReactNode, useState } from 'react';
+import React, { memo, type ReactNode, useState } from 'react';
 
 function CardSkeleton() {
   return <div data-testid="card-skeleton" className="h-full w-full animate-pulse bg-black/80" />;
@@ -32,7 +32,7 @@ function CardContent({ children, image, name }: { children: ReactNode; image?: s
 
   return (
     <div
-      className="group relative h-[30rem] w-full cursor-pointer overflow-hidden rounded-sm"
+      className="group relative h-120 w-full cursor-pointer overflow-hidden rounded-sm"
       onClick={handleFlip}
       data-flipped={isFlipped}
       data-testid="card">

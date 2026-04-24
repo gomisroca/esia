@@ -17,9 +17,10 @@
  * </Dropdown>
  */
 
-import { useState, useRef, useEffect } from 'react';
-import Button from './Button';
+import { useEffect, useRef, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import Button from './Button';
 
 interface DropdownProps {
   button: {
