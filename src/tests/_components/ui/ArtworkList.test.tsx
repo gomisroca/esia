@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
-import { type ArtworkWithArtist } from 'types';
 import { expect } from 'vitest';
 
+import { type ArtworkWithArtist } from '@/../types';
 import ArtworkList from '@/app/_components/ui/ArtworkList';
 
 describe('ArtworkList component', () => {

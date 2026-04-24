@@ -9,11 +9,12 @@
  */
 
 import React, { memo } from 'react';
-import { type ArtworkWithArtist } from 'types';
+
+import { type ArtworkWithArtist } from '@/../types';
 
 import Card from './Card';
-import Title from './Title';
 import Link from './Link';
+import Title from './Title';
 
 function ArtworkCardContent({ artwork }: { artwork: ArtworkWithArtist }) {
   return (
