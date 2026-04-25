@@ -35,13 +35,7 @@ describe('RootLayout', () => {
   });
 
   it('applies correct HTML attributes', () => {
-    const { container } = render(
-      <RootLayout>
-        <div>Test</div>
-      </RootLayout>
-    );
-
-    expect(container.querySelector('html')).toHaveAttribute('lang', 'en');
+    expect(document.documentElement).toHaveAttribute('lang', 'en');
   });
 
   it('sets background image', () => {

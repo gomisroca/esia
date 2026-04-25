@@ -22,7 +22,7 @@ describe('BackToTopButton', () => {
   it('renders the button with correct text and styling', () => {
     render(<BackToTopButton />);
 
-    const button = screen.getByRole('button', { name: 'Back to top' });
+    const button = screen.getByRole('button', { name: 'ESIA' });
     expect(button).toBeInTheDocument();
     expect(button).toHaveClass(
       'flex cursor-pointer flex-row items-center justify-center rounded-sm bg-white/60 p-2 drop-shadow-md transition-all duration-200 ease-in hover:scale-110 hover:bg-white active:scale-95 active:duration-100 dark:bg-black/60 dark:hover:bg-black rounded-l-none px-3 text-2xl font-bold md:rounded-sm mock-limelight pointer-events-auto'
@@ -31,7 +31,7 @@ describe('BackToTopButton', () => {
 
   it('calls scrollToTop with "smooth" when clicked', async () => {
     render(<BackToTopButton />);
-    const button = screen.getByRole('button', { name: 'Back to top' });
+    const button = screen.getByRole('button', { name: 'ESIA' });
     act(() => {
       fireEvent.click(button);
     });
