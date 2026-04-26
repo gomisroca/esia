@@ -1,26 +1,14 @@
-/**
- * Debounces a value using the useState and useEffect hooks.
- *
- * @param {string} value - The value to debounce.
- * @param {number} delay - The delay in milliseconds.
- *
- * @example
- * const debouncedValue = useDebounce(value, 500);
- */
-
 import { useEffect, useState } from 'react';
 
-export default function useDebounce(value: string, delay: number) {
-  const [debouncedValue, setDebouncedValue] = useState(value);
+export default function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value);
 
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedValue(value);
     }, delay);
 
-    return () => {
-      clearTimeout(handler);
-    };
+    return () => clearTimeout(handler);
   }, [value, delay]);
 
   return debouncedValue;

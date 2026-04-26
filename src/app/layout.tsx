@@ -1,12 +1,3 @@
-/**
- * Root layout component that wraps the entire application.
- *
- * @example
- * <RootLayout>
- *   <Component />
- * </RootLayout>
- */
-
 import '@/styles/globals.css';
 
 import { type Metadata } from 'next';
@@ -22,16 +13,20 @@ export const metadata: Metadata = {
   description: 'Explore contemporary masterpieces and curated exhibitions.',
   icons: [{ rel: 'icon', url: '/favicon.ico' }],
 };
-const arimo = Arimo({ subsets: ['latin'] });
+
+const arimo = Arimo({
+  subsets: ['latin'],
+  variable: '--font-arimo',
+});
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={arimo.className} suppressHydrationWarning>
+    <html lang="en" className={arimo.variable} suppressHydrationWarning>
       <body>
-        <ThemeProvider attribute="class">
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <TRPCReactProvider>
             <div style={{ backgroundImage: "url('/bg.jpg')" }} className="bg-cover bg-fixed bg-center bg-no-repeat">
-              <main className="min-h-screen items-center justify-center overflow-x-hidden bg-gradient-to-b from-slate-300/95 via-sky-300/80 to-cyan-300/70 text-neutral-950 dark:from-slate-900/95 dark:via-sky-900/80 dark:to-cyan-900/70 dark:text-neutral-50">
+              <main className="min-h-screen items-center justify-center overflow-x-hidden bg-linear-to-b from-slate-300/95 via-sky-300/80 to-cyan-300/70 text-neutral-950 dark:from-slate-900/95 dark:via-sky-900/80 dark:to-cyan-900/70 dark:text-neutral-50">
                 <Navbar />
                 <div className="container mx-auto w-full px-4 pb-8">{children}</div>
               </main>

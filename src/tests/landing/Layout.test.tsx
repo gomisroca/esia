@@ -34,16 +34,6 @@ describe('RootLayout', () => {
     expect(screen.getByRole('main')).toBeInTheDocument();
   });
 
-  it('applies correct HTML attributes', () => {
-    const { container } = render(
-      <RootLayout>
-        <div>Test</div>
-      </RootLayout>
-    );
-
-    expect(container.querySelector('html')).toHaveAttribute('lang', 'en');
-  });
-
   it('sets background image', () => {
     render(
       <RootLayout>

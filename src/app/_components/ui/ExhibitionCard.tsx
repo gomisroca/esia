@@ -1,10 +1,11 @@
 'use client';
 
-import React, { memo } from 'react';
-import Title from './Title';
 import { type Exhibition } from 'generated/prisma';
-import Link from './Link';
+import React, { memo } from 'react';
+
 import Card from './Card';
+import Link from './Link';
+import Title from './Title';
 
 function ExhibitionCardContent({ exhibition }: { exhibition: Exhibition }) {
   return (

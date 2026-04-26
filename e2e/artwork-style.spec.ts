@@ -4,8 +4,12 @@ test('artwork list changes when style is selected', async ({ page }) => {
   await page.goto('/');
 
   // Expect initial artwork list
-  await expect(page.getByRole('heading', { name: 'Under the Lamp', exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'On a Balcony', exact: true })).toBeVisible();
+  await expect(
+    page
+      .locator('div')
+      .filter({ hasText: /^1952 Exhibition Poster1952SpainPablo PicassoLinocut on cream wove paperCubism$/ })
+      .nth(2)
+  ).toBeVisible();
 
   // Click on the style list to trigger the dropdown
   const filterButton = page.locator('button[name="filterDropdown"]');

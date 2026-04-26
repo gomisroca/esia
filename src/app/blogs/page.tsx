@@ -8,14 +8,14 @@ import { VirtualGrid } from '../_components/ui/VirtualGrid';
 import { useColumnCount } from '../hooks/useColumnCount';
 
 export default function BlogList() {
-  const { data: blogs, isLoading } = api.blogs.getAll.useQuery();
+  const { data, isPending } = api.blogs.getAll.useQuery();
   const columnCount = useColumnCount();
 
-  if (isLoading || !blogs) return <LoadingBar />;
+  if (isPending || !data) return <LoadingBar />;
 
   return (
     <VirtualGrid
-      items={blogs}
+      items={data}
       columnCount={columnCount}
       estimateHeight={500}
       renderItem={(blog) => <BlogCard blog={blog} />}

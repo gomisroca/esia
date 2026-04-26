@@ -1,12 +1,5 @@
 'use client';
 
-/**
- * Renders a search bar component.
- *
- * @example
- * <SearchBar />
- */
-
 import { useRouter } from 'next/navigation';
 import { type ChangeEvent, useEffect, useState } from 'react';
 import { LuSearch } from 'react-icons/lu';
@@ -15,24 +8,18 @@ import useDebounce from '@/app/hooks/useDebounce';
 
 import Dropdown from '../ui/Dropdown';
 
-const SearchBar = () => {
+export default function SearchBar() {
   const router = useRouter();
-
-  // Variables to track the search term
-  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState('');
   const debouncedSearch = useDebounce(searchTerm, 1000);
 
-  // Handles the search term change
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const searchTerm = e.target.value.toLowerCase();
-    setSearchTerm(searchTerm.toLowerCase());
+    setSearchTerm(e.target.value.toLowerCase());
   };
 
-  // Handles the search when the debounced search term changes
   useEffect(() => {
     if (debouncedSearch.trim().length > 0) {
-      router.push(`/search/${debouncedSearch}`);
-      setSearchTerm('');
+      router.push(`/search/${encodeURIComponent(debouncedSearch)}`);
     }
   }, [debouncedSearch, router]);
 
@@ -56,6 +43,4 @@ const SearchBar = () => {
       />
     </Dropdown>
   );
-};
-
-export default SearchBar;
+}

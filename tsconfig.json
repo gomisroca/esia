@@ -22,15 +22,14 @@
     "jsx": "preserve",
     "plugins": [{ "name": "next" }],
     "incremental": true,
-
-    /* Path Aliases */
     "baseUrl": ".",
+    /* Path Aliases */
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
     }
   },
   "include": [
-    ".eslintrc.cjs",
+    "eslint.config.mjs", 
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",

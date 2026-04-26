@@ -97,7 +97,6 @@ describe('SearchBar', () => {
     await waitFor(() => {
       expect(mockPush).toHaveBeenCalledWith('/search/art');
     });
-    expect(input).toHaveValue('');
   });
 
   it('does not navigate for an empty or invalid input', async () => {

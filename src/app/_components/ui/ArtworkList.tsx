@@ -8,6 +8,7 @@
  */
 
 import { type ArtworkWithArtist } from 'types';
+
 import ArtworkCard from './ArtworkCard';
 
 export default function ArtworkList({ artworks }: Readonly<{ artworks: ArtworkWithArtist[] }>) {

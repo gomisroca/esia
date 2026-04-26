@@ -1,6 +1,9 @@
+import { TRPCError } from '@trpc/server';
 import { v4 as uuidv4 } from 'uuid';
 
 import supabase from '@/supabase';
+
+import { storageUrl } from './storageUrl';
 
 async function getToken(id: string, bucket: string) {
   const { data } = await supabase.storage.from(bucket).createSignedUploadUrl(`${id}.png`);
@@ -13,21 +16,27 @@ async function convertBase64ToFile(dataUrl: string, id: string) {
   return new File([blob], id + '.png', { type: 'image/png' });
 }
 
-async function uploadImage(image: string, bucket = 'art') {
-  try {
-    const id = uuidv4();
-    const file = await convertBase64ToFile(image, id);
+export async function uploadImage(image: string, bucket = 'art') {
+  const id = uuidv4();
+  const file = await convertBase64ToFile(image, id);
+  const token = await getToken(id, bucket);
 
-    const token = await getToken(id, bucket);
-    if (token) {
-      const { data } = await supabase.storage.from(bucket).uploadToSignedUrl(`${id}.png`, token, file);
-      if (data) {
-        return data?.fullPath as string;
-      }
-    }
-  } catch (_error) {
-    throw new Error('Failed to upload image');
-  }
+  if (!token) throw new Error('Failed to get upload token');
+
+  const { data } = await supabase.storage.from(bucket).uploadToSignedUrl(`${id}.png`, token, file);
+
+  if (!data) throw new Error('Failed to upload image');
+
+  return data.fullPath as string;
 }
 
-export default uploadImage;
+export async function resolveImageLink(image: string | undefined, bucket = 'art'): Promise<string | undefined> {
+  if (!image) return undefined;
+  try {
+    const imagePath = await uploadImage(image, bucket);
+    if (!imagePath) return undefined;
+    return storageUrl(imagePath);
+  } catch {
+    throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Failed to upload image' });
+  }
+}

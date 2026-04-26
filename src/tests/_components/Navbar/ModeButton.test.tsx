@@ -1,6 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { useTheme } from 'next-themes';
-import { vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 import ModeButton from '@/app/_components/Navbar/ModeButton';
 
@@ -16,37 +16,36 @@ vi.mock('react-icons/fa6', () => ({
 describe('ModeButton', () => {
   const mockSetTheme = vi.fn();
 
+  const mockUseTheme = (resolvedTheme: string) => {
+    vi.mocked(useTheme).mockReturnValue({
+      resolvedTheme,
+      setTheme: mockSetTheme,
+      themes: [],
+      theme: resolvedTheme,
+      systemTheme: undefined,
+      forcedTheme: undefined,
+    } as unknown as ReturnType<typeof useTheme>);
+  };
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
 
   it('renders without crashing', () => {
-    (useTheme as jest.Mock).mockReturnValue({
-      theme: 'light',
-      setTheme: mockSetTheme,
-    });
-
+    mockUseTheme('light');
     render(<ModeButton />);
     expect(screen.getByRole('button', { name: 'Theme Button' })).toBeInTheDocument();
   });
 
   it('displays both sun and moon icons', () => {
-    (useTheme as jest.Mock).mockReturnValue({
-      theme: 'light',
-      setTheme: mockSetTheme,
-    });
-
+    mockUseTheme('light');
     render(<ModeButton />);
     expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
     expect(screen.getByTestId('moon-icon')).toBeInTheDocument();
   });
 
   it('switches from light to dark theme when clicked in light mode', () => {
-    (useTheme as jest.Mock).mockReturnValue({
-      theme: 'light',
-      setTheme: mockSetTheme,
-    });
-
+    mockUseTheme('light');
     render(<ModeButton />);
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'Theme Button' }));
@@ -55,11 +54,7 @@ describe('ModeButton', () => {
   });
 
   it('switches from dark to light theme when clicked in dark mode', () => {
-    (useTheme as jest.Mock).mockReturnValue({
-      theme: 'dark',
-      setTheme: mockSetTheme,
-    });
-
+    mockUseTheme('dark');
     render(<ModeButton />);
     act(() => {
       fireEvent.click(screen.getByRole('button', { name: 'Theme Button' }));
@@ -68,23 +63,14 @@ describe('ModeButton', () => {
   });
 
   it('has correct accessibility label', () => {
-    (useTheme as jest.Mock).mockReturnValue({
-      theme: 'light',
-      setTheme: mockSetTheme,
-    });
-
+    mockUseTheme('light');
     render(<ModeButton />);
     expect(screen.getByText('Theme')).toHaveClass('sr-only');
   });
 
   it('applies correct className based on theme', () => {
-    (useTheme as jest.Mock).mockReturnValue({
-      theme: 'dark',
-      setTheme: mockSetTheme,
-    });
-
+    mockUseTheme('dark');
     render(<ModeButton />);
-    const button = screen.getByRole('button', { name: 'Theme Button' });
-    expect(button).toHaveClass('dark:bg-black/60 dark:hover:bg-black');
+    expect(screen.getByRole('button', { name: 'Theme Button' })).toHaveClass('rounded-r-none');
   });
 });

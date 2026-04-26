@@ -1,16 +1,9 @@
+const ALLOWED_TYPES = new Set(['image/jpeg', 'image/png', 'image/jpg']);
+
 export function checkFileType(file: File) {
-  const fileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
-  const fileType = file.type;
-  if (!fileTypes.includes(fileType)) {
-    return false;
-  }
-  return true;
+  return ALLOWED_TYPES.has(file.type);
 }
 
 export function checkFileSize(file: File) {
-  const fileSize = file.size;
-  if (fileSize > 1024 * 1024 * 2) {
-    return false;
-  }
-  return true;
+  return file.size <= 1024 * 1024 * 2;
 }

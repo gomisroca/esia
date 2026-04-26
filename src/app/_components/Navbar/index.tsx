@@ -1,14 +1,7 @@
-/**
- * Renders the navbar component.
- *
- * @example
- * <Navbar />
- */
-
 import BackToTopButton from './BackToTopButton';
 import NavMenu from './NavMenu';
 
-async function Navbar() {
+export default function Navbar() {
   return (
     <div className="sticky top-0 z-10 flex h-16 w-full items-center justify-start px-0 md:px-4">
       <BackToTopButton />
@@ -16,5 +9,3 @@ async function Navbar() {
     </div>
   );
 }
-
-export default Navbar;

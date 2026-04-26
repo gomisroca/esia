@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
 
 import ProtectedRoute from '@/app/_components/ProtectedRoute';
 import { api } from '@/trpc/server';
 
-async function ExhibitionUpdateList() {
+export default async function ExhibitionUpdateList() {
   const exhibitions = await api.exhibitions.getAll();
 
   return (
@@ -29,7 +28,7 @@ async function ExhibitionUpdateList() {
                 <p>
                   {exhibition.start.toLocaleDateString()} - {exhibition.end.toLocaleDateString()}
                 </p>
-                <p dangerouslySetInnerHTML={{ __html: exhibition.description }} className="line-clamp-5" />
+                <p className="line-clamp-5">{exhibition.description.replace(/<[^>]+>/g, ' ')}</p>
               </div>
             </div>
           </Link>
@@ -38,5 +37,3 @@ async function ExhibitionUpdateList() {
     </ProtectedRoute>
   );
 }
-
-export default ExhibitionUpdateList;

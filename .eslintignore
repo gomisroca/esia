@@ -12,7 +12,6 @@ src/app/_components/ui/
 README.md
 .eslintrc.cjs
 .github/
-.husky/
 .prettierrc
 .prettierignore
 .gitignore

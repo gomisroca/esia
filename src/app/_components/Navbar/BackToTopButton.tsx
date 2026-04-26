@@ -1,11 +1,5 @@
 'use client';
 
-/**
- * Back to top button component.
- * @example
- * <BackToTopButton />
- */
-
 import { Limelight } from 'next/font/google';
 import Link from 'next/link';
 
@@ -13,19 +7,20 @@ import scrollToTop from '@/utils/scrollToTop';
 
 import Button from '../ui/Button';
 
-const limelight = Limelight({ weight: '400', subsets: ['latin'] });
+const limelight = Limelight({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-limelight',
+});
 
-function BackToTopButton() {
+export default function BackToTopButton() {
   return (
     <Link href="/" className="pointer-events-none" aria-label="Back to top">
       <Button
-        ariaLabel="Back to top"
         onClick={() => scrollToTop('smooth')}
-        className={`rounded-l-none px-3 text-2xl font-bold md:rounded-sm ${limelight.className} pointer-events-auto`}>
+        className={`${limelight.variable} pointer-events-auto rounded-l-none px-3 font-(family-name:--font-limelight) text-2xl font-bold md:rounded-sm`}>
         ESIA
       </Button>
     </Link>
   );
 }
-
-export default BackToTopButton;

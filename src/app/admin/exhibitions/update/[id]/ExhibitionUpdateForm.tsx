@@ -8,10 +8,6 @@ import Button from '@/app/_components/ui/Button';
 import { api } from '@/trpc/react';
 import { checkFileSize, checkFileType } from '@/utils/uploadChecks';
 
-interface ExhibitionUpdateFormProps {
-  id: string;
-}
-
 interface FormMessage {
   error: boolean;
   message: string;
@@ -23,9 +19,6 @@ interface FormState {
   start: Date;
   end: Date;
   image?: string;
-  artistId?: string;
-  isSubmitting: boolean;
-  isDeleting: boolean;
   message: FormMessage | null;
 }
 
@@ -35,8 +28,6 @@ const INITIAL_FORM_STATE: FormState = {
   start: new Date(),
   end: new Date(),
   image: undefined,
-  isSubmitting: false,
-  isDeleting: false,
   message: null,
 };
 
@@ -50,173 +41,102 @@ const ERROR_MESSAGES = {
   MISSING_REQUIRED: 'Please fill out all required fields.',
 } as const;
 
-export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) {
+export default function ExhibitionUpdateForm({ id }: { id: string }) {
   const router = useRouter();
   const utils = api.useUtils();
   const [formState, setFormState] = useState<FormState>(INITIAL_FORM_STATE);
 
-  // Query for fetching exhibition details
-  const {
-    data: exhibition,
-    error: fetchError,
-    isLoading,
-  } = api.exhibitions.getUnique.useQuery(
-    { id },
-    {
-      retry: 2,
-      enabled: Boolean(id),
-    }
-  );
+  const { data: exhibition, error: fetchError, isPending } = api.exhibitions.getUnique.useQuery({ id });
 
-  // Update mutation
   const updateExhibition = api.exhibitions.update.useMutation({
-    onMutate: () => {
-      setFormState((prev) => ({
-        ...prev,
-        isSubmitting: true,
-        message: null,
-      }));
-    },
     onError: (error) => {
       setFormState((prev) => ({
         ...prev,
-        isSubmitting: false,
-        message: {
-          error: true,
-          message: error.message || ERROR_MESSAGES.UPDATE_ERROR,
-        },
+        message: { error: true, message: error.message || ERROR_MESSAGES.UPDATE_ERROR },
       }));
     },
     onSuccess: async () => {
       await utils.exhibitions.invalidate();
-      setFormState((prev) => ({
-        ...prev,
-        isSubmitting: false,
-        message: {
-          error: false,
-          message: 'Exhibition updated successfully!',
-        },
-      }));
+      setFormState((prev) => ({ ...prev, message: { error: false, message: 'Exhibition updated successfully!' } }));
     },
   });
 
-  // Delete mutation
   const deleteExhibition = api.exhibitions.delete.useMutation({
-    onMutate: () => {
-      setFormState((prev) => ({
-        ...prev,
-        isDeleting: true,
-        message: null,
-      }));
-    },
     onError: (error) => {
       setFormState((prev) => ({
         ...prev,
-        isDeleting: false,
-        message: {
-          error: true,
-          message: error.message || ERROR_MESSAGES.DELETE_ERROR,
-        },
+        message: { error: true, message: error.message || ERROR_MESSAGES.DELETE_ERROR },
       }));
     },
     onSuccess: async () => {
       await utils.exhibitions.invalidate();
       router.back();
-      setFormState((prev) => ({
-        ...prev,
-        isDeleting: false,
-        message: {
-          error: false,
-          message: 'Exhibition deleted successfully!',
-        },
-      }));
     },
   });
 
-  // Set initial form data
   useEffect(() => {
     if (exhibition) {
       setFormState((prev) => ({
         ...prev,
         name: exhibition.name,
-        description: exhibition.description ?? '',
-        start: exhibition.start ?? '',
-        end: exhibition.end ?? '',
+        description: exhibition.description,
+        start: exhibition.start,
+        end: exhibition.end,
+        image: exhibition.image ?? undefined,
       }));
     }
   }, [exhibition]);
 
-  // Form handlers
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
-      const selectedFile = e.target.files![0];
+      const selectedFile = e.target.files?.[0];
+      if (!selectedFile) return;
 
-      if (selectedFile) {
-        const isValidFileType = checkFileType(selectedFile);
-        if (!isValidFileType) {
-          setFormState((prev) => ({
-            ...prev,
-            message: {
-              error: true,
-              message: ERROR_MESSAGES.IMAGE_UPLOAD_TYPE_ERROR,
-            },
-          }));
-          return;
-        }
-        const isValidFileSize = checkFileSize(selectedFile);
-        if (!isValidFileSize) {
-          setFormState((prev) => ({
-            ...prev,
-            message: {
-              error: true,
-              message: ERROR_MESSAGES.IMAGE_UPLOAD_SIZE_ERROR,
-            },
-          }));
-          return;
-        }
-
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          const imageData = e.target!.result;
-          setFormState((prev) => ({ ...prev, image: imageData as string }));
-        };
-        reader.readAsDataURL(selectedFile);
+      if (!checkFileType(selectedFile)) {
+        setFormState((prev) => ({
+          ...prev,
+          message: { error: true, message: ERROR_MESSAGES.IMAGE_UPLOAD_TYPE_ERROR },
+        }));
+        return;
       }
-    } catch (_error) {
-      setFormState((prev) => ({
-        ...prev,
-        message: {
-          error: true,
-          message: ERROR_MESSAGES.IMAGE_UPLOAD_ERROR,
-        },
-      }));
+      if (!checkFileSize(selectedFile)) {
+        setFormState((prev) => ({
+          ...prev,
+          message: { error: true, message: ERROR_MESSAGES.IMAGE_UPLOAD_SIZE_ERROR },
+        }));
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        setFormState((prev) => ({ ...prev, image: ev.target!.result as string }));
+      };
+      reader.readAsDataURL(selectedFile);
+    } catch {
+      setFormState((prev) => ({ ...prev, message: { error: true, message: ERROR_MESSAGES.IMAGE_UPLOAD_ERROR } }));
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormState((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormState((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     if (window.confirm('Are you sure you want to delete this exhibition? This action cannot be undone.')) {
       deleteExhibition.mutate({ id });
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!formState.name || !formState.description || !formState.start || !formState.end) {
-      setFormState((prev) => ({
-        ...prev,
-        message: {
-          error: true,
-          message: ERROR_MESSAGES.MISSING_REQUIRED,
-        },
-      }));
+      setFormState((prev) => ({ ...prev, message: { error: true, message: ERROR_MESSAGES.MISSING_REQUIRED } }));
+      return;
+    }
+
+    if (formState.end <= formState.start) {
+      setFormState((prev) => ({ ...prev, message: { error: true, message: 'End date must be after start date.' } }));
       return;
     }
 
@@ -224,22 +144,22 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
       id,
       data: {
         name: formState.name,
-        image: formState.image ?? undefined,
         description: formState.description,
+        image: formState.image,
         start: formState.start,
         end: formState.end,
       },
     });
   };
 
-  // Loading and error states
-  if (isLoading) {
+  if (isPending) {
     return (
       <div className="flex h-48 items-center justify-center">
-        <div className="text-lg">Loading exhibition details...</div>
+        <p className="text-lg">Loading exhibition details...</p>
       </div>
     );
   }
+
   if (fetchError || !exhibition) {
     return (
       <div className="flex flex-col items-center gap-4">
@@ -248,15 +168,16 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
       </div>
     );
   }
+
   return (
     <div className="flex flex-col items-center justify-center gap-4">
       <Button
         className="bg-red-500 px-4 py-2 hover:bg-red-600 xl:bg-red-500 dark:bg-red-600 dark:hover:bg-red-700 xl:dark:bg-red-600"
         onClick={handleDelete}
-        disabled={formState.isDeleting}>
-        {formState.isDeleting ? 'Deleting...' : 'Delete'}
+        disabled={deleteExhibition.isPending}>
+        {deleteExhibition.isPending ? 'Deleting...' : 'Delete'}
       </Button>
-      <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-2">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
         <p>Name</p>
         <input
           className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
@@ -273,7 +194,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
           name="description"
           placeholder="Description"
           value={formState.description}
-          onChange={(e) => setFormState({ ...formState, description: e.target.value })}
+          onChange={handleChange}
           required
         />
         <p>Start Date</p>
@@ -281,9 +202,8 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
           className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="start"
           type="date"
-          placeholder="Start Date"
           value={formState.start.toISOString().substring(0, 10)}
-          onChange={(e) => setFormState({ ...formState, start: new Date(e.target.value) })}
+          onChange={(e) => setFormState((prev) => ({ ...prev, start: new Date(e.target.value) }))}
           required
         />
         <p>End Date</p>
@@ -291,15 +211,14 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
           className="w-full rounded-sm bg-slate-300 px-4 py-2 dark:bg-slate-700"
           name="end"
           type="date"
-          placeholder="End Date"
           value={formState.end.toISOString().substring(0, 10)}
-          onChange={(e) => setFormState({ ...formState, end: new Date(e.target.value) })}
+          onChange={(e) => setFormState((prev) => ({ ...prev, end: new Date(e.target.value) }))}
           required
         />
         {exhibition.image ? (
           <Image
             unoptimized
-            src={`${exhibition.image}`}
+            src={exhibition.image}
             alt={formState.name}
             width={200}
             height={250}
@@ -314,7 +233,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
           type="file"
           name="image"
           accept="image/png, image/jpeg, image/jpg"
-          onChange={(e) => handleImage(e)}
+          onChange={handleImage}
         />
         <Button type="submit" disabled={updateExhibition.isPending}>
           {updateExhibition.isPending ? 'Submitting...' : 'Submit'}
@@ -322,8 +241,7 @@ export default function ExhibitionUpdateForm({ id }: ExhibitionUpdateFormProps) 
       </form>
       {formState.message && (
         <div className="rounded-sm bg-neutral-200 p-4 dark:bg-neutral-800">
-          <p
-            className={`${formState.message.error ? 'text-bold text-red-500' : 'text-bold text-green-500'} text-lg font-bold`}>
+          <p className={`text-lg font-bold ${formState.message.error ? 'text-red-500' : 'text-green-500'}`}>
             {formState.message.message}
           </p>
         </div>

@@ -1,8 +1,7 @@
 import Link from 'next/link';
-import React from 'react';
 import { FaCalendarAlt } from 'react-icons/fa';
 
-function ExhibitionButton() {
+export default function ExhibitionButton() {
   return (
     <Link
       aria-label="Exhibitions"
@@ -13,5 +12,3 @@ function ExhibitionButton() {
     </Link>
   );
 }
-
-export default ExhibitionButton;
