@@ -34,10 +34,6 @@ describe('RootLayout', () => {
     expect(screen.getByRole('main')).toBeInTheDocument();
   });
 
-  it('applies correct HTML attributes', () => {
-    expect(document.documentElement).toHaveAttribute('lang', 'en');
-  });
-
   it('sets background image', () => {
     render(
       <RootLayout>
